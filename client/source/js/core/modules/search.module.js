@@ -196,7 +196,6 @@ class SearchModule {
         this.keyParam = sanitalize(this.router.getParam('key'))
         this.valueParam = sanitalize(this.router.getParam('value'))
         this.pageParam = sanitalize(this.router.getParam('page'))
-        console.log(this.router.getParam('text'))
 
         this.productList = document.querySelector('#products_list')
         this.title = document.querySelector('.page-section__title')
@@ -231,7 +230,6 @@ class SearchModule {
         })
         this.pagination.clear()
         this.setPreloaderProducts()
-        console.log(this.textParam)
         if (this.router.url.pathname === '/search' && this.textParam) {
             const res = await this.setState(this.requestToSearch)
             if (!this.alreadyHaveStatement) {

@@ -5,7 +5,6 @@ class RouterComponent {
     init() {
         // this.url = new URL(window.location.href)
         this.url = new URL(decodeURI(window.location.href))
-        console.log(this.url)
     }
     addParams(key, value) {
         if (this.url.searchParams.has(key)) {

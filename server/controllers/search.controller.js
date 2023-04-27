@@ -10,7 +10,6 @@ class SearchController {
                 page: req.body.page || 1,
                 sort: req.body.sort || 'popularity'
             }
-            console.log(params)
             const sortData = {
                 [params.sort]: 1
             }
