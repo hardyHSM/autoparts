@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Подбор запчастей - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "active_selection"})
+        <main class="page-main page-main_section page-main_section-tight">
+            <div class="page-content">
+                <section class="page-section section-selection">
+                    <h1 class="page-section__title">Подбор запчасти по VIN номеру</h1>
+                    <div class="page-section__body section-selection__body">
+                        <form action="#" method="post" class="selection-form" data-selection-form>
+                            <fieldset class="selection-form__row">
+                                <legend class="v-hidden">Vin</legend>
+                                <div class="selection-form__block field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">VIN</b>
+                                        <span class="field-block__req">(обязательное)</span>
+                                    </div>
+                                    <div class="page-input page-input_icon page-input_req">
+                                        <input type="text" name="vin"  class="page-input__field" data-vin/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="selection-form__row">
+                                <legend class="v-hidden">Почта и имя</legend>
+                                <div class="selection-form__block field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Почта</b>
+                                        <span class="field-block__req">(обязательное)</span>
+                                    </div>
+                                    <div class="page-input page-input_icon page-input_req">
+                                        <input type="email" name="email"  class="page-input__field" data-email/>
+                                    </div>
+                                </div>
+                                <div class="selection-form__block field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Имя</b>
+                                        <span class="field-block__req"></span>
+                                    </div>
+                                    <div class="page-input page-input_icon">
+                                        <input type="text" name="name"  class="page-input__field" data-name/>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend class="selection-form__subtitle">Подбор запчастей</legend>
+                                <div class="selection-form__row">
+                                    <div class="selection-form__block field-block">
+                                        <div class="page-input page-input_icon page-input_req">
+                                            <input type="text" name="detail"  placeholder="Название узла / масло / АКБ / шины" class="page-input__field" data-part/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="selection-form__row">
+                                    <div class="selection-form__block select select_icon-left" id="part-select">
+                                        <div class="select__header">
+                                            <span class="select__title"></span>
+                                            <svg>
+                                                <use xlink:href="img/svg/sprite.svg#options"></use>
+                                            </svg>
+                                        </div>
+                                        <ul class="select__body">
+                                        </ul>
+                                    </div>
+                                    <div class="number-select number-select_big" id="part-count-select">
+                                        <div class="number-select__body">
+                                            <div class="number-select__button number-select__left-button" data-decr>
+                                                -
+                                            </div>
+                                            <div class="number-select__value" data-value>1</div>
+                                            <div class="number-select__button number-select__right-button" data-incr>
+                                                +
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="selection-form__bottom">
+                                <button type="submit" class="selection-form__submit button button_accent button_sq" data-selection-submit>Отправить запрос</button>
+                                <p class="selection-form__rules">
+                                    Нажимая кнопку «Отправить запрос», я даю согласие на обработку персональных данных в соответствии с <a href="/page_contract_offer" class="page-link">разделом 14 договора оферты</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/app/selection.js" defer></script>
+</body>
+</html>

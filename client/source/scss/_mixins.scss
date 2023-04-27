@@ -1,0 +1,159 @@
+//@mixin flex($dir: row, $wrap: wrap, $jc: flex-start, $ai: stretch) {
+//	display: flex;
+//
+//	@if $dir == "col" {
+//		flex-direction: column;
+//	} @else {
+//      flex-direction: row;
+//    }
+//
+//	@if $wrap == "nowrap" {
+//		flex-wrap: nowrap;
+//	} @else {
+//      flex-wrap: wrap;
+//    }
+//	// justify-content
+//	@if $jc == "fs" {
+//		justify-content: flex-start;
+//	} @else if $jc == "fe" {
+//		justify-content: flex-end;
+//	} @else if $jc == "sb" {
+//		justify-content: space-between;
+//	} @else if $jc == "sa" {
+//		justify-content: space-around;
+//	} @else if $jc == "c" or $jc == "center" {
+//		justify-content: center
+//	} @else {
+//      justify-content: flex-start;
+//    }
+//	// align-items
+//	@if $ai == "fs" {
+//		align-items: flex-start;
+//	} @else if $ai == "fe" {
+//		align-items: flex-end;
+//	} @else if $ai == "s" {
+//		align-items: stretch;
+//	} @else if $ai == "baseline" {
+//		align-items: baseline;
+// 	} @else if $ai == "c" or $ai == "center" {
+//      align-items: center;
+//    } @else {
+//      align-items: stretch;
+//    }
+//}
+//// PLACEHOLDER
+//@mixin placeholder {
+//  &.placeholder { @content; }
+//  &:-moz-placeholder { @content; }
+//  &::-moz-placeholder { @content; }
+//  &:-ms-input-placeholder { @content; }
+//  &::-webkit-input-placeholder { @content; }
+//}
+//
+//@mixin center {
+//	margin-left: auto;
+//	margin-right: auto;
+//}
+//
+//
+//
+//@function rem($pixels, $context: $baseFontSize) {
+//  @if (unitless($pixels)) {
+//    $pixels: $pixels * 1px;
+//  }
+//
+//  @if (unitless($context)) {
+//    $context: $context * 1px;
+//  }
+//
+//  @return $pixels / $context * 1rem;
+//}
+//
+//
+//@mixin triangle($direction, $sizeH, $sizeV, $color){
+//    content: '';
+//    display: block;
+//    width: 0;
+//    height: 0;
+//    border-style: solid;
+//    -moz-transform: scale(.9999);
+//
+//  @if $direction == top {
+//    border-width: 0 $sizeV $sizeH $sizeV;
+//    border-color: transparent transparent $color transparent;
+//  }
+//  @if $direction == bottom{
+//    border-width: $sizeV $sizeH 0 $sizeV;
+//    border-color: $color transparent transparent transparent;
+//  }
+//  @if $direction == left{
+//    border-width: $sizeV $sizeH $sizeV 0;
+//    border-color: transparent $color transparent transparent;
+//  }
+//  @if $direction == right{
+//    border-width: $sizeV 0 $sizeV $sizeH;
+//    border-color: transparent transparent transparent $color;
+//  }
+//  @if $direction == topright{
+//    border-width: 0 $sizeH $sizeV 0;
+//    border-color: transparent $color transparent transparent;
+//  }
+//  @if $direction == bottomright{
+//    border-width: 0 0 $sizeH $sizeV;
+//    border-color: transparent transparent $color transparent;
+//  }
+//  @if $direction == bottomleft{
+//    border-width: $sizeH 0 0 $sizeV;
+//    border-color: transparent transparent transparent $color;
+//  }
+//  @if $direction == topleft{
+//    border-width: $sizeH $sizeV 0 0;
+//    border-color: $color transparent transparent transparent;
+//  }
+//}
+//
+//@mixin clearfix {
+//	&::before {
+//		content: "";
+//		display: table;
+//		clear: both;
+//	}
+//}
+//@mixin font ($font, $weight, $size) {
+//	font-family: $font;
+//	font-weight: $weight;
+//	font-size: $size;
+//}
+.v-hidden {
+	position: absolute;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+}
+//%no-gutters {
+//	margin: 0px;
+//	padding: 0px;
+//}
+//
+//@mixin top-align {
+//  position: absolute;
+//  top: 50%;
+//  transform: translateY(-50%);
+//}
+//
+//@mixin center-align {
+//  position: absolute;
+//  top: 50%;
+//  left: 50%;
+//  transform: translate(-50%, -50%);
+//}
+//
+//@mixin left-align {
+//  position: absolute;
+//  left: 50%;
+//  transform: translateX(-50%);
+//}

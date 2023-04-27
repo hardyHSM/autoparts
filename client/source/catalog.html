@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Каталог - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page page_catalog">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html',{ "active": "false"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-catalog">
+                    <ul id="breadcrumbs" class="breadcrumbs page-section__breadcrumbs" id="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a href="/" class="breadcrumbs__link">Главная</a>
+                        </li>
+                    </ul>
+                    <h1 class="page-section__title"></h1>
+                    <div class="page-section__content">
+                        <aside class="page-sidebar page-sidebar_hided" data-sidebar>
+                            <div class="page-sidebar__close" data-sidebar-close>
+                                <svg>
+                                    <use xlink:href="img/svg/sprite.svg#close"></use>
+                                </svg>
+                            </div>
+                            <div id="page-filter">
+                            </div>
+                        </aside>
+                        <div class="page-section__main">
+                            <div class="products">
+                                <div class="page-section__button-sidebar button button_accent" data-sidebar-open>
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#settings"></use>
+                                    </svg>
+                                    <span class="button-filter__text">Фильтр</span>
+                                </div>
+                                <div class="products__filters filters">
+                                    <span class="filters__title">Применённые фильтры:</span>
+                                    <ul class="filters__list" id="filter-list">
+                                    </ul>
+                                </div>
+                                <div class="products__options options-catalog">
+                                    <div class="options-catalog__left sort-block">
+                                        <div class="sort-block__select select select_light" id="sort-catalog">
+                                            <div class="select__header">
+                                                <span class="sort-block__title">Сортировка:</span>
+                                                <div class="select__title"></div>
+                                                <svg>
+                                                    <use xlink:href="img/svg/sprite.svg#sort-down"></use>
+                                                </svg>
+                                            </div>
+                                            <ul class="select__body">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="options-catalog__right view-catalog">
+                                        <button class="view-catalog__item view-catalog__item_active" data-view="list">
+                                            <svg>
+                                                <use xlink:href="img/svg/sprite.svg#sort-list"></use>
+                                            </svg>
+                                        </button>
+                                        <button class="view-catalog__item" data-view="table">
+                                            <svg>
+                                                <use xlink:href="img/svg/sprite.svg#sort-table"></use>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="products__list" id="products_list"></div>
+                                <div class="products__pagination pagination" id="pagination">
+                                    <ul class="pagination__list">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        @@include('./html/footer.html')
+    </div>
+
+    <script src="js/app/catalog.js" defer></script>
+</body>
+</html>

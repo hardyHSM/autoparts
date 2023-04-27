@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Корзина - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "active_cart"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-cart">
+                    <h1 class="page-section__title">Корзина</h1>
+                    <div class="page-section__body">
+                        <div class="section-cart__info message message_accent message_icon">
+                            По статистике 10% заказов, сделанных более чем через час после проценки не могут быть исполнены, так как товар к тому времени уже куплен. Вы можете оформлять заказ частями.
+                            <svg>
+                                <use xlink:href="img/svg/sprite.svg#info"></use>
+                            </svg>
+                        </div>
+                        <div class="section-cart__table cart">
+                            <div class="cart__preloader" data-cart-preloader>
+                                <div class="cart__overlay">
+                                </div>
+                                <div class="preloader preloader_small"></div>
+                            </div>
+                            <table class="cart-table">
+                                <tbody data-cart-output>
+                                <tr class="cart-table__header cart-table__row">
+                                    <th class="cart-table__col cart-table__col_big">Наименование</th>
+                                    <th class="cart-table__col">Поставщик</th>
+                                    <th class="cart-table__col">Склад</th>
+                                    <th class="cart-table__col">Цена</th>
+                                    <th class="cart-table__col">Кол-во</th>
+                                    <th class="cart-table__col">Итого</th>
+                                    <th class="cart-table__col">Актуальность</th>
+                                    <th class="cart-table__col cart-table__col_small cart-table__col_button" data-cart-all data-enabled="false">Все</th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="section-cart__bottom">
+                            <div class="section-cart__important">
+                                Рекомендуем оформлять заказы как можно быстрее: даже если вы будете заказывать товары по одному - это никак не отразится на бесплатной доставке, но зато вас никто не опередит и цена не успеет измениться.
+                                <svg>
+                                    <use xlink:href="img/svg/sprite.svg#info"></use>
+                                </svg>
+                            </div>
+                            <div class="section-cart__total">
+                                <span class="section-cart__total-text">Выбрано на сумму: </span>
+                                <span class="section-cart__total-price">0 ₽</span>
+                            </div>
+                        </div>
+                        <div class="section-cart__arrange arrange">
+                            <div class="promo">
+                                <div class="promo__wrapper">
+                                    <div class="page-input promo__input">
+                                        <input type="text" class="page-input__field " placeholder="Промо-код" data-promo-field/>
+                                    </div>
+                                    <button class="promo__button button button_accent" data-cart-promo>
+                                        <svg>
+                                            <use xlink:href="img/svg/sprite.svg#arrow-small"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="promo__right">
+                                    <div class="promo__text">Скидка</div>
+                                    <b class="promo__money">-330 ₽</b>
+                                </div>
+                            </div>
+                            <div class="arrange__total">
+                                <span class="arrange__text"> Итого </span>
+                                <b class="arrange__price">0 ₽</b>
+                            </div>
+                            <button class="arrange__button button button_accent" data-cart-submit>Оформить выбранное</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/app/cart.js" defer></script>
+</body>
+</html>

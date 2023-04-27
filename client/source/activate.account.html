@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Активация почты - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page page_activate">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "false"})
+        <main class="page-main page-main_activate">
+            <div class="page-content">
+                <section class="page-section section-activate">
+                    <h1 class="page-section__title"></h1>
+                    <div class="section-activate__container">
+                        <nav class="big-navigation">
+                            <ul class="big-navigation__list">
+                                <li class="big-navigation__item">
+                                    <a href="/" class="big-navigation__link">Главная</a>
+                                </li>
+                                <li class="big-navigation__item">
+                                    <a href="/delivery" class="big-navigation__link">Доставка</a>
+                                </li>
+                                <li class="big-navigation__item">
+                                    <a href="/how_buy" class="big-navigation__link">Как купить</a>
+                                </li>
+                                <li class="big-navigation__item">
+                                    <a href="/payment" class="big-navigation__link">Оплата</a>
+                                </li>
+                                <li class="big-navigation__item">
+                                    <a href="/selection" class="big-navigation__link">Подбор запчастей</a>
+                                </li>
+                                <li class="big-navigation__item">
+                                    <a href="/contacts" class="big-navigation__link">Контакты</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="section-error__selections selection">
+                            <h2 class="selection__title">Подобрать запчасти бесплатно</h2>
+                            <p class="selection__descr">Введите свой VIN-номер, мы подберем для вас подходящие запчасти и доставим их бесплатно.</p>
+                            <a href="/selection" class="button button_accent">Сделать VIN-запрос</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+
+    <script src="js/app/activate.js" defer></script>
+</body>
+</html>

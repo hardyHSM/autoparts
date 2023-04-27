@@ -1,0 +1,120 @@
+.section-contacts {
+    iframe {
+        width: 100%;
+    }
+    .page-section__body {
+        padding: 0;
+    }
+    .page-section__row {
+        padding: 45px 35px;
+    }
+}
+
+#map {
+    width: 100%;
+    height: 449px;
+    filter: gray;
+    -webkit-filter: grayscale(1);
+}
+
+.section-contacts__map {
+    margin-bottom: 42px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+
+.section-contacts__tel-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    @media screen and (max-width: 640px) {
+        flex-wrap: wrap;
+    }
+}
+
+.section-contacts__tel-descr {
+    font-size: 14px;
+    display: block;
+}
+
+.section-contacts__tel {
+    padding-left: 5px;
+    @media screen and (max-width: 640px) {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        display: block;
+    }
+}
+
+.section-contacts__row {
+    display: flex;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 45px 30px;
+    @media screen and (max-width: 960px) {
+        flex-wrap: wrap;
+        padding: 20px 15px;
+        margin: 0;
+    }
+}
+
+.section-contacts__left, .section-contacts__right {
+    margin-left: 15px;
+    flex-grow: 1;
+    margin-right: 15px;
+    @media screen and (max-width: 960px) {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+.section-contacts__left {
+    @media screen and (max-width: 960px) {
+        margin-bottom: 20px;
+    }
+}
+
+.requisites__list {
+    display: block;
+    margin-bottom: 30px;
+}
+
+.requisites__item {
+    font-family: "Gotham Pro", sans-serif;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.requisites__key {
+    color: #777777;
+}
+.requisites__value {
+    padding-left: 5px;
+}
+
+.requisites__value_mail {
+    color: #1C69D4;
+}
+
+.feedback-form__wrapper {
+    margin-bottom: 15px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.feedback-form__button {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    @media screen and (max-width: 960px) {
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100%;
+    }
+}
+
+.feedback-form__area {
+    resize: none;
+    height: 135px;
+}

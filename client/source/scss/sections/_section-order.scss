@@ -1,0 +1,24 @@
+.section-order__content {
+    display: flex;
+    @media screen and (max-width: 1280px) {
+        display: block;
+    }
+}
+
+.section-order__left {
+    width: 50%;
+    padding-right: 20px;
+    @media screen and (max-width: 1280px) {
+        width: 100%;
+        margin-bottom: 35px;
+    }
+}
+
+.section-order__right {
+    flex-grow: 0;
+    width: 50%;
+    @media screen and (max-width: 1280px) {
+        width: 100%;
+    }
+}
+

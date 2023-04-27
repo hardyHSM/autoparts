@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Поиск - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page page_catalog">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html',{ "active": "false"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-search">
+                    <ul id="breadcrumbs" class="breadcrumbs page-section__breadcrumbs" id="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a href="/" class="breadcrumbs__link">Главная</a>
+                        </li>
+                        <li class="breadcrumbs__item">
+                            <span>Поиск</span>
+                        </li>
+                    </ul>
+                    <h1 class="page-section__title">Поиск по сайту</h1>
+                    <div class="page-section__content">
+                        <aside class="page-sidebar page-sidebar_hided" data-sidebar>
+                            <div class="page-sidebar__close" data-sidebar-close>
+                                <svg>
+                                    <use xlink:href="img/svg/sprite.svg#close"></use>
+                                </svg>
+                            </div>
+                            <div class="page-filter">
+                                <div class="page-filter__block filter-block">
+                                    <div class="filter-block__header">
+                                        <b class="filter-block__name">Поиск по наименованию</b>
+                                    </div>
+                                    <div class="filter-block__body">
+                                        <div class="page-input">
+                                            <input type="text" name="name" placeholder="Введите текст" class="page-input__field" data-name-search/>
+                                        </div>
+                                    </div>
+                                    <p class="filter-block__descr">Выведены результаты поиска по этой фразе.</p>
+                                </div>
+                                <div class="page-filter__button button button_accent" data-search-button>Новый поиск</div>
+                            </div>
+                            <div class="search-list search-list_aside" data-aside-searchlist>
+
+                            </div>
+                        </aside>
+                        <div class="page-section__main">
+                            <div class="products">
+                                <div class="page-section__button-sidebar button button_accent" data-sidebar-open>
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#settings"></use>
+                                    </svg>
+                                    <span class="button-filter__text">Поиск</span>
+                                </div>
+                                <div class="products__options options-catalog">
+                                    <div class="options-catalog__left sort-block">
+                                        <div class="sort-block__select select select_light" id="sort-search">
+                                            <div class="select__header">
+                                                <span class="sort-block__title">Сортировка:</span>
+                                                <div class="select__title"></div>
+                                                <svg>
+                                                    <use xlink:href="img/svg/sprite.svg#sort-down"></use>
+                                                </svg>
+                                            </div>
+                                            <ul class="select__body">
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="options-catalog__right view-catalog">
+                                        <button class="view-catalog__item view-catalog__item_active" data-view="list">
+                                            <svg>
+                                                <use xlink:href="img/svg/sprite.svg#sort-list"></use>
+                                            </svg>
+                                        </button>
+                                        <button class="view-catalog__item" data-view="table">
+                                            <svg>
+                                                <use xlink:href="img/svg/sprite.svg#sort-table"></use>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="products__list" id="products_list"></div>
+                                <div class="products__pagination pagination" id="pagination">
+                                    <ul class="pagination__list">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        @@include('./html/footer.html')
+    </div>
+
+    <script src="js/app/search.js" defer></script>
+</body>
+</html>

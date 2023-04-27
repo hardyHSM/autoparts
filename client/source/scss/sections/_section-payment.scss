@@ -1,0 +1,59 @@
+.section-payment__list {
+    display: flex;
+    justify-content: center;
+    @media screen and (max-width: 960px) {
+        display: block;
+    }
+}
+
+.section-payment__item {
+    margin-right: 30px;
+    display: block;
+    &:last-child {
+        margin-right: 0;
+    }
+    @media screen and (max-width: 960px) {
+        margin: 0 0 15px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.payment-item {
+    width: 460px;
+    @media screen and (max-width: 960px) {
+        width: 100%;
+    }
+}
+
+.payment-item__method {
+    font-family: "Gotham Pro", sans-serif;
+    font-size: 18px;
+    color: #222222;
+    padding-right: 5px;
+    display: inline;
+    font-weight: 500;  
+}
+
+
+.payment-item__header {
+    margin-bottom: 15px;
+    min-height: 60px;
+}
+
+.payment-item__content {
+    &:first-child {
+        border-left: none;
+    }
+}
+
+.payment-item__subtitle {
+    display: inline;
+}
+
+.payment-item__descr {
+    border-left: 1px solid #1C69D4;
+    display: block;
+    padding-left: 10px;
+}

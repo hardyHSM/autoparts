@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Как купить - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "active_how_buy"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-how-buy">
+                    <h1 class="page-section__title">Как купить</h1>
+                    <div class="page-section__body section-how-buy__body">
+                        <h2 class="page-section__subtitle">Оформить заказ на нашем сайте стало еще проще!</h2>
+                        <br />
+                        <p class="page-section__descr section-how-buy__descr">
+                            Для оформления заказа вам нужно всего лишь выполнить 4 шага:<br />
+                            1. Перейти во вкладку "Подбор запчастей", заполните форму.<br />
+                            2. Затем, наш менеджер найдет самую низкую цену на оригинальные запчасти, достойную альтернативу или же на самый дешевый аналог.<br />
+                            3. Далее менеджер свяжется с вами по любому удобному для вас способу. Согласует с Вами сроки доставки и стоимость.<br />
+                            4. Оплата, а более подробно об способах оплаты вы можете узнать тут.<br />
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+
+    <script src="js/app/index.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+.loader {
+    width: 24px;
+    height: 24px;
+    background-image: url('./img/svg/loader.svg');
+    background-size: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    animation: preloader-animate 1s steps(8) infinite;
+    transform-origin: center;
+}
+
+@keyframes preloader-animate {
+    0% {
+        transform: rotate(0)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+
+.loader_white {
+    filter: invert(100%);
+}

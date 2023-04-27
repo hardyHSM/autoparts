@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Оформление заказа - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "false"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-order">
+                    <ul id="breadcrumbs" class="breadcrumbs page-section__breadcrumbs" id="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a href="/" class="breadcrumbs__link">Главная</a>
+                        </li>
+                        <li class="breadcrumbs__item">
+                            <a href="/cart" class="breadcrumbs__link">Корзина</a>
+                        </li>
+                        <li class="breadcrumbs__item">
+                            <span>Оформление заказа</span>
+                        </li>
+                    </ul>
+                    <div class="section-order__content">
+                        <div class="section-order__left">
+                            <h1 class="page-section__title">Оформление заказа</h1>
+                            <div class="order-products">
+                                <!-- generate content-->
+                            </div>
+                        </div>
+                        <div class="section-order__right page-section__body">
+                            <form class="order-form form" data-order-form>
+                                <!-- generate content-->
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/app/order.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+.user-nav {
+    display: flex;
+    gap: 25px;
+    @media screen and (max-width: 640px) {
+        gap: 0px;
+        align-items: center;
+    }
+}
+
+.user-nav__item {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    svg {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    &::before {
+        content: "";
+        width: 100%;
+        position: absolute;
+        display: block;
+        height: 25px;
+        opacity: 0;
+        top: 100%;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 0;
+        margin: 0 0 0 20px;
+        &:hover {
+            .profile-list {
+                opacity: 0;
+                width: 0;
+                height: 0;
+                display: none;
+                visibility: hidden;
+            }
+        }
+    }
+}
+
+.user-nav__link {
+    font-size: 14px;
+    line-height: 14px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    &:hover {
+        text-decoration: underline;
+    }
+    @media screen and (max-width: 640px) {
+        display: inline;
+        span {
+            display: none;
+        }
+    }
+}
+
+.user-nav__span {
+    font-size: 14px;
+    line-height: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    span {
+        font-weight: bold;
+    }
+    @media screen and (max-width: 640px) {
+        display: inline;
+        span {
+            display: none;
+        }
+    }
+}
+
+.user-nav__item_sign {
+    position: relative;
+    svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+    }
+    @media screen and (max-width: 640px) {
+        width: 18px;
+        height: 18px;
+    }
+    &::after {
+        content: attr(data-count);
+        position: absolute;
+        z-index: 5;
+        font-weight: bold;
+        font-size: 11px;
+        padding: 1px;
+        border-radius: 50%;
+        color: red;
+        background-color: #fff;
+        top: -10px;
+        left: 15px;
+    }
+}
+
+.user-nav__item_cart {
+    svg {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+    }
+    @media screen and (max-width: 640px) {
+        width: 19px;
+        height: 19px;
+    }
+    &::after {
+        content: attr(data-count);
+        position: absolute;
+        z-index: 5;
+        font-weight: bold;
+        font-size: 11px;
+        color: #1C69D4;
+        background-color: #fff;
+        top: -10px;
+        left: 15px;
+    }
+}
+
+
+.user-nav__link_active {
+    font-weight: bold;
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Главная - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page page_index">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "false"})
+        <main class="page-main">
+            <div class="page-content">
+                <h1 class="v-hidden">Сайт по продаже допчастей для авто.</h1>
+                <section class="intro-slider swiper-container">
+                    <h2 class="v-hidden">Слайдер Товара</h2>
+                    <div class="swiper-wrapper">
+                        <div class="intro-slider__slide intro-product swiper-slide" style="background-image: url('./img/intro-product/1.png')">
+                            <div class="intro-product__content container">
+                                <h2 class="intro-product__title">New Energy</h2>
+                                <img class="intro-product__logo" src="img/logo-product/champion.png" alt="champion логотип" width="122"/>
+                                <b class="intro-product__accent-text intro-product__accent-text_bold">Фильтр масла в подарок</b>
+                                <a href="/catalog/oils/motor?Марка=Champion" class="intro-product__read-more">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#arrow"></use>
+                                    </svg>
+                                    Подробнее
+                                </a>
+                                <img class="intro-product__img" src="img/logo-product/champion-product.png" alt="New Energy champion"/>
+                            </div>
+                        </div>
+                        <div class="intro-slider__slide intro-product swiper-slide" style="background-image: url('./img/intro-product/2.png')">
+                            <div class="intro-product__content container">
+                                <h2 class="intro-product__title intro-product__title_uppercase">Felix</h2>
+                                <img class="intro-product__logo" src="img/logo-product/felix.png" alt="felix логотип" width="114"/>
+                                <b class="intro-product__accent-text">Охлаждающая жидкость</b>
+                                <a href="/catalog/consumable_liquids/coolants?Марка=Felix" class="intro-product__read-more"> Подробнее </a>
+                                <img class="intro-product__img" src="/client/assets/242fccc7-1083-47e9-a5be-cf281a2fed68.png" alt="Felix охлаждающая жидкость"/>
+                            </div>
+                        </div>
+                        <div class="intro-slider__slide intro-product swiper-slide" style="background-image: url('./img/intro-product/3.png')">
+                            <div class="intro-product__content container">
+                                <h2 class="intro-product__title">Motor Oil</h2>
+                                <img class="intro-product__logo" src="img/logo-product/felix.png" alt="champion логотип" width="114"/>
+                                <b class="intro-product__accent-text">Масло Felix 4+1</b>
+                                <a href="/catalog/oils/motor?Марка=Felix" class="intro-product__read-more"> Подробнее </a>
+                                <img class="intro-product__img" src="img/logo-product/felix-product2.png" alt="New Energy champion"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="intro-product__buttons">
+                        <div class="swiper-button-prev">
+                            <svg>
+                                <use xlink:href="img/svg/sprite.svg#arrow"></use>
+                            </svg>
+                        </div>
+                        <div class="swiper-button-next">
+                            <svg>
+                                <use xlink:href="img/svg/sprite.svg#arrow"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </section>
+                <section class="opportunities">
+                    <h2 class="opportunities__title v-hidden">Возможности</h2>
+                    <div class="opportunities__content container">
+                        <ol class="opportunities__list">
+                            <li class="opportunities__item opportunity-item">
+                                <b class="opportunity-item__numb">01</b>
+                                <h3 class="opportunity-item__title">Бесплатный звонок</h3>
+                                <p class="opportunity-item__descr">На любые номера РФ</p>
+                                <a class="opportunity-item__tel page-tel" href="tel:88005501980">8-800-550-19-80</a>
+                                <a class="opportunity-item__button button button_wp" href="https://api.whatsapp.com/send/?phone=79281078080">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#wp"></use>
+                                    </svg>
+                                    <span class="button__number">+7 (928) 107-80-80</span>
+                                    <span class="button__text">WhatsApp</span>
+                                </a>
+                            </li>
+                            <li class="opportunities__item opportunity-item">
+                                <b class="opportunity-item__numb">02</b>
+                                <h3 class="opportunity-item__title">Бесплатный подбор</h3>
+                                <p class="opportunity-item__descr">Мы найдем самую низкую цену на оригинальную запчасть, достойную альтернативу или самый дешевый аналог.</p>
+                                <a href="/page_selection" class="opportunity-item__button button button_backwards-accent">Заявка на подбор</a>
+                            </li>
+                            <li class="opportunities__item opportunity-item">
+                                <b class="opportunity-item__numb">03</b>
+                                <h3 class="opportunity-item__title">Бесплатная доставка</h3>
+                                <p class="opportunity-item__descr">Согласуем и привезём запчасти в офис или домой в удобное для Вас время.</p>
+                                <a href="/page_delivery" class="opportunity-item__button button button_backwards-accent">Доставка</a>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+                <section class="advert-products">
+                    <h2 class="v-hidden">Рекомендуемые продукты</h2>
+                    <div class="advert-products__content container">
+                        <div class="advert-products__item">
+                            <article class="advert-product">
+                                <picture>
+                                    <source media="(max-width: 1280px)" srcset="img/product-advert/1-mini.png"/>
+                                    <img class="logotype__img" src="img/product-advert/1.jpg" alt=""/>
+                                </picture>
+                                <div class="advert-product__content">
+                                    <h3 class="advert-product__title">Щетки AWM</h3>
+                                    <a href="/catalog/brushes?Марка=AWM" class="advert-product__link">Подробнее</a>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="advert-products__item advert-products__item_big">
+                            <article class="advert-product">
+                                <picture>
+                                    <source media="(max-width: 1280px)" srcset="img/product-advert/2-mini.png"/>
+                                    <img class="logotype__img" src="img/product-advert/2.jpg" alt=""/>
+                                </picture>
+                                <div class="advert-product__content">
+                                    <span class="advert-product__date">Весь январь</span>
+                                    <h3 class="advert-product__title">скидка 20% на весь DOT4</h3>
+                                    <a href="/catalog/consumable_liquids/brake_fluids?Класс+FMVSS=DOT+4&Марка=Rosdot" class="advert-product__link">Подробнее</a>
+                                    <span class="advert-product__feature">Цена снижена</span>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/app/index.js" defer></script>
+</body>
+</html>

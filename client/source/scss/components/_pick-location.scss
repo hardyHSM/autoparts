@@ -1,0 +1,29 @@
+.pick-location {
+    padding-left: 30px;
+    position: relative;
+    &:before {
+        content: "";
+        width: 17px;
+        height: 17px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-radius: 100%;
+        border: 5px solid #1C69D4;
+    }
+}
+
+.pick-location__address {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #222;
+    font-weight: 500;
+}
+
+.pick-location__change {
+    color: #1C69D4;
+    &:hover {
+        text-decoration: underline;
+    }
+}

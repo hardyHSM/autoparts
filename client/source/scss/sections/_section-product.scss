@@ -1,0 +1,27 @@
+.section-product {
+    display: flex;
+    .page-sidebar {
+        width: 420px;
+        @media screen and (max-width: 1600px) {
+            width: 100%
+        }
+    }
+    .page-section__title {
+        @media screen and (max-width: 640px) {
+            max-width: 100%;
+        }
+    }
+}
+
+.section-product__content {
+    @media screen and (max-width: 1600px) {
+        flex-wrap: wrap;
+    }
+}
+
+.section-product__title {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 24px;
+    margin: 15px 0;
+}

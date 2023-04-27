@@ -1,0 +1,33 @@
+.product__sizes {
+    margin-top: 30px;
+}
+
+.sizes__list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sizes__item {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    &:last-child {
+        margin-right: 0;
+    }
+}
+
+.sizes__link {
+    color: #222;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+.sizes__title {
+    display: block;
+    margin-bottom: 5px;
+    color: #222;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+}
+

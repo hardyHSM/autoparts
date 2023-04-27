@@ -1,0 +1,135 @@
+.page-address {
+    position: relative;
+    display: block;
+}
+
+.page-address__current {
+    max-width: 216px;
+    position: relative;
+    font-family: "Gotham Pro", sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+    color: #222222;
+    display: block;
+    padding-right: 25px;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-100%) rotate(45deg);
+        transform-origin: 0 0;
+        border-right: 1px solid #222;
+        border-bottom: 1px solid #222;
+    }
+}
+
+.page-address__drop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 135;
+    width: 350px;
+    background-color: #fff;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border: 1px solid #F0F0F0;
+    padding: 20px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .2s linear;
+}
+
+
+.page-address__row {
+    display: flex;
+}
+
+.page-address__drop_active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.page-address__left {
+    font-weight: 300;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.page-address__right {
+    font-weight: bold;
+    font-size: 14px;
+    padding-left: 8px;
+}
+
+.page-address__pick {
+    margin-top: 20px;
+}
+
+.page-address__current-city {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.page-address__buttons {
+    display: flex;
+    margin-left: -8px;
+    margin-right: -8px;
+    button {
+        flex-grow: 1;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+}
+
+.pick-address {
+    display: none;
+}
+
+.pick-address_active {
+    display: block;
+}
+
+.pick-address__title {
+    margin-bottom: 13px;
+    display: block;
+}
+
+
+.pick-address__search {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+
+.pick-address__list {
+    padding-left: 15px;
+}
+
+.pick-address__item {
+    margin-bottom: 15px;
+    color: #1C69D4;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+    b {
+        font-weight: bold;
+    }
+}
+
+.pick-address__item_notfound {
+    color: #222;
+    &:hover {
+        text-decoration: none;
+    }
+}

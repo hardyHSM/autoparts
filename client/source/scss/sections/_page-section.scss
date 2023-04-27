@@ -1,0 +1,133 @@
+.page-section {
+    height: 100%;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-section__title {
+    font-family: "Gotham Pro", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 40px;
+    color: #222222;
+    margin-bottom: 30px;
+    max-width: 100%;
+    @media screen and (max-width: 960px) {
+        max-width: 100%;
+        font-size: 28px;
+    }
+    @media screen and (max-width: 640px) {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+}
+
+.page-section__title_upper {
+    text-transform: uppercase;
+}
+
+.page-section__title_middle {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.section-activate {
+    .page-section__title {
+        text-align: center;
+        margin-top: auto;
+    }
+    @media screen and (max-width: 640px) {
+        padding-top: 35px;
+    }
+}
+
+.section-product {
+    .page-section__title {
+        max-width: 80%;
+    }
+}
+
+.page-section__body {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 30px;
+    @media screen and (max-width: 960px) {
+        padding: 25px;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 15px;
+    }
+}
+
+.page-section__subtitle {
+    font-family: "Gotham Pro", sans-serif;
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 15px;
+    @media screen and (max-width: 640px) {
+        font-size: 22px;
+    }
+}
+
+.page-section__descr {
+    font-family: "Gotham Pro", sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+.page-section__body_tr {
+    background-color: transparent
+}
+
+.page-section__content {
+    display: flex;
+    height: 100%;
+    gap: 35px;
+}
+
+.page-section__main {
+    flex-grow: 1;
+    align-self: flex-start;
+    background-color: #fff;
+    padding: 35px 30px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    @media screen and (max-width: 1600px) {
+        width: 100%;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 15px 10px;
+    }
+}
+
+.section-activate__container {
+    max-width: 620px;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.page-section__breadcrumbs {
+    margin-bottom: 10px;
+}
+
+.page-section__button-sidebar {
+    display: none;
+    @media screen and (max-width: 1280px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        order: 0;
+        margin-bottom: 10px;
+    }
+    svg {
+        width: 20px;
+        height: 20px;
+        fill: #fff;
+        margin-right: 10px;
+    }
+}

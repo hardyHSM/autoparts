@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Продукт - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page page_product">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "false"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-product">
+                    <ul id="breadcrumbs" class="breadcrumbs page-section__breadcrumbs" id="breadcrumbs">
+                        <li class="breadcrumbs__item">
+                            <a href="/" class="breadcrumbs__link" title="Главная">Главная</a>
+                        </li>
+                    </ul>
+                    <h1 class="page-section__title" data-product-title></h1>
+                    <div class="page-section__content section-product__content">
+                        <div class="page-section__main product-module" id="product-module">
+                        </div>
+                        <aside class="page-sidebar products-sidebar">
+                            <h2 class="section-product__title">С этим товаром покупают: </h2>
+                            <div class="products-sidebar__list" id="product-sidebar">
+
+                            </div>
+                        </aside>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        @@include('./html/footer.html')
+    </div>
+
+    <script src="js/app/productPage.js" defer></script>
+</body>
+</html>

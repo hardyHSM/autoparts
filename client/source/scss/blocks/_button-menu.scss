@@ -1,0 +1,62 @@
+.button-menu {
+    display: none;
+    width: 22px;
+    height: 15px;
+    border-radius: 0.7px;
+    margin-right: 10px;
+    margin-top: 2px;
+    position: relative;
+    &::before {
+        content: "";
+        width: 22px;
+        height: 3px;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+        left: 0;
+        background-color: black;
+    }
+    &::after {
+        content: "";
+        width: 11.5px;
+        height: 3px;
+        bottom: -1px;
+        position: absolute;
+        left: 0;
+        background-color: black;
+    }
+    transition: all .2s linear;
+    &:hover {
+        transform: scale(1.05);
+    }
+    @media screen and (max-width: 960px) {
+        display: block;
+        margin-top: 0;
+    }
+}
+
+.button-menu__decor {
+    display: block;
+    width: 22px;
+    height: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+}
+
+.button-menu_active {
+        &::after {
+        display: none;
+    }
+    .button-menu__decor {
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        left: 50%;
+        top: 50%;
+
+    }
+    &::before {
+        transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+        left: 50%;
+    }
+}

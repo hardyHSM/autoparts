@@ -1,0 +1,127 @@
+.page-popup {
+    position: fixed;
+    max-width: 355px;
+    min-width: 300px;
+    width: 100%;
+    padding: 30px;
+    z-index: 130;
+    background-color: #fff;
+    top: 60px;
+    left: 50%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%);
+    transition: all 0.2s linear;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    p {
+        margin-bottom: 15px;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 15px 15px;
+    }
+}
+
+.page-popup_active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.page-popup__title {
+    font-family: "Gotham Pro", sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 36px;
+    color: #222222;
+    text-align: left;
+    margin-bottom: 30px;
+    padding-right: 25px;
+    @media screen and (max-width: 640px) {
+        margin-bottom: 15px;
+        padding-right: 25px;
+        line-height: 1;
+    }
+}
+
+
+.page-popup__link {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #1c69d4;
+}
+
+.page-popup__button {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.page-popup__link-reg,
+.page-popup__link-remember {
+    font-size: 15px;
+    line-height: 18px;
+    color: #1c69d4;
+    text-decoration: underline;
+    text-align: center;
+    width: 100%;
+}
+
+.page-popup__close {
+    position: absolute;
+    right: 26px;
+    top: 18px;
+    display: block;
+    z-index: 140;
+    width: 30px;
+    height: 30px;
+    &::after,
+    &::before {
+        content: '';
+        width: 2px;
+        height: 23px;
+        display: block;
+        background-color: #222;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+    }
+    &::before {
+        transform: translateY(-50%) rotate(-45deg);
+    }
+    &::after {
+        transform: translateY(-50%) rotate(45deg);
+    }
+}
+
+.page-popup__input_pass {
+    font-size: 18px;
+}
+
+.page-popup__error {
+    margin-bottom: 10px;
+}
+
+.page-popup__descr {
+    font-family: "Gotham Pro", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.page-popup__button-close {
+    margin-bottom: 0;
+    margin-top: 25px;
+}
+
+.page-popup__registration {
+    text-align: center;
+}
+
+.page-popup__block {
+    margin-bottom: 20px;
+}

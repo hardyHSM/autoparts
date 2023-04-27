@@ -1,0 +1,114 @@
+.product-module {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.product-module__header {
+    display: flex;
+    margin-bottom: 45px;
+    @media screen and (max-width: 960px) {
+        display: block;
+    }
+}
+
+.product-module__sort {
+    @media screen and (max-width: 640px) {
+        margin-bottom: 40px;
+    }
+}
+
+.product-module__filters {
+    @media screen and (max-width: 640px) {
+        flex-wrap: wrap;
+    }
+}
+
+.product-module__footer {
+    margin-top: 35px;
+}
+
+.product-module__pic {
+    flex-grow: 1;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+        max-width: 280px;
+        max-height: 280px;
+    }
+    @media screen and (max-width: 1280px) {
+        width: 35%;
+    }
+    @media screen and (max-width: 960px) {
+        width: 100%;
+    }
+}
+
+.product-module__info {
+    flex-grow: 1;
+    width: 50%;
+    @media screen and (max-width: 1280px) {
+        width: auto;
+        flex-grow: 1;
+    }
+    @media screen and (max-width: 960px) {
+        margin-top: 30px;
+    }
+}
+
+.product-module__price {
+    font-family: 'Gotham Pro', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 24px;
+    i {
+        display: inline-block;
+        padding: 3.5px;
+        font-style: normal;
+        background-color: #c5ffd3;
+    }
+    @media screen and (max-width: 640px) {
+        display: block;
+        margin-bottom: 15px;
+    }
+}
+
+.product-module__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+    @media screen and (max-width: 640px) {
+        display: block;
+    }
+}
+
+.product-module__sizes {
+    margin-top: 15px;
+}
+
+.product-module__body {
+    h2 {
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 24px;
+        margin: 15px 0px;
+    }
+    p {
+        margin-bottom: 20px;
+        color: #222;
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 24px;
+    }
+    li {
+        color: #222;
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 24px;
+        display: block;
+    }
+}
+

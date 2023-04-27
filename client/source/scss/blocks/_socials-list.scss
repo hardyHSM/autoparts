@@ -1,0 +1,34 @@
+.socials-list {
+    display: flex;
+    justify-content: center;
+}
+
+.socials-item__link {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: all .2s linear;
+    svg {
+        fill: #222222;
+        width: 15px;
+        height: 15px;
+    }
+    &:hover {
+        background-color: #222;
+        svg {
+            fill: #fff;
+        }
+    }
+}
+
+.socials-list__item {
+    margin-right: 25px;
+    &:last-child {
+        margin-right: 0;
+    }
+}

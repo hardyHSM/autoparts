@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Контакты - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "active_contacts"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-contacts">
+                    <h1 class="page-section__title">Контакты</h1>
+                    <div class="page-section__body page-section__body_tr section-contacts__body">
+                        <div class="section-contacts__tel-wrapper">
+                            <span class="section-contacts__tel-descr">Многоканальный бесплатный номер — </span>
+                            <a class="page-tel section-contacts__tel" href="tel:88005501980">8-800-550-19-80</a>
+                        </div>
+                        <h2 class="page-section__subtitle">Пункт выдачи</h2>
+                        <div class="section-contacts__map">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                    <div class="page-section__body">
+                        <div class="section-contacts__row">
+                            <div class="section-contacts__left">
+                                <h2 class="page-section__subtitle">Напишите нам</h2>
+                                <form action="#" id="feedback-form" class="section-contacts__form feedback-form">
+                                    <div class="feedback-form__wrapper field-block">
+                                        <div class="field-block__header">
+                                            <b class="field-block__title">Ваше имя</b>
+                                            <span class="field-block__req">(обязательно)</span>
+                                        </div>
+                                        <div class="page-input page-input_icon page-input_req">
+                                            <input name="name" type="text" placeholder="Имя" class="page-input__field" data-name/>
+                                        </div>
+                                    </div>
+                                    <div class="feedback-form__wrapper field-block">
+                                        <div class="field-block__header">
+                                            <b class="field-block__title">E-mail</b>
+                                            <span class="field-block__req">(обязательно)</span>
+                                        </div>
+                                        <div class="page-input page-input_icon page-input_req">
+                                            <input name="email" type="email" placeholder="Почта" class="page-input__field" data-email/>
+                                        </div>
+                                    </div>
+                                    <div class="feedback-form__wrapper field-block">
+                                        <div class="field-block__header">
+                                            <b class="field-block__title">Ваш вопрос или сообщение</b>
+                                            <span class="field-block__req">(обязательно)</span>
+                                        </div>
+                                        <div class="page-input page-input_icon page-input_req page-input_area">
+                                            <textarea name="text" class="feedback-form__area page-input__field" cols="50" data-text></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="feedback-form__button button button_accent" data-feedback-submit>Отправить сообщение</button>
+                                </form>
+                            </div>
+                            <div class="section-contacts__right requisites">
+                                <h2 class="page-section__subtitle">Реквизиты</h2>
+                                <ul class="requisites__list">
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">Юридическое название:</span>
+                                        <span class="requisites__value">ООО Автозапчасти 777</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">Юридический адрес:</span>
+                                        <span class="requisites__value">129338, г.Москва, ул.Вешних Вод, д.2/6</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">Фактический адрес:</span>
+                                        <span class="requisites__value">129281, г.Москва, Енисейская ул., д.39</span>
+                                    </li>
+                                </ul>
+                                <ul class="requisites__list">
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">ИНН:</span>
+                                        <span class="requisites__value">7716823657</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">КПП:</span>
+                                        <span class="requisites__value">771601001</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">ОГРН:</span>
+                                        <span class="requisites__value">1167746413988</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">Р/С:</span>
+                                        <span class="requisites__value">40702810000000053979</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">К/С:</span>
+                                        <span class="requisites__value">30101810400000000555</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">Банк:</span>
+                                        <span class="requisites__value">ПАО Промсвязьбанк</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">БИК:</span>
+                                        <span class="requisites__value">044525555</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">ОКВЭД:</span>
+                                        <span class="requisites__value">52.61.2</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">Телефон:</span>
+                                        <span class="requisites__value">8 499 390 49 93</span>
+                                    </li>
+                                    <li class="requisites__item">
+                                        <span class="requisites__key">Почта:</span>
+                                        <span class="requisites__value requisites__value_mail">
+                                            <a href="mailto:rustam.guseinov2002@mail.ru">rustam.guseinov2002@mail.ru</a>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/app/contacts.js" defer></script>
+</body>
+</html>

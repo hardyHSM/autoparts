@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Профиль - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "active_profile"})
+        <main class="page-main">
+            <div class="page-content">
+                <section class="page-section section-profile">
+                    <h1 class="page-section__title v-hidden">Профиль</h1>
+                    <div class="section-profile__row">
+                        <ul class="section-profile__tabs profile-tabs">
+                            <li class="profile-tabs__item">
+                                <button class="profile-tabs__button" data-type="tab" data-state="profile" data-link="/user/profile">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#sign-in"></use>
+                                    </svg>
+                                    <b class="profile-tabs__title">
+                                        Профиль
+                                    </b>
+                                </button>
+                            </li>
+                            <li class="profile-tabs__item">
+                                <button class="profile-tabs__button" data-type="tab" data-state="purchases" data-link="/user/purchases">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#cart"></use>
+                                    </svg>
+                                    <b class="profile-tabs__title">
+                                        Покупки
+                                    </b>
+                                </button>
+                            </li>
+                            <li class="profile-tabs__item">
+                                <button class="profile-tabs__button" data-type="tab" data-state="notifications" data-link="/user/notifications">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#bell"></use>
+                                    </svg>
+                                    <b class="profile-tabs__title">
+                                        Уведомления
+                                    </b>
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="section-profile__content profile">
+                            <h2 class="profile__title">Моя корзина</h2>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/app/profile.js" defer></script>
+</body>
+</html>

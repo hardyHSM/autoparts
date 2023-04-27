@@ -1,0 +1,58 @@
+.order-form__title {
+    font-family: 'Gotham Pro', sans-serif;
+    font-weight: 600;
+    color: #222;
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: 20px;
+}
+
+.order-form__delivery {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+    @media screen and (max-width: 640px) {
+        flex-wrap: wrap;
+    }
+}
+
+.order-form__payment {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+    align-items: stretch;
+    @media screen and (max-width: 640px) {
+        flex-wrap: wrap;
+    }
+}
+
+.order-form__radio-label {
+    width: 50%;
+    @media screen and (max-width: 640px) {
+        width: 100%;
+    }
+}
+
+.order-form__location {
+    margin-bottom: 20px;
+}
+
+.order-form__info {
+    margin-bottom: 15px;
+}
+
+.order-form__buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.order-form__descr {
+    font-size: 16px;
+    line-height: 20px;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.order-form__link {
+    color: #1C69D4
+}

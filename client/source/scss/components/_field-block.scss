@@ -1,0 +1,40 @@
+.field-block_disabled {
+    opacity: 0.5;
+}
+
+.field-block__header {
+    margin-bottom: 2.5px;
+}
+
+.field-block__req {
+    color: #777777;
+}
+
+.field-block__undertext {
+    padding-top: 6px;
+    color: #777777;
+}
+
+.field-block__button {
+    color: #1c69d4;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.field-block__undertext_error {
+    padding-top: 10px;
+    color: #E15353;
+}
+
+.field-block__undertext {
+    margin-top: 5px;
+    display: block;
+}
+
+.field-block__title {
+    font-size: 14px;
+    color: #222222;
+    padding-bottom: 5px;
+    display: inline-block;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Восстановление пароля - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page page_recovery">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "false"})
+        <main class="page-main page-main_recovery">
+            <div class="page-content">
+                <section class="page-section section-recovery">
+                    <h1 class="page-section__title">Восстановление пароля</h1>
+                    <form action="#" class="recovery-form form">
+                        <p class="recovery-form__descr">Чтобы восстановить доступ к своему аккаунту - укажите новый пароль.</p>
+                        <p class="recovery-form__descr">Пароль должен состоять минимум из 6-ти символов</p>
+                        <div class="recovery-form__row">
+                            <div class="recovery-form__item form__item field-block">
+                                <div class="field-block__header">
+                                    <b class="field-block__title">Пароль</b>
+                                    <span class="field-block_req">(обязательное)</span>
+                                </div>
+                                <div class="page-input page-input_icon page-input_pass page-input_req">
+                                    <input type="password" name="password" placeholder="●●●●●●" class="page-input__field" data-pass/>
+                                    <div class="page-input__numbers">
+                                        <span class="page-input__number-left">0</span>
+                                        <span class="page-input__number-right">/6</span>
+                                    </div>
+                                </div>
+                                <div class="field-block__undertext">Не менее 6 символов. Можно использовать латинские буквы, цифры и символы !@#$%^&*()_-+=?.,</div>
+                                <div class="field-block__undertext_error"></div>
+                            </div>
+                            <div class="recovery-form__item form__item field-block">
+                                <div class="field-block__header">
+                                    <b class="field-block__title">Пароль еще раз</b>
+                                    <span class="field-block__req">(обязательное)</span>
+                                </div>
+                                <div class="page-input page-input_icon page-input_pass page-input_req">
+                                    <input type="password" name="repassword" placeholder="●●●●●●" class="page-input__field" data-repass/>
+                                    <div class="page-input__numbers">
+                                        <span class="page-input__number-left">0</span>
+                                        <span class="page-input__number-right">/6</span>
+                                    </div>
+                                </div>
+                                <div class="field-block__undertext">Повторите пароль, введённый слева</div>
+                                <div class="field-block__undertext_error"></div>
+                            </div>
+                        </div>
+                        <button type="submit" class="recovery-form__submit button button_accent" data-recovery-submit>Сохранить пароль</button>
+                    </form>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+
+    <script src="js/app/recovery.js" defer></script>
+</body>
+</html>

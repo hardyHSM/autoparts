@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Регистрация - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "false"})
+        <main class="page-main page-main_section">
+            <div class="page-content">
+                <section class="page-section section-reg">
+                    <h1 class="page-section__title">Регистрация</h1>
+                    <div class="page-section__body">
+                        <form action="#" class="reg-form form" novalidate>
+                            <div class="form__row">
+                                <div class="form__item field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Имя</b>
+                                        <span class="field-block__req">(обязательное)</span>
+                                    </div>
+                                    <div class="page-input page-input_icon page-input_req">
+                                        <input type="text" name="firstName" placeholder="Имя" class="page-input__field" data-name/>
+                                    </div>
+                                    <div class="field-block__undertext_error"></div>
+                                </div>
+                                <div class="form__item field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Фамилия</b>
+                                        <span class="field-block__req"></span>
+                                    </div>
+                                    <div>
+                                        <div class="page-input">
+                                            <input type="text" name="lastName" placeholder="Фамилия" class="page-input__field" data-lastname/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form__item field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Телефон</b>
+                                        <span class="field-block__req">(обязательно)</span>
+                                    </div>
+                                    <div class="page-input page-input_icon page-input_req">
+                                        <input type="tel" name="tel" class="page-input__field" data-tel/>
+                                    </div>
+                                    <div class="field-block__undertext_error"></div>
+                                </div>
+                                <div class="form__item field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Email</b>
+                                        <span class="field-block__req">(обязательное)</span>
+                                    </div>
+                                    <div class="page-input page-input_icon page-input_req">
+                                        <input type="email" name="email" placeholder="Email" class="page-input__field" data-email/>
+                                    </div>
+                                    <div class="field-block__undertext_error"></div>
+                                </div>
+                                <div class="form__item field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Пароль</b>
+                                        <span class="field-block__req">(обязательное)</span>
+                                    </div>
+                                    <div class="page-input page-input_icon page-input_pass page-input_req">
+                                        <input type="password" name="password" readonly onfocus="this.removeAttribute('readonly');" placeholder="●●●●●●" value="" class="page-input__field" data-pass/>
+                                        <div class="page-input__numbers">
+                                            <span class="page-input__number-left">0</span>
+                                            <span class="page-input__number-right">/6</span>
+                                        </div>
+                                    </div>
+                                    <div class="field-block__undertext">Не менее 6 символов. Можно использовать латинские буквы, цифры и символы !@#$%^&*()_-+=?.,</div>
+                                    <div class="field-block__undertext_error"></div>
+                                </div>
+                                <div class="form__item field-block">
+                                    <div class="field-block__header">
+                                        <b class="field-block__title">Пароль еще раз</b>
+                                        <span class="field-block__req">(обязательное)</span>
+                                    </div>
+                                    <div class="page-input page-input_icon page-input_pass page-input_req">
+                                        <input type="password" name="repassword" readonly onfocus="this.removeAttribute('readonly');" placeholder="●●●●●●" class="page-input__field" data-repass/>
+                                        <div class="page-input__numbers">
+                                            <span class="page-input__number-left">0</span>
+                                            <span class="page-input__number-right">/6</span>
+                                        </div>
+                                    </div>
+                                    <div class="field-block__undertext">Повторите пароль, введённый слева</div>
+                                    <div class="field-block__undertext_error"></div>
+                                </div>
+                            </div>
+                            <button type="submit" class="reg-form__submit button button_accent" data-submit>Зарегистрировать аккаунт</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/app/reg.js" defer></script>
+</body>
+</html>

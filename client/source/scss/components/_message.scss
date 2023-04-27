@@ -1,0 +1,59 @@
+.message {
+    padding: 18px 22px;
+    font-family: "Gotham Pro", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+    border-width: 1px;
+    border-radius: 4px;
+    border-style: solid;
+    position: relative;
+
+    a {
+        color: #1C69D4;
+    }
+}
+
+.message_error {
+    background: #FFF7F7;
+    border-color: #FF4400;
+    color: #FF4400;
+}
+
+.message_accent {
+    border: 1px solid #1C69D4;
+    color: #1C69D4;
+    svg {
+        fill: #1C69D4;
+    }
+    a {
+        color: #005F17;
+    }
+}
+
+.message_sucess {
+    border: 1px solid #3CA255;
+    color: #3CA255;
+    svg {
+        fill: #3CA255;
+    }
+    a {
+        color: #1C69D4;
+    }
+}
+
+.message_icon {
+    padding-left: 50px;
+    svg {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        @media screen and (max-width: 640px) {
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
