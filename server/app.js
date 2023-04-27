@@ -202,7 +202,7 @@ class Application {
             if (err) {
                 console.error(err)
             }
-            console.log(`Server is running on http://localhost:${PORT}`)
+            console.log(`Server is running on ${process.env.API_URL}:${PORT}`)
         })
 
     }

@@ -48,11 +48,13 @@ class UserService {
             createdTime: new Date()
         })
 
-        user.notifications.push({
+        candidateUser.notifications.push({
             messageType: 'info',
-            message: `На вашу почту ${user.email} была отправлена ссылка с активацией!`,
+            message: `На вашу почту ${candidateUser.email} была отправлена ссылка с активацией!`,
             createdTime: new Date()
         })
+
+
 
         mailService.sendActivationMail(candidateUser, `${process.env.API_URL}/activate/${activationData.link}`)
 
