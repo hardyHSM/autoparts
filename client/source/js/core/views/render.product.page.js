@@ -3,7 +3,7 @@ export default function renderProductPage({res, formattedAttributes, sizes}) {
     return `
             <div class="product-module__header">
                 <div class="product-module__pic">
-                    <img src="/${res.image || 'client/assets/no_photo.jpg'}" alt="${res.title}">
+                    <img src="/${res.image || 'img/assets/no_photo.jpg'}" alt="${res.title}">
                 </div>
                 <div class="product-module__info">
                     <div class="product-module__row">

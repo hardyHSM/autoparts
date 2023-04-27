@@ -38,6 +38,8 @@ const sass = gulpSass(nodeSass)
 // DATA
 let isProduction = process.env.NODE_ENV === 'production'
 
+console.log(isProduction)
+
 const config = {
     source: './source',
     public: './build',
@@ -129,7 +131,7 @@ export const js = () => {
                 cart: [`${config.source}${config.js}/cart.page.js`],
                 order: [`${config.source}${config.js}/order.page.js`],
                 profile: [`${config.source}${config.js}/profile.page.js`],
-                search: [`${config.source}${config.js}/search.page.js`],
+                search: [`${config.source}${config.js}/search.page.js`]
             },
             output: {
                 filename: '[name].js'
@@ -210,26 +212,22 @@ export const images = () => {
         `${config.source}${config.assets}/**/*.*`,
         `!${config.source}/${config.sprite_svg}/**/*.svg`
     ])
-    .pipe(buffer())
-    .pipe(
-        gulpif(
-            isProduction,
-            imagemin([
-                imagemin.gifsicle({ interlaced: true }),
-                imagemin.mozjpeg({
-                    quality: 75,
-                    progressive: true
-                }),
-                imagemin.optipng({ optimizationLevel: 5 }),
-                imagemin.svgo({
-                    plugins: [{ removeViewBox: true }, { cleanupIDs: false }]
-                })
-            ])
-        )
-    )
+    // .pipe(buffer())
+    .pipe(gulpif(isProduction, imagemin([
+        imagemin.gifsicle({ interlaced: true }),
+        imagemin.mozjpeg({
+            quality: 75,
+            progressive: true
+        }),
+        imagemin.optipng({ optimizationLevel: 7 }),
+        imagemin.svgo({
+            plugins: [{ removeViewBox: true }, { cleanupIDs: false }]
+        })
+    ])))
     .pipe(gulp.dest(`${config.public}${config.assets}`))
     .pipe(browserSync.reload({ stream: true }))
 }
+
 
 export const server = () => {
     browserSync.init({

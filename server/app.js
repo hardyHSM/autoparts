@@ -47,7 +47,6 @@ class Application {
     }
 
     registerStatic() {
-        this.app.use('/client/assets/', express.static(path.join(__client, 'assets')))
         this.app.use('*/fonts/', express.static(path.join(__client, 'build', 'fonts')))
         this.app.use('*/img/', express.static(path.join(__client, 'build', 'img')))
         this.app.use('*/js/', express.static(path.join(__client, 'build', 'js')))
@@ -202,7 +201,7 @@ class Application {
             if (err) {
                 console.log(err)
             }
-            console.log(`Server is running on ${process.env.API_URL}:${PORT}`)
+            console.log(`Server is running on ${process.env.API_URL}`)
         })
 
     }

@@ -10,7 +10,7 @@ export default function renderProducts(products, productClass = '') {
 
         return `<article class='page-product ${productClass}'>
                     <div class='page-product__header'>
-                         <img class='page-product__img' data-src='/${product.image || 'client/assets/no_photo.jpg'}' alt=''>
+                         <img class='page-product__img' data-src='/${product.image || 'img/assets/no_photo.jpg'}' alt=''>
                     </div>
                     <div class='page-product__content'>
                         <b class='page-product__title'>${product.title}</b>

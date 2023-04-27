@@ -11,7 +11,7 @@ export default function renderCartTable(output, data) {
                                 <use xlink:href="img/svg/sprite.svg#photo"></use>
                             </svg>
                             <div class="tooltip-picture__body">
-                                <img src="/${product.image || 'client/assets/no_photo.jpg'}"  alt="${product.title}">
+                                <img src="/${product.image || 'img/assets/no_photo.jpg'}"  alt="${product.title}">
                             </div>
                         </div>
                     </div>

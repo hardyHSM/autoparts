@@ -9,8 +9,8 @@ class UserController {
 
             res.cookie('refreshToken', userData.token, {
                 maxAge: 2592000000,
-                // httpOnly: true,
-                // secure: true,
+                httpOnly: true,
+                secure: true,
                 sameSite: 'strict'
             })
             res.status(200).json({
@@ -39,8 +39,8 @@ class UserController {
             const userData = await userService.login(email, password)
             res.cookie('refreshToken', userData.token, {
                 maxAge: 2592000000,
-                // httpOnly: true,
-                // secure: true,
+                httpOnly: true,
+                secure: true,
                 SameSite: 'strict'
             })
             return res.json(userData)

@@ -8,7 +8,7 @@ export default function renderCartNotification({ product, count, totalCartPrice 
                 </button>
                 <div class="cart-notification__top">
                     <div class="cart-notification__left">
-                        <img src="/${product.image || 'client/assets/no_photo.jpg'}" alt="${product.title}">
+                        <img src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">
                     </div>
                     <div class="cart-notification__right">
                         <div class="cart-notification__info">Добавлено в корзину</div>

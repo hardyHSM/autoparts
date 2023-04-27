@@ -152,7 +152,7 @@ export function renderOrderFull(data) {
                         acc += `
                                 <div class="order-products__item">
                                     <div class="order-products__image">
-                                        <img src="/${product.image || 'client/assets/no_photo.jpg'}" alt="${product.title}">
+                                        <img src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">
                                     </div>
                                     <div class="order-products__info">
                                         <strong class="order-products__maker">
