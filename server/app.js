@@ -200,7 +200,7 @@ class Application {
         await this.startDataBase()
         this.app.listen(PORT, '0.0.0.0', (err) => {
             if (err) {
-                console.error(err)
+                console.log(err)
             }
             console.log(`Server is running on ${process.env.API_URL}:${PORT}`)
         })
