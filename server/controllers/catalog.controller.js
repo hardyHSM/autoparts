@@ -8,8 +8,10 @@ class CatalogController {
 
     async getList(req, res, next) {
         try {
-            const categoriesArr = await CategoriesModel.find()
-            const subCategoriesArr = await SubCategoriesModel.find().populate('category')
+            const [categoriesArr, subCategoriesArr] = await Promise.all([
+                CategoriesModel.find(),
+                SubCategoriesModel.find().populate('category')
+            ])
 
             res.json({
                 categories: categoriesArr,
@@ -20,7 +22,28 @@ class CatalogController {
         }
     }
 
-    async getProducts (req, res, next) {
+    async getFilters(req, res, next) {
+        try {
+            const { category, subcategory } = req.params
+            const { categoryData, subCategoryData } = await productService.getProductClasses(category, subcategory)
+            const productClass = {
+                'category': categoryData._id,
+                ...(subCategoryData && {
+                    'subcategory': subCategoryData._id
+                })
+            }
+
+            const products = await ProductsModel.find(productClass, { maker: 1, attributes: 1 }).lean()
+            const filtersData = await filterService.parseProductsToFilters(products)
+            res.json({
+                filtersData
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async getProducts(req, res, next) {
         try {
             const { category, subcategory } = req.params
             let { sort = 'popularity', page = 1, ...restQueries } = req.query
@@ -30,12 +53,11 @@ class CatalogController {
                 [sort]: 1
             }
 
-            const { categoryData, subCategoryData } =  await productService.getProductClasses(category, subcategory)
-
+            const { categoryData, subCategoryData } = await productService.getProductClasses(category, subcategory)
             const productClass = {
                 'category': categoryData._id,
                 ...(subCategoryData && {
-                    'subcategory' :subCategoryData._id
+                    'subcategory': subCategoryData._id
                 })
             }
 
@@ -43,21 +65,22 @@ class CatalogController {
                 ...productClass,
                 ...filterData
             }
-
             const catalogBreadcrumbs = productService.generateBreadcrumbs([categoryData, subCategoryData])
-            const countDocuments = await productService.getCounts(productQuery)
-            const products = await productService.getProductsToPage(productQuery, sortData, (page - 1) * 12, 12)
-            const allProductsWithSameClass = await ProductsModel.find(productClass)
-            const paramsData = await filterService.parseProductsToFilters(allProductsWithSameClass)
+
+
+            const [countDocuments, productsWithParams] = await Promise.all(
+                [
+                    productService.getCounts(productQuery),
+                    productService.getProductsToPage(productQuery, sortData, (page - 1) * 12, 12)
+                ]
+            )
 
             res.json({
                 path: catalogBreadcrumbs,
-                products,
+                products: productsWithParams,
                 count: countDocuments,
-                currentPage: page,
-                filtersData: paramsData
+                currentPage: page
             })
-
         } catch (e) {
             next(e)
         }

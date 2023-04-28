@@ -3,42 +3,36 @@ import renderCartNotification from '../views/render.notification.cart.js'
 import NumberSelectComponent from '../components/number.select.component.js'
 import { debounce, getTotalPrice, getTotalPriceWithPromo } from '../utils/utils.js'
 import ModalComponent from '../components/modal.component.js'
+import ModuleCore from './module.core.js'
 
 const PROMO = 330
 
-class CartModule {
+class CartModule extends ModuleCore {
     constructor(config) {
-        this.preloader = config.preloader
-        this.router = config.router
-        this.apiService = config.apiService
-        this.auth = config.auth
-        this.userNav = config.userNav
-        this.promoIsUsed = false
-        this.header = document.querySelector('.page-header')
-        this.cartNode = document.querySelector('[data-cart-output]')
-        this.preloaderCart = document.querySelector('[data-cart-preloader]')
-        this.totalPrice = document.querySelector('.section-cart__total-price')
-        this.priceWithDiscount = document.querySelector('.arrange__price')
+        super(config)
+        this.$cartNode = document.querySelector('[data-cart-output]')
+        this.$preloaderCart = document.querySelector('[data-cart-preloader]')
+        this.$totalPrice = document.querySelector('[data-total-price]')
+        this.$priceWithDiscount = document.querySelector('[data-total-discount]')
         this.handlerCloseNotification = this.handlerCloseNotification.bind(this)
         this.renderCartNotification = renderCartNotification.bind(this)
         this.selectedToOrder = []
+        this.promoIsUsed = false
     }
 
     async init() {
         if (!this.auth.isAuth) {
             await this.initStorageCart()
-            this.registerHandlers()
-            this.preloader.hide()
         } else {
             await this.initServerCart()
-            this.registerHandlers()
-            this.preloader.hide()
         }
+        this.registerHandlers()
+        this.preloader.hide()
     }
 
     registerHandlers() {
-        const checkboxes = document.querySelectorAll('[data-cart-checkbox]')
-        checkboxes.forEach(item => {
+        const $checkboxes = document.querySelectorAll('[data-cart-checkbox]')
+        $checkboxes.forEach(item => {
             item.addEventListener('change', (e) => {
                 this.parseCheckbox(item)
             })
@@ -51,25 +45,26 @@ class CartModule {
             this.renderDiscount()
         })
         document.querySelector('[data-cart-all]').addEventListener('click', (e) => {
-            let toggleAll = e.target.dataset.enabled;
-            e.target.dataset.enabled = toggleAll === 'false' ? 'true': 'false'
-            checkboxes.forEach(item => {
-                item.checked = toggleAll !== 'false' ? false : true
+            let toggleAll = e.target.dataset.enabled
+            const bool = toggleAll === 'true' ? true : false
+            $checkboxes.forEach(item => {
+                e.target.dataset.enabled = !bool
+                item.checked = !bool
                 this.parseCheckbox(item)
             })
         })
     }
 
     parseCheckbox(item) {
-        const product = item.closest('[data-product]')
+        const $product = item.closest('[data-product]')
         if (item.checked) {
             this.selectedToOrder.push({
-                id: product.dataset.productId,
-                price: +(product.querySelector('[data-price]').textContent.match(/\d+/g).join('')),
-                count: +product.querySelector('[data-numberselect] [data-value]').textContent
+                id: $product.dataset.productId,
+                price: +($product.querySelector('[data-price]').textContent.match(/\d+/g).join('')),
+                count: +$product.querySelector('[data-numberselect] [data-value]').textContent
             })
         } else {
-            this.selectedToOrder = this.selectedToOrder.filter(p => p.id !== product.dataset.productId)
+            this.selectedToOrder = this.selectedToOrder.filter(p => p.id !== $product.dataset.productId)
         }
         this.renderTotalTitle()
         this.renderDiscount()
@@ -90,13 +85,12 @@ class CartModule {
     orderingCheckout() {
         const order = {
             products: this.selectedToOrder,
-            promo: this.promoIsUsed,
+            promo: this.promoIsUsed
 
         }
         sessionStorage.setItem('order', JSON.stringify(order))
         this.router.redirectOrder()
     }
-
 
     renderDiscount() {
         if (this.isUsedPromo()) {
@@ -126,13 +120,13 @@ class CartModule {
 
     renderTotalTitle() {
         const summ = getTotalPrice(this.selectedToOrder)
-        this.totalPrice.innerHTML = `${summ} ₽`
+        this.$totalPrice.innerHTML = `${summ} ₽`
     }
 
     renderTotalDiscountTitle() {
         let promo = this.isUsedPromo() ? PROMO : 0
         let summ = getTotalPriceWithPromo(this.selectedToOrder, promo)
-        this.priceWithDiscount.innerHTML = `${summ} ₽`
+        this.$priceWithDiscount.innerHTML = `${summ} ₽`
     }
 
     async initStorageCart() {
@@ -170,16 +164,16 @@ class CartModule {
     }
 
     renderCart(products) {
-        renderCartTable(this.cartNode, products)
+        renderCartTable(this.$cartNode, products)
         document.querySelectorAll('[data-numberselect]').forEach(select => {
             const changeCountDebounce = debounce(this.changeProductCount.bind(this), 800)
             new NumberSelectComponent({
                 node: select,
                 onChange: (node, value) => {
-                    const productNode = node.closest('[data-product]')
-                    const productId = productNode.dataset.productId
+                    const $productNode = node.closest('[data-product]')
+                    const productId = $productNode.dataset.productId
                     const productPrice = this.cart.products.find(item => item.product._id === productId).product.price
-                    productNode.querySelector('[data-summa]').innerHTML = `${+productPrice * value} ₽`
+                    $productNode.querySelector('[data-summa]').innerHTML = `${+productPrice * value} ₽`
                     this.productCountIsChanged({
                         id: productId,
                         value
@@ -189,10 +183,10 @@ class CartModule {
             }).init()
         })
         document.querySelectorAll('[data-delete]').forEach(button => {
-            button.addEventListener('click', (e) => {
-                this.deleteProduct(button.closest('[data-product]').dataset.productId)
+            button.addEventListener('click', async (e) => {
+                await this.deleteProduct(button.closest('[data-product]').dataset.productId)
                 button.closest('[data-product]').remove()
-                if (this.cartNode.childElementCount < 2) {
+                if (this.$cartNode.childElementCount < 2) {
                     this.renderEmptyCart()
                 }
             })
@@ -238,16 +232,16 @@ class CartModule {
         } else {
             this.showPreloader()
             await this.apiService.useRequest(this.router.cartLink, {
-                    method: 'PUT',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        id,
-                        value
-                    })
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id,
+                    value
                 })
+            })
             this.hidePreloader()
         }
         this.userNav.changeState()
@@ -259,7 +253,7 @@ class CartModule {
             <tr class="cart-table__row product-table">
                 <td class="cart-table__col cart-table__col_big">Корзина пустая</td>
             </tr>`
-        this.cartNode.insertAdjacentHTML('beforeend', html)
+        this.$cartNode.insertAdjacentHTML('beforeend', html)
     }
 
     addProductStorage(id, product) {
@@ -330,11 +324,11 @@ class CartModule {
     }
 
     showPreloader() {
-        this.preloaderCart.classList.add('cart__preloader_active')
+        this.$preloaderCart.classList.add('cart__preloader_active')
     }
 
     hidePreloader() {
-        this.preloaderCart.classList.remove('cart__preloader_active')
+        this.$preloaderCart.classList.remove('cart__preloader_active')
     }
 }
 

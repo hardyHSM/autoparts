@@ -7,8 +7,8 @@ class FilterService {
                 maker: [],
                 attributes: {}
             }
-
-            const settings = await FiltersModel.find()
+            const start = Date.now()
+            const settings = await FiltersModel.find().lean()
 
             for ( const product of products ) {
                 if (!params.maker.includes(product.maker)) {
@@ -35,7 +35,6 @@ class FilterService {
                     }
                 }
             }
-
             return params
         } catch (e) {
             console.log(e)

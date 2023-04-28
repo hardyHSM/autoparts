@@ -1,18 +1,16 @@
 import profileConfig from '../configs/profile.config.js'
+import ModuleCore from './module.core.js'
 
-class ProfileModule {
+class ProfileModule extends ModuleCore{
     constructor(config) {
-        this.auth = config.auth
-        this.router = config.router
-        this.preloader = config.preloader
-        this.apiService = config.apiService
-        this.profileContentNode = document.querySelector('.profile')
-        this.node = document.querySelector(config.query)
-        window.addEventListener('popstate', this.init.bind(this))
+        super(config)
+        this.$profileContentNode = document.querySelector('.profile')
+        this.$node = document.querySelector(config.query)
         this.data = this.auth
         this.isLoading = false
     }
     init() {
+        super.init()
         this.getInitialState()
         this.registerHandlers()
     }
@@ -45,7 +43,7 @@ class ProfileModule {
     }
 
     registerHandlers() {
-        this.node.addEventListener('click', ({ target }) => {
+        this.$node.addEventListener('click', ({ target }) => {
             if(target.closest('[data-back]')) {
                 this.router.init()
                 this.router.removeParam('id')
@@ -53,19 +51,19 @@ class ProfileModule {
                 this.getInitialState()
                 return
             }
-            const button = target.closest('[data-link]')
-            if(this.isLoading || !button) return
+            const $button = target.closest('[data-link]')
+            if(this.isLoading || !$button) return
 
-            const state = button.dataset.state
-            const link = button.dataset.link
-            if (button.dataset.type === 'tab') {
-                if(button.classList.contains('profile-tabs__button_active')) return
+            const state = $button.dataset.state
+            const link = $button.dataset.link
+            if ($button.dataset.type === 'tab') {
+                if($button.classList.contains('profile-tabs__button_active')) return
                 this.renderProfileState(state)
                 const firstMenuItemState = document.querySelector('.profile-menu__button')?.dataset?.state
                 this.renderMenuState(firstMenuItemState)
             }
-            if(button.dataset.type === 'menu') {
-                if(button.classList.contains('profile-menu__button_active')) return
+            if($button.dataset.type === 'menu') {
+                if($button.classList.contains('profile-menu__button_active')) return
                 this.renderMenuState(state)
             }
             this.router.redirectUrlState(link)
@@ -84,8 +82,8 @@ class ProfileModule {
     renderProfileState(state) {
         if (!profileConfig.tabs[state]) return
         this.registerActiveTab(state)
-        this.profileContentNode.innerHTML = profileConfig.tabs[state].render()
-        this.profileDataNode = this.node.querySelector('.profile__data')
+        this.$profileContentNode.innerHTML = profileConfig.tabs[state].render()
+        this.profileDataNode = this.$node.querySelector('.profile__data')
     }
     async renderMenuState(state, isQuery = false) {
         if (!profileConfig.menu[state]) return

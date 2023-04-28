@@ -16,16 +16,16 @@ export default class ElementTransporter {
     }
 
     toChange(config) {
-        const element = document.querySelector(config.what)
-        const where_element = document.querySelector(config.where)
+        const $element = document.querySelector(config.what)
+        const $where_element = document.querySelector(config.where)
         config.breakpoints.forEach(({key, value }) => {
             if (key === 'less') {
                 if (window.innerWidth <= value) {
-                    where_element.insertAdjacentElement(config.pos, element)
+                    $where_element.insertAdjacentElement(config.pos, $element)
                 }
             } else {
                 if (window.innerWidth > value) {
-                    where_element.insertAdjacentElement(config.pos, element)
+                    $where_element.insertAdjacentElement(config.pos, $element)
                 }
             }
         })

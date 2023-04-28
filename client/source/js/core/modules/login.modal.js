@@ -18,13 +18,13 @@ class ModalLogin extends ModalComponent {
 
     create() {
         super.create()
-        this.container = document.querySelector(this.containerSelector)
+        this.$container = document.querySelector(this.containerSelector)
         this.changeToEmail()
         this.registerHandlers()
     }
 
     registerHandlers() {
-        this.modal.addEventListener('click', (e) => {
+        this.$modal.addEventListener('click', (e) => {
             if (e.target.tagName.toLowerCase() === 'a') return
             e.preventDefault()
             if (e.target.hasAttribute('data-login-submit')) this.clickSubmit()
@@ -47,46 +47,46 @@ class ModalLogin extends ModalComponent {
             if (value === state) this.currentState = key
         }
 
-        this.container.innerHTML = state
+        this.$container.innerHTML = state
         document.querySelector('.page-popup__button').focus()
     }
 
     changeToEmail() {
         this.renderState(this.states.loginEmail)
         this.submit = new ButtonComponent('[data-login-submit]')
-        this.email_input = this.modal.querySelector('[data-email]')
-        this.errors = this.modal.querySelector('[data-errors]')
-        this.pass_input = this.modal.querySelector('[data-pass]')
+        this.$email_input = this.$modal.querySelector('[data-email]')
+        this.$errors = this.$modal.querySelector('[data-errors]')
+        this.$pass_input = this.$modal.querySelector('[data-pass]')
     }
 
     forgetPassword() {
         this.renderState(this.states.forgetPass)
         this.submit = new ButtonComponent('[data-login-submit]')
-        this.email_input = this.modal.querySelector('[data-email]')
-        this.errors = this.modal.querySelector('[data-errors]')
+        this.$email_input = this.$modal.querySelector('[data-email]')
+        this.$errors = this.$modal.querySelector('[data-errors]')
     }
 
     stateMailWasSent() {
         this.renderState(this.states.sendRecoveryMail)
-        document.querySelector('[data-info] b').innerHTML = this.email_input.value
+        document.querySelector('[data-info] b').innerHTML = this.$email_input.value
     }
 
     async validation() {
         this.validateBool = true
         this.clearErrors()
-        if (!ValidationComponent.isValidEmail(this.email_input.value)) {
+        if (!ValidationComponent.isValidEmail(this.$email_input.value)) {
             this.renderError('Некорректный ввод почты. Повторите попытку.')
             this.validateBool = false
         }
-        if (!ValidationComponent.isValidPass(this.pass_input.value)) {
+        if (!ValidationComponent.isValidPass(this.$pass_input.value)) {
             this.validateBool = false
             this.renderError('Некорректный ввод пароля. Пароль должен иметь как минимум 6 символов.')
         }
 
         if (this.validateBool) {
             const user = {
-                email: this.email_input.value,
-                password: this.pass_input.value
+                email: this.$email_input.value,
+                password: this.$pass_input.value
             }
             this.submit.setPreloaderState('white')
             const res = await fetch(this.router.loginLink, {
@@ -108,11 +108,11 @@ class ModalLogin extends ModalComponent {
     }
 
     clearErrors() {
-        this.errors.innerHTML = ''
+        this.$errors.innerHTML = ''
     }
 
     renderError(text) {
-        this.errors.innerHTML += `
+        this.$errors.innerHTML += `
             <div class="page-popup__error message message_error">
                 ${text}
             </div>`
@@ -120,11 +120,11 @@ class ModalLogin extends ModalComponent {
 
     async validationRecovery() {
         this.clearErrors()
-        if (!ValidationComponent.isValidEmail(this.email_input.value)) {
+        if (!ValidationComponent.isValidEmail(this.$email_input.value)) {
             return this.renderError('Некорректный ввод почты. Повторите попытку.')
         }
         this.submit.setPreloaderState('white')
-        const email = this.email_input.value
+        const email = this.$email_input.value
         let status = null
         const res = await fetch(this.router.passRecoveryLink, {
             method: 'POST',

@@ -5,32 +5,32 @@ import loginModal from '../modules/login.modal.js'
 
 export class InputComponent {
     constructor({ selector, onChange, parent }) {
-        this.field = document.querySelector(selector)
+        this.$field = document.querySelector(selector)
+        this.$parent = this.$field.closest(parent) || this.$field.parentNode
         this.isChanged = false
         this.onChange = onChange
-        this.parent = this.field.closest(parent) || this.field.parentNode
-        this.initialValue = this.field.value
+        this.initialValue = this.$field.value
     }
 
     init() {
-        this.field.addEventListener('focus', this.setFocus)
-        this.field.addEventListener('blur', this.removeFocus)
+        this.$field.addEventListener('focus', this.setFocus)
+        this.$field.addEventListener('blur', this.removeFocus)
     }
 
     clear() {
-        this.field.value = ''
+        this.$field.value = ''
     }
 
     setFocus() {
-        this.parent.classList.add('page-input_focus')
+        this.$parent.classList.add('page-input_focus')
     }
 
     removeFocus() {
-        this.parent.classList.remove('page-input_focus')
+        this.$parent.classList.remove('page-input_focus')
     }
 
     setValue(value) {
-        this.field.value = value
+        this.$field.value = value
         this.checkValidation()
     }
 }
@@ -43,37 +43,37 @@ export class InputValidation extends InputComponent {
         this.classes = CONFIG_INPUTS
         this.validation = config.validationFunc
         this.isValid = false
-        this.fieldBlock = this.field.closest('.field-block')
+        this.$fieldBlock = this.$field.closest('.field-block')
         this.init()
     }
 
     init() {
-        if (this.field.value.length && this.validation) this.checkValidation()
-        this.field.addEventListener('focus', () => {
+        if (this.$field.value.length && this.validation) this.checkValidation()
+        this.$field.addEventListener('focus', () => {
             this.removeError()
             this.setFocus()
         })
-        this.field.addEventListener('blur', () => {
+        this.$field.addEventListener('blur', () => {
             this.removeFocus()
         })
-        this.field.addEventListener('input', () => {
+        this.$field.addEventListener('input', () => {
             if (this.validation) this.checkValidation()
-            if (this.initialValue === this.field.value) {
+            if (this.initialValue === this.$field.value) {
                 this.isChanged = false
             } else {
                 this.isChanged = true
             }
-            if (this.onChange) this.onChange(this.initialValue, this.field.value)
+            if (this.onChange) this.onChange(this.initialValue, this.$field.value)
         })
     }
 
 
     get value() {
-        return this.field.value
+        return this.$field.value
     }
 
     checkValidation() {
-        const isVal = this.validation(this.field.value)
+        const isVal = this.validation(this.$field.value)
         if (isVal) {
             this.removeError()
             this.setCorrect()
@@ -83,52 +83,52 @@ export class InputValidation extends InputComponent {
     }
 
     showError(text) {
-        this.fieldBlock.querySelector('.field-block__undertext_error').innerHTML = text
+        this.$fieldBlock.querySelector('.field-block__undertext_error').innerHTML = text
     }
 
     hideError() {
-        this.fieldBlock.querySelector('.field-block__undertext_error').innerHTML = ''
+        this.$fieldBlock.querySelector('.field-block__undertext_error').innerHTML = ''
     }
 
     showText(text) {
-        this.fieldBlock.querySelector('.field-block__undertext').innerHTML = text
+        this.$fieldBlock.querySelector('.field-block__undertext').innerHTML = text
     }
 
     setCorrect() {
         this.removeError()
         this.isValid = true
-        this.parent.classList.add(this.classes.classCorrect)
+        this.$parent.classList.add(this.classes.classCorrect)
     }
 
     removeCorrect() {
         this.isValid = false
-        this.parent.classList.remove(this.classes.classCorrect)
+        this.$parent.classList.remove(this.classes.classCorrect)
     }
 
     setFocus() {
-        this.parent.classList.add(this.classes.classActive)
+        this.$parent.classList.add(this.classes.classActive)
     }
 
     removeFocus() {
-        this.parent.classList.remove(this.classes.classActive)
+        this.$parent.classList.remove(this.classes.classActive)
     }
 
     setError() {
         this.removeCorrect()
-        this.parent.classList.add(this.classes.classError)
+        this.$parent.classList.add(this.classes.classError)
         this.removeReq()
     }
 
     removeError() {
-        this.parent.classList.remove(this.classes.classError)
+        this.$parent.classList.remove(this.classes.classError)
     }
 
     removeReq() {
-        this.parent.classList.remove(this.classes.classReq)
+        this.$parent.classList.remove(this.classes.classReq)
     }
 
     setReq() {
-        this.parent.classList.add(this.classes.classReq)
+        this.$parent.classList.add(this.classes.classReq)
         this.removeError()
     }
 }
@@ -139,23 +139,23 @@ export class InputPass extends InputValidation {
         props.number = '.page-input__number-left'
 
         super(props)
-        this.countField = this.parent.querySelector(props.number)
+        this.$countField = this.$parent.querySelector(props.number)
         this.callback = props.callBack || null
     }
 
     init() {
         super.init()
-        this.field.addEventListener('input', () => {
-            if (this.field.value.length > 0) {
+        this.$field.addEventListener('input', () => {
+            if (this.$field.value.length > 0) {
                 this.setError()
             } else {
                 this.setReq()
             }
-            if (ValidationComponent.isValidPass(this.field.value)) {
+            if (ValidationComponent.isValidPass(this.$field.value)) {
                 this.removeError()
                 if (!this.callback) this.setCorrect()
             }
-            this.countField.innerHTML = this.field.value.length
+            this.$countField.innerHTML = this.$field.value.length
             if (this.callback) this.callback()
         })
     }
@@ -170,7 +170,7 @@ export class InputTel extends InputValidation {
     }
 
     init() {
-        IMask(this.field, {
+        IMask(this.$field, {
             mask: '+{7} (000) 000-00-00',
             lazy: false,
             placeholderChar: '_'

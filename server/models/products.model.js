@@ -3,14 +3,17 @@ import { Schema, model } from 'mongoose'
 const productsSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     maker: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     attributes: {
-        type: Object
+        type: Object,
+        index: true
     },
     image: {
         type: String,
@@ -18,11 +21,13 @@ const productsSchema = new Schema({
     },
     category: {
         type: Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Category',
+        index: true
     },
     subcategory: {
         type: Schema.Types.ObjectId,
-        ref: 'Subcategory'
+        ref: 'Subcategory',
+        index: true
     },
     info: {
         type: Schema.Types.ObjectId,
@@ -35,10 +40,10 @@ const productsSchema = new Schema({
     popularity: {
         type: Number,
         required: false,
+        index: true,
         default: 0
     }
 })
-
 
 const ProductsModel = model('Product', productsSchema)
 

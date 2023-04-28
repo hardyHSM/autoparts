@@ -7,19 +7,27 @@ import ApiError from './error.service.js'
 
 class ProductService {
     async getCounts(query) {
-        return await ProductsModel.find(query).count().exec()
+        return await ProductsModel.find(query).countDocuments().lean()
     }
 
     async getProductsToPage(query, sortData, page, limit) {
-        return await ProductsModel.find(query).sort(sortData).skip(page).limit(limit).exec()
+        return await ProductsModel.find(query).lean().sort(sortData).skip(page).limit(limit)
     }
 
     async getProductClasses(cat, subcat) {
-        const categoryData = await CategoriesModel.findOne({ link: cat }).exec()
-        const subCategoryData = await SubCategoriesModel.findOne({ link: subcat }).exec()
+
+        const [categoryData, subCategoryData] = await Promise.all([
+            CategoriesModel.findOne({ link: cat }).lean(),
+            SubCategoriesModel.findOne({ link: subcat }).lean()
+        ])
+
 
         if (!categoryData) {
             throw ApiError.BadRequest('Категории не существует!')
+        }
+
+        if (subcat?.length && !subCategoryData) {
+            throw ApiError.BadRequest('Подкатегории не существует!')
         }
 
         return {
@@ -29,7 +37,7 @@ class ProductService {
     }
 
     async getProduct(id) {
-        const product = await ProductsModel.findById(id).populate(['info', 'category', 'subcategory']).exec()
+        const product = await ProductsModel.findById(id).populate(['info', 'category', 'subcategory']).lean()
 
         if (!product) {
             throw ApiError.BadRequest('Продукция не найдена!')
@@ -38,7 +46,7 @@ class ProductService {
     }
 
     async getOtherPackingProducts(currentProduct, info) {
-        const products = await ProductsModel.find({ info })
+        const products = await ProductsModel.find({ info }).lean()
         return products.map(product => {
             return {
                 '_id': product._id,
@@ -65,47 +73,60 @@ class ProductService {
         return productsToLook || []
     }
 
-    async getProductsBySearch({ text, sortData, count, page}) {
-        const products = {
-            list: await ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'gi') } }).sort(sortData).limit(count).skip((page - 1) * 12),
-            count: await ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'gi') } }).count().exec()
-        }
-        const makers = await ProductsModel.aggregate([
-            {
-                $match: { maker: { $regex: new RegExp(`${text}`, 'gi') } }
-            },
-            {
-                $group: {
-                    '_id': '$maker',
-                    count: { $sum: 1 }
+    async getProductsBySearch({ text, sortData, count, page }) {
+        const [list, productCount, makers, categories, subCategories, attributes] = await Promise.all([
+            ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'gi') } }).lean().sort(sortData).limit(count).skip((page - 1) * 12),
+            ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'gi') } }).lean().count(),
+            ProductsModel.aggregate([
+                {
+                    $match: { maker: { $regex: new RegExp(`${text}`, 'gi') } }
+                },
+                {
+                    $group: {
+                        '_id': '$maker',
+                        count: { $sum: 1 }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        count: 1,
+                        name: '$_id'
+                    }
                 }
-            },
-            {
-                $project: {
-                    _id: 0,
-                    count: 1,
-                    name: '$_id'
-                }
-            }
+            ]),
+            CategoriesModel.find({ name: { $regex: new RegExp(`${text}`, 'gi') } }),
+            SubCategoriesModel.find({ name: { $regex: new RegExp(`${text}`, 'gi') } }).populate('category'),
+            this.parseAttributesSearch(text)
         ])
 
-        let categories = await CategoriesModel.find({ name: { $regex: new RegExp(`${text}`, 'gi') } })
-        let subCategories = await SubCategoriesModel.find({ name: { $regex: new RegExp(`${text}`, 'gi') } }).populate('category')
+        let [categoriesWithCount, subCategoriesWithCount] = await Promise.all([
+            this.getCountProductsByAttribute(categories, 'category'),
+            this.getCountProductsByAttribute(subCategories, 'subcategory')
+        ])
 
-        categories = await this.getCountProductsByAttribute(categories, 'category')
-        subCategories = await this.getCountProductsByAttribute(subCategories, 'subcategory')
-
-
-        const attributes = await this.parseAttributesSearch(text)
-
-        return { products, categories, subCategories, attributes, makers }
+        return {
+            products: {
+                list,
+                count: productCount
+            },
+            categories: categoriesWithCount,
+            subCategories: subCategoriesWithCount,
+            attributes,
+            makers
+        }
     }
 
     async getProductsSearchQuery({ sortData, page, query }) {
-        return {
-            list: await ProductsModel.find(query).sort(sortData).limit(12).skip((page - 1) * 12).exec(),
-            count: await ProductsModel.find(query).count().exec()
+        const [list, count ] = await Promise.all([
+            ProductsModel.find(query).lean().sort(sortData).limit(12).skip((page - 1) * 12),
+            ProductsModel.find(query).lean().count()
+        ])
+        const products = {
+            list,
+            count
         }
+        return products
     }
 
     async getCountProductsByAttribute(data, attr) {
@@ -113,7 +134,7 @@ class ProductService {
 
         const res = await Promise.all(data.map((item) => {
             query[`${attr}`] = item._id
-            return ProductsModel.find(query).count().exec()
+            return ProductsModel.find(query).lean().count()
         }))
         return JSON.parse(JSON.stringify(data)).map((it, index) => {
             it.count = res[index]
@@ -174,7 +195,7 @@ class ProductService {
     generateBreadcrumbs(data) {
         let prev = 'catalog'
         const res = data.filter(item => item).map(item => {
-            if(!item.link) return item
+            if (!item.link) return item
             prev += `/${item.link}`
             item.link = prev
             return item

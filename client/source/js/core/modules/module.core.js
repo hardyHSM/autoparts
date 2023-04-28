@@ -1,4 +1,4 @@
-class Module {
+class ModuleCore {
     constructor({ preloader, router, auth, apiService, selector, userNav }) {
         this.preloader = preloader
         this.router = router
@@ -8,7 +8,9 @@ class Module {
         this.$node = document.querySelector(selector)
     }
     init() {
-        window.addEventListener('popstate', this.router.reload)
+        window.addEventListener('popstate', () => {
+            this.router.reload()
+        })
     }
     showPreloader() {
         this.$node.innerHTML = `<div class="preloader"></div>`
@@ -22,13 +24,13 @@ class Module {
     addParamState(key, value, handler) {
         this.router.init()
         this.router.addParams(key, value)
-        this.router.redirectUrlState()
         handler()
     }
     removeParamState(key, handler) {
         this.router.init()
         this.router.removeParam(key)
-        this.router.redirectUrlState()
         handler()
     }
 }
+
+export default ModuleCore

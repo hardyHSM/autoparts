@@ -17,8 +17,8 @@ class OrderForm extends FormComponent {
 
     async renderFirstStage() {
         this.body = {}
-        this.form.innerHTML = renderOrderFirstStage(this.auth)
-        this.nextStageButton = document.querySelector('[data-next-stage]')
+        this.$form.innerHTML = renderOrderFirstStage(this.auth)
+        this.$nextStageButton = document.querySelector('[data-next-stage]')
         this.locationModule.onChooseCallback = (result) => {
             document.querySelector('[data-address]').innerHTML = result
         }
@@ -30,7 +30,7 @@ class OrderForm extends FormComponent {
 
         this.fieldsList = [this.fieldName, this.fieldLastName, this.fieldEmail, this.fieldTel]
 
-        this.nextStageButton.addEventListener('click', (e) => {
+        this.$nextStageButton.addEventListener('click', (e) => {
             this.validationForm(e, this.renderSecondStage.bind(this))
         })
         document.querySelector('.pick-location__change').addEventListener('click', (e) => {
@@ -40,13 +40,13 @@ class OrderForm extends FormComponent {
     }
 
     async renderSecondStage() {
-        new FormData(this.form).forEach((value, key) => {
+        new FormData(this.$form).forEach((value, key) => {
             this.body[key] = value
         })
         this.body.location = document.querySelector('[data-address]').textContent
-        this.form.innerHTML = renderOrderSecondStage()
+        this.$form.innerHTML = renderOrderSecondStage()
         document.querySelector('[data-checkout]').addEventListener('click', (e) => {
-            new FormData(this.form).forEach((value, key) => {
+            new FormData(this.$form).forEach((value, key) => {
                 this.body[key] = value
             })
             e.preventDefault()
@@ -81,7 +81,7 @@ class OrderForm extends FormComponent {
             }).create()
         } else {
             sessionStorage.removeItem('order')
-            this.form.innerHTML = renderOrderSuccess()
+            this.$form.innerHTML = renderOrderSuccess()
             this.userNav.changeState()
         }
     }

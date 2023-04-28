@@ -1,9 +1,9 @@
 export default class ModalComponent {
     constructor({ selector, overlay, title, text,  template, closeHandler }) {
-        this.modal = document.querySelector(selector || '.page-popup')
-        this.overlay = document.querySelector(overlay || '.page-overlay')
+        this.$modal = document.querySelector(selector || '.page-popup')
+        this.$overlay = document.querySelector(overlay || '.page-overlay')
         this.template = template
-        this.overlay.setAttribute('data-close', '')
+        this.$overlay.setAttribute('data-close', '')
         this.bindedClose = this.destroy.bind(this)
         this.handlerChecker = this.handlerChecker.bind(this)
         this.closeHandler = closeHandler
@@ -22,7 +22,7 @@ export default class ModalComponent {
             </div>
             `
         }
-        this.modal.innerHTML = this.template
+        this.$modal.innerHTML = this.template
         this.show()
         document.body.addEventListener('click', this.handlerChecker)
     }
@@ -34,21 +34,21 @@ export default class ModalComponent {
     }
 
     show() {
-        this.modal.classList.add('page-popup_active')
-        this.overlay.classList.add('page-overlay_active')
+        this.$modal.classList.add('page-popup_active')
+        this.$overlay.classList.add('page-overlay_active')
     }
 
     remove() {
-        this.modal.classList.remove('page-popup_active')
-        this.overlay.classList.remove('page-overlay_active')
+        this.$modal.classList.remove('page-popup_active')
+        this.$overlay.classList.remove('page-overlay_active')
 
-        this.modal.addEventListener('transitionend', this.bindedClose)
+        this.$modal.addEventListener('transitionend', this.bindedClose)
     }
 
     destroy() {
         if(this.closeHandler) this.closeHandler()
-        this.modal.removeEventListener('transitionend', this.bindedClose)
+        this.$modal.removeEventListener('transitionend', this.bindedClose)
         document.body.removeEventListener('click', this.handlerChecker)
-        this.modal.innerHTML = ''
+        this.$modal.innerHTML = ''
     }
 }

@@ -43,14 +43,14 @@ class SelectionForm extends FormComponent {
         this.fieldEmail.setValue(this.auth?.userData?.email || '')
         this.fieldPart = new InputPart()
         this.fieldsList = [this.fieldName, this.fieldEmail, this.fieldPart, this.fieldVin]
-        this.form.addEventListener('submit', (e) => {
+        this.$form.addEventListener('submit', (e) => {
             e.preventDefault()
             this.validationForm(e, this.requestToSelection.bind(this))
         })
     }
     async requestToSelection() {
         const body = {}
-        new FormData(this.form).forEach((value, key) => {
+        new FormData(this.$form).forEach((value, key) => {
             body[key] = value
         })
         body.partType = this.partSelect.getValue()

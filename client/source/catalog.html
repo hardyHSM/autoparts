@@ -32,7 +32,10 @@
                                     <use xlink:href="img/svg/sprite.svg#close"></use>
                                 </svg>
                             </div>
-                            <div id="page-filter">
+                            <div id="page-filter" class="page-filter">
+                                <div class="page-filter__preloader">
+                                    <div class="loader"></div>
+                                </div>
                             </div>
                         </aside>
                         <div class="page-section__main">
@@ -87,10 +90,9 @@
                 </section>
             </div>
         </main>
-
+        <script src="js/app/catalog.js"></script>
         @@include('./html/footer.html')
     </div>
 
-    <script src="js/app/catalog.js" defer></script>
 </body>
 </html>

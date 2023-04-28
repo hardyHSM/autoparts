@@ -5,9 +5,6 @@ import CartModule from '../core/modules/cart.module.js'
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await auth.init()
-    userNav.render()
-    locationModule.init()
     new ProductModule({
         preloader,
         router,
@@ -16,4 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         apiService,
         userNav
     }).init()
+    await auth.init()
+    userNav.render()
+    locationModule.init()
 })

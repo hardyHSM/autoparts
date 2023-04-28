@@ -15,11 +15,9 @@ class RouterComponent {
     }
 
     removeParam(key) {
-        this.url = new URL(window.location.href)
         this.url.searchParams.delete(key)
     }
     removeParams(keys) {
-        this.url = new URL(window.location.href)
         keys.forEach(key => this.url.searchParams.delete(key))
     }
 
@@ -48,6 +46,9 @@ class RouterComponent {
 
     get apiLink() {
         return `/api${this.url.pathname}${this.url.search}`
+    }
+    get catalogFilter() {
+        return `/api/catalog/filters/${this.url.pathname.replace('/catalog/', '')}`
     }
 
     redirect(path) {

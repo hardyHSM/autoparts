@@ -5,21 +5,21 @@ export default function renderMap() {
         const myMap = new ymaps.Map(
                 'map',
                 {
-                    center: [47.227929, 39.611513],
-                    zoom: 14,
-                    controls: ['zoomControl', 'zoomControl', 'fullscreenControl']
+                    center: [48.565550, 39.378953],
+                    zoom: 16,
+                    controls: ['zoomControl', 'zoomControl', 'fullscreenControl'],
                 },
                 {
                     searchControlProvider: 'yandex#search'
                 }
             ),
-            myPlacemark = new ymaps.Placemark([47.227929, 39.611513], {
+            myPlacemark = new ymaps.Placemark([48.565550, 39.378953], {
                 balloonContentHeader: 'Адрес нашего офиса',
-                balloonContentBody: 'ул. 1-й км Автодороги Ростов-Новошахтинск, 3-й проезд, стр. 7/12. Территория \'Спектр\'',
+                balloonContentBody: '',
                 balloonContentFooter: '',
                 hintContent: 'Наш адрес'
             })
-
+        myMap.behaviors.enable('scrollZoom');
         myMap.geoObjects.add(myPlacemark)
     })
 

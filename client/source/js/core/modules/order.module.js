@@ -1,15 +1,12 @@
 import { renderOrderProducts } from '../views/render.order.js'
 import OrderForm from '../forms/order.form.js'
+import ModuleCore from './module.core.js'
 
-class OrderModule {
+class OrderModule extends ModuleCore {
     constructor(config) {
-        this.router = config.router
-        this.preloader = config.preloader
-        this.apiService = config.apiService
-        this.userNav = config.userNav
-        this.auth = config.auth
+        super(config)
         this.locationModule = config.locationModule
-        this.node = document.querySelector(config.selector)
+        this.$node = document.querySelector(config.selector)
     }
     async init() {
         await this.initStorageOrder()

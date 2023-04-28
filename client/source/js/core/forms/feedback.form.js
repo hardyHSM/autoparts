@@ -16,7 +16,7 @@ class FeedbackForm extends FormComponent {
         this.fieldText = new InputText()
         this.fieldsList = [this.fieldName, this.fieldEmail, this.fieldText]
 
-        this.form.addEventListener('submit', (e) => {
+        this.$form.addEventListener('submit', (e) => {
             e.preventDefault()
             this.validationForm(e, this.requestToFeedback.bind(this))
         })
@@ -24,7 +24,7 @@ class FeedbackForm extends FormComponent {
 
     async requestToFeedback() {
         const body = {}
-        new FormData(this.form).forEach((value, key) => {
+        new FormData(this.$form).forEach((value, key) => {
             body[key] = value
         })
 

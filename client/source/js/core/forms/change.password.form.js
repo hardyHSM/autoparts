@@ -21,7 +21,7 @@ class ChangePasswordForm extends FormComponent {
         })
         this.fieldsList = [this.fieldOldPass, this.fieldNewPass]
 
-        this.form.addEventListener('submit', (e) => {
+        this.$form.addEventListener('submit', (e) => {
             e.preventDefault()
             this.validationForm(e, this.requestToChangePassword.bind(this))
         })
@@ -36,8 +36,8 @@ class ChangePasswordForm extends FormComponent {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                prevPassword: this.fieldOldPass.field.value,
-                newPassword: this.fieldNewPass.field.value
+                prevPassword: this.fieldOldPass.$field.value,
+                newPassword: this.fieldNewPass.$field.value
             })
         })
         this.submitComponent.setTextState()

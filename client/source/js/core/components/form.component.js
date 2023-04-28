@@ -6,7 +6,7 @@ export default class FormComponent {
         this.apiService = config.apiService
         this.preloader = config.preloader
         this.router = config.router
-        this.form = document.querySelector(config.form)
+        this.$form = document.querySelector(config.form)
         this.submitComponent = config.submitSelector ? new ButtonComponent(config.submitSelector) : null
         this.fieldsList = []
     }
@@ -29,14 +29,14 @@ export default class FormComponent {
         const pass = fieldPass
         const repass = fieldRepass
 
-        if (pass.field.value.length < 6) {
+        if (pass.$field.value.length < 6) {
             repass.removeError()
             repass.removeCorrect()
             repass.showError('')
             return
         }
 
-        if (ValidationComponent.isEqualPassword(pass.field.value, repass.field.value)) {
+        if (ValidationComponent.isEqualPassword(pass.$field.value, repass.$field.value)) {
             pass.setCorrect()
             repass.setCorrect()
             repass.showError('')

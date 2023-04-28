@@ -216,6 +216,7 @@
 .page-filter {
     line-height: 20px;
     color: #222222;
+    position: relative;
 }
 
 .filter-block__header {
@@ -296,4 +297,26 @@
     font-size: 13px;
     color: #777777;
     margin-top: 15px;
+}
+
+.page-filter__preloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: 80;
+    background-color: rgba(255, 255, 250, 0.7);
+    display: none;
+    .loader {
+        top: 150px;
+        bottom: auto;
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.page-filter__preloader_active {
+    display: block;
 }

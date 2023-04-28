@@ -24,7 +24,7 @@ class RecoveryForm extends FormComponent {
         })
         this.fieldsList = [this.fieldPass, this.fieldRepass]
 
-        this.form.addEventListener('submit', (e) => {
+        this.$form.addEventListener('submit', (e) => {
             this.validationForm(e, this.requestToRecoveryPassword.bind(this))
         })
     }
@@ -38,8 +38,8 @@ class RecoveryForm extends FormComponent {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                password: this.fieldPass.field.value,
-                repassword: this.fieldRepass.field.value,
+                password: this.fieldPass.$field.value,
+                repassword: this.fieldRepass.$field.value,
                 link: this.link
             })
         })

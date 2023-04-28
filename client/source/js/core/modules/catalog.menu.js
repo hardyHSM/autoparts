@@ -3,7 +3,7 @@ class CatalogMenu {
     constructor(config) {
         this.router = config.router
         this.apiService = config.apiService
-        this.node = document.querySelector(config.selector)
+        this.$node = document.querySelector(config.selector)
     }
 
     async init() {
@@ -49,54 +49,54 @@ class CatalogMenu {
                         </ul>
                    </div>`
         })
-        this.node.innerHTML = html
+        this.$node.innerHTML = html
     }
 }
 
 export default CatalogMenu
 
 function registerHandlers() {
-    const buttonCatalog = document.querySelector('.button-catalog')
-    const catalogMenu = document.querySelector('.catalog-menu')
-    const overlay = document.querySelector('.page-overlay')
-    const catalogHeaders = document.querySelectorAll('.catalog-item__header')
-    const catalogLinks = document.querySelectorAll('.catalog-item__link-all')
+    const $buttonCatalog = document.querySelector('.button-catalog')
+    const $catalogMenu = document.querySelector('.catalog-menu')
+    const $overlay = document.querySelector('.page-overlay')
+    const $catalogHeaders = document.querySelectorAll('.catalog-item__header')
+    const $catalogLinks = document.querySelectorAll('.catalog-item__link-all')
 
 
-    buttonCatalog.addEventListener('click', function () {
+    $buttonCatalog.addEventListener('click', function () {
         toggleCatalog()
     })
 
-    overlay.addEventListener('click', function () {
-        if (catalogMenu.classList.contains('catalog-menu_active')) {
+    $overlay.addEventListener('click', function () {
+        if ($catalogMenu.classList.contains('catalog-menu_active')) {
             toggleCatalog()
         }
     })
 
 
-    catalogHeaders.forEach(element => {
+    $catalogHeaders.forEach(element => {
         element.querySelector('.catalog-item__title').addEventListener('click', () => {
-            const list = element.parentNode.querySelector('.catalog-item__list')
+            const $list = element.parentNode.querySelector('.catalog-item__list')
 
-            if (list.classList.contains('catalog-item__list_active')) {
-                list.classList.remove('catalog-item__list_active')
+            if ($list.classList.contains('catalog-item__list_active')) {
+                $list.classList.remove('catalog-item__list_active')
                 element.classList.remove('catalog-item__header_active')
                 return 0
             }
-            catalogHeaders.forEach(item => {
-                const list = item.parentNode.querySelector('.catalog-item__list')
-                list.classList.remove('catalog-item__list_active')
+            $catalogHeaders.forEach(item => {
+                const $list = item.parentNode.querySelector('.catalog-item__list')
+                $list.classList.remove('catalog-item__list_active')
                 item.classList.remove('catalog-item__header_active')
             })
-            list.classList.add('catalog-item__list_active')
+            $list.classList.add('catalog-item__list_active')
             element.classList.add('catalog-item__header_active')
         })
     })
 
     function toggleCatalog() {
-        buttonCatalog.classList.toggle('button-catalog_active')
-        overlay.classList.toggle('page-overlay_active')
-        catalogMenu.classList.toggle('catalog-menu_active')
+        $buttonCatalog.classList.toggle('button-catalog_active')
+        $overlay.classList.toggle('page-overlay_active')
+        $catalogMenu.classList.toggle('catalog-menu_active')
     }
 
 }

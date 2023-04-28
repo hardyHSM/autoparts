@@ -1,12 +1,12 @@
 class PaginationComponent {
     constructor({ query, onChange }) {
-        this.node = document.querySelector(query)
-        this.list = this.node.firstElementChild
+        this.$node = document.querySelector(query)
+        this.$list = this.$node.firstElementChild
         this.onChange = onChange
     }
 
     clear() {
-        this.list.innerHTML = ''
+        this.$list.innerHTML = ''
     }
 
     render({ count, currentPage }) {
@@ -60,12 +60,12 @@ class PaginationComponent {
             html += this.createPaginationItem(true, pagesCount)
         }
 
-        this.list.innerHTML = html
+        this.$list.innerHTML = html
         this.registerHandlers()
     }
 
     registerHandlers() {
-        this.list.querySelectorAll('button').forEach(link => {
+        this.$list.querySelectorAll('button').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault()
                 this.onChange(link.dataset.page)

@@ -30,14 +30,14 @@ class RegistrationForm extends FormComponent {
         })
 
         this.fieldsList = [this.fieldName, this.fieldLastName, this.fieldEmail, this.fieldTel, this.fieldPass, this.fieldRepass]
-        this.form.addEventListener('submit', (e) => {
+        this.$form.addEventListener('submit', (e) => {
             this.validationForm(e, this.requestToRegistration.bind(this))
         })
     }
 
     async requestToRegistration() {
         const body = {}
-        new FormData(this.form).forEach((value, key) => {
+        new FormData(this.$form).forEach((value, key) => {
             body[key] = value
         })
         this.submitComponent.setPreloaderState()

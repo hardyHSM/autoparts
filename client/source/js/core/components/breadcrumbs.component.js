@@ -1,7 +1,8 @@
 class BreadcrumbsComponent {
     constructor(query) {
-        this.node = document.querySelector(query)
+        this.$node = document.querySelector(query)
     }
+
     renderMain() {
         this.insertNode(`
             <li class="breadcrumbs__item">
@@ -9,18 +10,20 @@ class BreadcrumbsComponent {
             </li>
         `)
     }
+
     renderPath(path) {
         this.clear()
         this.renderMain()
         let html = path.map(item => {
-            if(item === path.at(-1)) {
+            if (item === path.at(-1)) {
                 return this.renderCurrent(item)
             } else {
                 return this.renderLink(item)
             }
         }).join('')
-        this.node.innerHTML += html;
+        this.$node.innerHTML += html
     }
+
     renderLink(item) {
         return `
         <li class="breadcrumbs__item">
@@ -28,6 +31,7 @@ class BreadcrumbsComponent {
         </li>
         `
     }
+
     renderCurrent(item) {
         return `
          <li class="breadcrumbs__item breadcrumbs__item_span">
@@ -37,10 +41,11 @@ class BreadcrumbsComponent {
     }
 
     insertNode(value) {
-        this.node.innerHTML += value;
+        this.$node.innerHTML += value
     }
+
     clear() {
-        this.node.innerHTML = '';
+        this.$node.innerHTML = ''
     }
 }
 

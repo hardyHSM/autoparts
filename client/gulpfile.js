@@ -118,7 +118,30 @@ export const js = () => {
         webpack({
             mode: isProduction ? 'production' : 'development',
             devtool: isProduction ? false : 'eval-cheap-module-source-map',
-            watch: true,
+            watch: !isProduction,
+            optimization: {
+                minimize: true,
+                minimizer: [
+                    new TerserWebpackPlugin({
+                        terserOptions: {
+                            warnings: false,
+                            ecma: undefined,
+                            parse: {},
+                            compress: {},
+                            mangle: true,
+                            module: false,
+                            output: null,
+                            format: null,
+                            toplevel: false,
+                            nameCache: null,
+                            ie8: false,
+                            keep_classnames: false,
+                            keep_fnames: false,
+                            safari10: false
+                        }
+                    })
+                ]
+            },
             entry: {
                 index: [`${config.source}${config.js}/index.page.js`],
                 catalog: [`${config.source}${config.js}/catalog.page.js`],
@@ -154,7 +177,6 @@ export const js = () => {
                 ]
             },
             plugins: [
-                new TerserWebpackPlugin(),
                 new CircularDependencyPlugin(),
                 new DuplicatePackageCheckerPlugin()
             ]
@@ -213,7 +235,7 @@ export const images = () => {
         `!${config.source}/${config.sprite_svg}/**/*.svg`
     ])
     // .pipe(buffer())
-    .pipe(gulpif(isProduction, imagemin([
+    .pipe(gulpif(false, imagemin([
         imagemin.gifsicle({ interlaced: true }),
         imagemin.mozjpeg({
             quality: 75,

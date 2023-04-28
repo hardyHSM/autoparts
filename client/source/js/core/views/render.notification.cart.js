@@ -30,7 +30,7 @@ export default function renderCartNotification({ product, count, totalCartPrice 
                 </div>
             </div>
         `
-    this.header.insertAdjacentHTML('beforeend', html)
+    document.querySelector('.page-header').insertAdjacentHTML('beforeend', html)
 
     document.body.addEventListener('mousedown', this.handlerCloseNotification)
 }

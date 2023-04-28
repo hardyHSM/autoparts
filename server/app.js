@@ -22,6 +22,7 @@ import searchRouter from './routes/search.router.js'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import xssClean from 'xss-clean'
+import ProductsModel from './models/products.model.js'
 
 config()
 global.__dirname = path.dirname('')
@@ -88,32 +89,12 @@ class Application {
             res.status(200).sendFile(path.join(__client, 'build', 'index.html'))
         })
 
-        this.app.get('/product/:id', async (req, res, next) => {
-            try {
-                const { id } = req.params
-                const product = await productService.getProduct(id)
-                if (!product) {
-                    return next(ApiError.Error404())
-                }
-                res.status(200).sendFile(path.join(__client, 'build', 'product.html'))
-            } catch (e) {
-                next()
-            }
+        this.app.get('/product/:id', (req, res) => {
+            res.status(200).sendFile(path.join(__client, 'build', 'product.html'))
         })
 
-        this.app.get(['/catalog/:category', '/catalog/:category/:subcategory'], async (req, res, next) => {
-            try {
-                const { category, subcategory } = req.params
-                const { categoryData, subCategoryData } = await productService.getProductClasses(category, subcategory)
-
-
-                if (!categoryData || (!subCategoryData && subcategory?.length)) {
-                    return next(ApiError.Error404())
-                }
-                res.status(200).sendFile(path.join(__client, 'build', 'catalog.html'))
-            } catch (e) {
-                next()
-            }
+        this.app.get(['/catalog/:category', '/catalog/:category/:subcategory'], (req, res) => {
+            res.status(200).sendFile(path.join(__client, 'build', 'catalog.html'))
         })
 
         this.app.get('/activate/:link', (req, res) => {
@@ -206,6 +187,7 @@ class Application {
 
     }
 }
+
 
 export default Application
 

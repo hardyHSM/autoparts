@@ -11,8 +11,10 @@ class ProductController {
                 product.subcategory,
                 { name: product.title }
             ])
-            const otherPackingProducts = await productService.getOtherPackingProducts(product, product.info._id)
-            const otherProductsToLook = await productService.getOtherProductsToLook(product)
+            const [otherPackingProducts, otherProductsToLook] = await Promise.all([
+                productService.getOtherPackingProducts(product, product.info._id),
+                productService.getOtherProductsToLook(product)
+            ])
 
             res.json({
                 product,

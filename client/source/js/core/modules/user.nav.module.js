@@ -1,12 +1,11 @@
 import { getProductsCount } from '../utils/utils.js'
+import ModuleCore from './module.core.js'
 
-class UserNavModule {
+class UserNavModule extends ModuleCore {
     constructor(config) {
-        this.router = config.router
-        this.apiService = config.apiService
-        this.sign = document.querySelector('.user-nav__item_sign')
-        this.cart = document.querySelector('.user-nav__item_cart')
-        this.auth = config.auth
+        super(config)
+        this.$sign = document.querySelector('.user-nav__item_sign')
+        this.$cart = document.querySelector('.user-nav__item_cart')
         this.modalLogin = config.modalLogin
     }
 
@@ -21,9 +20,9 @@ class UserNavModule {
 
     render() {
         if (this.auth.isAuth) {
-            this.cart.dataset.count = getProductsCount(this.auth.userData.cart.list) || ''
-            this.sign.dataset.count = this.auth.userData.unreadMessagesCount || ''
-            this.sign.innerHTML = !this.router.isProfilePage ? `
+            this.$cart.dataset.count = getProductsCount(this.auth.userData.cart.list) || ''
+            this.$sign.dataset.count = this.auth.userData.unreadMessagesCount || ''
+            this.$sign.innerHTML = !this.router.isProfilePage ? `
                 <a href="/user/profile" class="user-nav__link" >
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
@@ -38,7 +37,7 @@ class UserNavModule {
                     <span>${this.auth.userData.firstName}</span>
                 </span>
             `
-            this.sign.innerHTML += `
+            this.$sign.innerHTML += `
                 <ul class="profile-list">
                     <li class="profile-list__item">
                         <a href="/user/profile/" class="profile-list__link">Профиль</a>
@@ -57,9 +56,8 @@ class UserNavModule {
             this.registerLogout()
         } else {
             const cart = JSON.parse(localStorage.getItem('cart'))?.products || []
-            console.log(cart)
-            this.cart.dataset.count = getProductsCount(cart) || ''
-            this.sign.innerHTML = `
+            this.$cart.dataset.count = getProductsCount(cart) || ''
+            this.$sign.innerHTML = `
                     <button class="user-nav__link">
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
@@ -72,9 +70,9 @@ class UserNavModule {
     }
 
     registerLoginModal() {
-        const sign_button = document.querySelector('.user-nav__item_sign')
+        const $sign_button = document.querySelector('.user-nav__item_sign')
 
-        sign_button.addEventListener('click', () => {
+        $sign_button.addEventListener('click', () => {
             this.modalLogin.create()
         })
     }

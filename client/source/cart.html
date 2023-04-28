@@ -57,7 +57,7 @@
                             </div>
                             <div class="section-cart__total">
                                 <span class="section-cart__total-text">Выбрано на сумму: </span>
-                                <span class="section-cart__total-price">0 ₽</span>
+                                <span class="section-cart__total-price" data-total-price>0 ₽</span>
                             </div>
                         </div>
                         <div class="section-cart__arrange arrange">
@@ -79,7 +79,7 @@
                             </div>
                             <div class="arrange__total">
                                 <span class="arrange__text"> Итого </span>
-                                <b class="arrange__price">0 ₽</b>
+                                <b class="arrange__price" data-total-discount>0 ₽</b>
                             </div>
                             <button class="arrange__button button button_accent" data-cart-submit>Оформить выбранное</button>
                         </div>
@@ -89,6 +89,6 @@
         </main>
         @@include('./html/footer.html')
     </div>
-    <script src="js/app/cart.js" defer></script>
+    <script src="js/app/cart.js" ></script>
 </body>
 </html>

@@ -3,11 +3,13 @@ import { Schema, model } from 'mongoose'
 const filtersSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     type: {
         type: String,
-        default: false
+        default: false,
+        index: true
     }
 })
 

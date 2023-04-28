@@ -3,15 +3,15 @@ export default class SelectComponent {
         this.onselect = onselect
         this.data = data
         this.selector = query
-        this.select = document.querySelector(query)
-        this.header = this.select.querySelector('.select__header')
-        this.title = this.select.querySelector('.select__title')
-        this.body = this.select.querySelector('.select__body')
+        this.$select = document.querySelector(query)
+        this.$header = this.$select.querySelector('.select__header')
+        this.$title = this.$select.querySelector('.select__title')
+        this.$body = this.$select.querySelector('.select__body')
         this.isRendered = false
     }
     init() {
-        this.header.addEventListener('click', e => {
-            if(this.select.classList.contains('select_active')) {
+        this.$header.addEventListener('click', e => {
+            if(this.$select.classList.contains('select_active')) {
                 this.close()
             } else {
                 this.open()
@@ -25,7 +25,7 @@ export default class SelectComponent {
         this.registerHandlers()
     }
     registerHandlers() {
-        this.items = this.body.querySelectorAll('.select__item')
+        this.items = this.$body.querySelectorAll('.select__item')
         this.items.forEach(element => {
             element.addEventListener('click', () => {
                 this.items.forEach(element => {
@@ -44,13 +44,13 @@ export default class SelectComponent {
         })
     }
     render() {
-        this.body.innerHTML = ''
+        this.$body.innerHTML = ''
         this.setTitle(this.data.find(item => item.default === true).value)
         this.data.map(item => {
             if(item.default) {
-                this.body.innerHTML += `<li class="select__item select__item_current" data-value='${item.dataset}'>${item.value}</li>`
+                this.$body.innerHTML += `<li class="select__item select__item_current" data-value='${item.dataset}'>${item.value}</li>`
             } else {
-                this.body.innerHTML += `<li class="select__item" data-value='${item.dataset}'>${item.value}</li>`
+                this.$body.innerHTML += `<li class="select__item" data-value='${item.dataset}'>${item.value}</li>`
             }
         })
         if(!this.isRendered) {
@@ -70,15 +70,15 @@ export default class SelectComponent {
         this.render()
     }
     setTitle(value) {
-        this.title.textContent = value
+        this.$title.textContent = value
     }
     open() {
-        this.select.classList.add('select_active')
+        this.$select.classList.add('select_active')
     }
     close() {
-        this.select.classList.remove('select_active')
+        this.$select.classList.remove('select_active')
     }
     getValue() {
-        return this.body.querySelector('.select__item_current').dataset.value
+        return this.$body.querySelector('.select__item_current').dataset.value
     }
 }

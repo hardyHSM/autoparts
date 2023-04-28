@@ -6,13 +6,12 @@ import changeProductsViewHandler from '../utils/view.catalog.js'
 import SelectComponent from '../components/select.component.js'
 import ScrollToTop from '../utils/smooth.scroll.js'
 import SidebarComponent from '../components/sidebar.component.js'
+import ModuleCore from './module.core.js'
 
 
-class SearchModule {
+class SearchModule extends ModuleCore{
     constructor(config) {
-        this.router = config.router
-        this.preloader = config.preloader
-        this.apiService = config.apiService
+        super(config)
         this.registerHandlers()
         this.searchIsActive = false
         this.alreadyHaveStatement = false
@@ -23,81 +22,81 @@ class SearchModule {
 
     registerHandlers() {
         window.addEventListener('load', () => {
-            this.searchField = document.querySelector('.page-search__field')
-            this.searchIcon = document.querySelector('#page-search .page-search__icon')
-            this.pageTel = document.querySelector('.page-header__tel')
-            this.overlay = document.querySelector('.page-overlay')
-            this.searchWrapper = document.querySelector('#page-search')
-            this.searchButton = document.querySelector('.page-search__button')
-            this.searchComplete = document.querySelector('.page-search__complete')
-            this.searchListHeader = document.querySelector('[data-header-searchlist]')
-            this.searchLoader = document.querySelector('.page-search__loader')
-            this.searchIcon.addEventListener('click', () => {
+            this.$searchField = document.querySelector('.page-search__field')
+            this.$searchIcon = document.querySelector('#page-search .page-search__icon')
+            this.$pageTel = document.querySelector('.page-header__tel')
+            this.$overlay = document.querySelector('.page-overlay')
+            this.$searchWrapper = document.querySelector('#page-search')
+            this.$searchButton = document.querySelector('.page-search__button')
+            this.$searchComplete = document.querySelector('.page-search__complete')
+            this.$searchListHeader = document.querySelector('[data-header-searchlist]')
+            this.$searchLoader = document.querySelector('.page-search__loader')
+            this.$searchIcon.addEventListener('click', () => {
                 if (this.searchIsActive) {
                     this.closeSearch()
                 } else {
                     this.openSearch()
                 }
             })
-            this.searchField.addEventListener('focus', this.openSearch.bind(this))
-            this.overlay.addEventListener('click', this.closeSearch.bind(this))
+            this.$searchField.addEventListener('focus', this.openSearch.bind(this))
+            this.$overlay.addEventListener('click', this.closeSearch.bind(this))
             const searchWithDebounce = debounce(this.searchAction.bind(this), 800)
-            this.searchField.addEventListener('input', (e) => {
+            this.$searchField.addEventListener('input', (e) => {
                 searchWithDebounce()
             })
-            this.searchButton.addEventListener('click', () => {
-                const value = sanitalize(this.searchField.value)
-                this.router.redirect(`/search?text=${sanitalize(encodeURIComponent(value))}`)
+            this.$searchButton.addEventListener('click', () => {
+                const value = sanitalize(this.$searchField.value)
+                this.router.redirect(`/search?text=${sanitalize(encodeURIComponent(value || ''))}`)
             })
 
         })
     }
 
     async searchAction() {
-        if(!this.searchField.value.length) return
+        if(!this.$searchField.value.length) return
         this.enableLoader()
         const res = await this.requestToSearch({
-            text: sanitalize(this.searchField.value),
+            text: sanitalize(this.$searchField.value),
             count: 5
         })
         this.disableLoader()
-        this.searchWrapper.classList.add('page-search_complete')
-        this.searchComplete.classList.add('page-search__complete_active')
-        this.searchListHeader.innerHTML = renderSearchComplete(res)
+        this.$searchWrapper.classList.add('page-search_complete')
+        this.$searchComplete.classList.add('page-search__complete_active')
+        this.$searchListHeader.innerHTML = renderSearchComplete(res)
     }
 
     openSearch() {
         this.searchIsActive = true
-        this.searchField.focus()
-        this.searchIcon.classList.add('page-search__icon_active')
-        this.overlay.classList.add('page-overlay_active')
-        this.searchWrapper.classList.add('page-search_active')
-        this.searchButton.classList.add('page-search__button_active')
+        this.$searchField.focus()
+        this.$searchIcon.classList.add('page-search__icon_active')
+        this.$overlay.classList.add('page-overlay_active')
+        this.$searchWrapper.classList.add('page-search_active')
+        this.$searchButton.classList.add('page-search__button_active')
         if (window.innerWidth < 960 && window.innerWidth > 640) {
-            this.pageTel.classList.add('page-header__tel_active')
+            this.$pageTel.classList.add('page-header__tel_active')
         }
-        if (this.searchField.value.length) {
-            this.searchComplete.classList.add('page-search__complete_active')
-            this.searchWrapper.classList.add('page-search_complete')
+        if (this.$searchField.value.length) {
+            this.$searchComplete.classList.add('page-search__complete_active')
+            this.$searchWrapper.classList.add('page-search_complete')
         }
     }
 
     closeSearch() {
         this.searchIsActive = false
-        this.searchComplete.classList.remove('page-search__complete_active')
-        this.overlay.classList.remove('page-overlay_active')
-        this.searchWrapper.classList.remove('page-search_active')
-        this.searchWrapper.classList.remove('page-search_complete')
-        this.searchButton.classList.remove('page-search__button_active')
-        this.pageTel.classList.remove('page-header__tel_active')
+        this.$searchComplete.classList.remove('page-search__complete_active')
+        this.$overlay.classList.remove('page-overlay_active')
+        this.$searchWrapper.classList.remove('page-search_active')
+        this.$searchWrapper.classList.remove('page-search_complete')
+        this.$searchButton.classList.remove('page-search__button_active')
+        this.$pageTel.classList.remove('page-header__tel_active')
     }
 
     enableLoader() {
-        this.searchLoader.classList.add('page-search__loader_active')
+        this.$searchLoader.classList.add('page-search__loader_active')
     }
 
     disableLoader() {
-        this.searchLoader.classList.remove('page-search__loader_active')
+        this.$searchLoader.classList.remove('page-search__loader_active')
     }
 
     async requestToSearchText(text) {
@@ -197,19 +196,19 @@ class SearchModule {
         this.valueParam = sanitalize(this.router.getParam('value'))
         this.pageParam = sanitalize(this.router.getParam('page'))
 
-        this.productList = document.querySelector('#products_list')
-        this.title = document.querySelector('.page-section__title')
-        this.searchList = document.querySelector('[data-aside-searchlist]')
-        this.searchPageInput = document.querySelector('[data-name-search]')
+        this.$productList = document.querySelector('#products_list')
+        this.$title = document.querySelector('.page-section__title')
+        this.$searchList = document.querySelector('[data-aside-searchlist]')
+        this.$searchPageInput = document.querySelector('[data-name-search]')
 
 
         console.log(this.textParam)
-        this.searchPageInput.value = this.textParam
+        this.$searchPageInput.value = this.textParam
         this.setPreloaderSearchList()
         this.sortSelect.changeState(this.sortParam)
 
         document.querySelector('[data-search-button]').addEventListener('click', () => {
-            this.requestToSearchText(this.searchPageInput.value)
+            this.requestToSearchText(this.$searchPageInput.value)
         })
         this.setCurrentState()
         window.addEventListener('popstate', () => {
@@ -234,21 +233,21 @@ class SearchModule {
             const res = await this.setState(this.requestToSearch)
             if (!this.alreadyHaveStatement) {
                 this.alreadyHaveStatement = true
-                this.searchList.innerHTML = renderSearchComplete(res, false)
+                this.$searchList.innerHTML = renderSearchComplete(res, false)
             }
         } else if (this.router.url.pathname === '/search/maker' && this.nameParam) {
             const res = await this.setState(this.requestToSearchMaker)
             if (!this.alreadyHaveStatement) {
                 this.alreadyHaveStatement = true
-                this.title.innerHTML = `Поиск по производителю ${this.nameParam}`
-                this.searchList.innerHTML = this.renderSearchListTitle('Поиск по производителю', this.nameParam, res.products.count)
+                this.$title.innerHTML = `Поиск по производителю ${this.nameParam}`
+                this.$searchList.innerHTML = this.renderSearchListTitle('Поиск по производителю', this.nameParam, res.products.count)
             }
         } else if (this.router.url.pathname === '/search/attributes' && this.keyParam && this.valueParam) {
             const res = await this.setState(this.requestToSearchAttributes)
             if (!this.alreadyHaveStatement) {
                 this.alreadyHaveStatement = true
-                this.title.innerHTML = `Поиск по аттрибуту ${this.keyParam}`
-                this.searchList.innerHTML = this.renderSearchListTitle(`${this.keyParam}`, this.valueParam, res.products.count)
+                this.$title.innerHTML = `Поиск по аттрибуту ${this.keyParam}`
+                this.$searchList.innerHTML = this.renderSearchListTitle(`${this.keyParam}`, this.valueParam, res.products.count)
             }
         } else {
             this.router.redirectNotFound()
@@ -288,16 +287,16 @@ class SearchModule {
     }
 
     renderProducts(res) {
-        this.productList.innerHTML = renderProducts(res.products?.list || [], 'products__item') || 'Ничего не найдено'
-        lazyLoadImages(this.productList)
+        this.$productList.innerHTML = renderProducts(res.products?.list || [], 'products__item') || 'Ничего не найдено'
+        lazyLoadImages(this.$productList)
     }
 
     setPreloaderProducts() {
-        this.productList.innerHTML = `<div class="preloader"></div>`
+        this.$productList.innerHTML = `<div class="preloader"></div>`
     }
 
     setPreloaderSearchList() {
-        this.searchList.innerHTML = '<div class="search-list__loader"><div class="loader"></div></div>'
+        this.$searchList.innerHTML = '<div class="search-list__loader"><div class="loader"></div></div>'
     }
 }
 

@@ -19,7 +19,7 @@ class PersonalForm extends FormComponent {
         this.fieldTel = new InputTel()
 
         this.fieldsList = [this.fieldName, this.fieldLastName, this.fieldEmail, this.fieldTel]
-        this.form.addEventListener('submit', (e) => {
+        this.$form.addEventListener('submit', (e) => {
             e.preventDefault()
             let isChanged = false
             this.fieldsList.forEach(item => {
@@ -39,7 +39,7 @@ class PersonalForm extends FormComponent {
 
     async requestToRegistration() {
         const body = {}
-        new FormData(this.form).forEach((value, key) => {
+        new FormData(this.$form).forEach((value, key) => {
             body[key] = value
         })
         this.submitComponent.setPreloaderState()

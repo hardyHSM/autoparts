@@ -4,7 +4,8 @@ const subCategoriesSchema = new Schema({
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Category',
-        required: true
+        required: true,
+        index: true
     },
     name: {
         type: String,
