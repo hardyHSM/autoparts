@@ -6,6 +6,7 @@ class SidebarComponent {
         this.$overlay = document.querySelector(overlay)
         this.isOpen = false
     }
+
     init() {
         this.$buttonOpen.addEventListener('click', () => {
             this.open()
@@ -21,16 +22,18 @@ class SidebarComponent {
             }
         })
         window.addEventListener('resize', () => {
-            if(this.isOpen && window.innerWidth > 1280) {
+            if (this.isOpen && window.innerWidth > 1280) {
                 this.close()
             }
         })
     }
+
     close() {
         this.$overlay.classList.remove('page-overlay_active')
         this.$node.classList.remove('page-sidebar_active')
         this.isOpen = false
     }
+
     open() {
         this.$overlay.classList.add('page-overlay_active')
         this.$node.classList.add('page-sidebar_active')

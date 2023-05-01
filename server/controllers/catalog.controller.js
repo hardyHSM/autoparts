@@ -13,7 +13,7 @@ class CatalogController {
                 SubCategoriesModel.find().populate('category')
             ])
 
-            res.json({
+            res.set('Cache-Control', 'public, max-age=259200').json({
                 categories: categoriesArr,
                 subCategories: subCategoriesArr
             })

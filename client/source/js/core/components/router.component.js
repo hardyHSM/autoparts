@@ -2,10 +2,11 @@ class RouterComponent {
     constructor() {
         this.init()
     }
+
     init() {
-        // this.url = new URL(window.location.href)
         this.url = new URL(decodeURI(window.location.href))
     }
+
     addParams(key, value) {
         if (this.url.searchParams.has(key)) {
             this.url.searchParams.set(key, value)
@@ -14,9 +15,18 @@ class RouterComponent {
         }
     }
 
+    getUrlParams() {
+        const path = this.url.pathname
+        const [root, tab, menu] = path.split('/').filter(string => string.length)
+        return {
+            root, tab, menu
+        }
+    }
+
     removeParam(key) {
         this.url.searchParams.delete(key)
     }
+
     removeParams(keys) {
         keys.forEach(key => this.url.searchParams.delete(key))
     }
@@ -36,6 +46,7 @@ class RouterComponent {
     redirectUrlState(url = this.url) {
         history.pushState(null, null, url)
     }
+
     reload() {
         window.location.reload()
     }
@@ -47,6 +58,7 @@ class RouterComponent {
     get apiLink() {
         return `/api${this.url.pathname}${this.url.search}`
     }
+
     get catalogFilter() {
         return `/api/catalog/filters/${this.url.pathname.replace('/catalog/', '')}`
     }
@@ -82,6 +94,7 @@ class RouterComponent {
     get addOrderLink() {
         return `/api/order/add`
     }
+
     get passRecoveryLink() {
         return '/api/auth/pass-recovery'
     }
@@ -125,12 +138,15 @@ class RouterComponent {
     get authInfoLink() {
         return '/api/auth/info'
     }
+
     get selectionLink() {
         return '/api/selection'
     }
+
     get feedBackLink() {
         return '/api/feedback'
     }
+
     get userOrdersLink() {
         return '/api/auth/orders'
     }

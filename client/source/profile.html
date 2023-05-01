@@ -18,44 +18,42 @@
         @@include('./html/header.html', {"active": "active_profile"})
         <main class="page-main">
             <div class="page-content">
-                <section class="page-section section-profile">
+                <section class="page-section section-tabs" data-tabs-root>
                     <h1 class="page-section__title v-hidden">Профиль</h1>
-                    <div class="section-profile__row">
-                        <ul class="section-profile__tabs profile-tabs">
-                            <li class="profile-tabs__item">
-                                <button class="profile-tabs__button" data-type="tab" data-state="profile" data-link="/user/profile">
+                    <div class="tabs-pages">
+                        <ul class="tabs-pages__tabs">
+                            <li class="tabs-pages__item">
+                                <button class="tabs-pages__button" data-type="tab" data-state="profile" data-link="/user/profile">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
                                     </svg>
-                                    <b class="profile-tabs__title">
+                                    <b class="tabs-pages__title">
                                         Профиль
                                     </b>
                                 </button>
                             </li>
-                            <li class="profile-tabs__item">
-                                <button class="profile-tabs__button" data-type="tab" data-state="purchases" data-link="/user/purchases">
+                            <li class="tabs-pages__item">
+                                <button class="tabs-pages__button" data-type="tab" data-state="purchases" data-link="/user/purchases">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#cart"></use>
                                     </svg>
-                                    <b class="profile-tabs__title">
+                                    <b class="tabs-pages__title">
                                         Покупки
                                     </b>
                                 </button>
                             </li>
-                            <li class="profile-tabs__item">
-                                <button class="profile-tabs__button" data-type="tab" data-state="notifications" data-link="/user/notifications">
+                            <li class="tabs-pages__item">
+                                <button class="tabs-pages__button" data-type="tab" data-state="notifications" data-link="/user/notifications">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#bell"></use>
                                     </svg>
-                                    <b class="profile-tabs__title">
+                                    <b class="tabs-pages__title">
                                         Уведомления
                                     </b>
                                 </button>
                             </li>
                         </ul>
-                        <div class="section-profile__content profile">
-                            <h2 class="profile__title">Моя корзина</h2>
-
+                        <div class="tabs-pages__content" data-tab>
                         </div>
                     </div>
                 </section>
@@ -63,6 +61,6 @@
         </main>
         @@include('./html/footer.html')
     </div>
-    <script src="js/app/profile.js" ></script>
+    <script src="js/pages/profile.js" ></script>
 </body>
 </html>

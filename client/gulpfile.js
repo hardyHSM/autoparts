@@ -48,7 +48,7 @@ const config = {
     sprite_name: '/img/svg/sprite.svg',
     scss: '/scss',
     css: '/css',
-    js: '/js/app'
+    js: '/js/pages'
 }
 
 const toCopy = [
@@ -123,6 +123,7 @@ export const js = () => {
                 minimize: true,
                 minimizer: [
                     new TerserWebpackPlugin({
+                        extractComments: false,
                         terserOptions: {
                             warnings: false,
                             ecma: undefined,
@@ -154,7 +155,8 @@ export const js = () => {
                 cart: [`${config.source}${config.js}/cart.page.js`],
                 order: [`${config.source}${config.js}/order.page.js`],
                 profile: [`${config.source}${config.js}/profile.page.js`],
-                search: [`${config.source}${config.js}/search.page.js`]
+                search: [`${config.source}${config.js}/search.page.js`],
+                admin: [`${config.source}${config.js}/admin.page.js`],
             },
             output: {
                 filename: '[name].js'

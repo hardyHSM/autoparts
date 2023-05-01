@@ -25,10 +25,10 @@ export default class SelectComponent {
         this.registerHandlers()
     }
     registerHandlers() {
-        this.items = this.$body.querySelectorAll('.select__item')
-        this.items.forEach(element => {
+        this.$items = this.$body.querySelectorAll('.select__item')
+        this.$items.forEach(element => {
             element.addEventListener('click', () => {
-                this.items.forEach(element => {
+                this.$items.forEach(element => {
                     element.classList.remove('select__item_current')
                 })
                 element.classList.add('select__item_current')

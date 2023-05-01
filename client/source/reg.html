@@ -28,8 +28,8 @@
                                         <b class="field-block__title">Имя</b>
                                         <span class="field-block__req">(обязательное)</span>
                                     </div>
-                                    <div class="page-input page-input_icon page-input_req">
-                                        <input type="text" name="firstName" placeholder="Имя" class="page-input__field" data-name/>
+                                    <div class="enrty-field enrty-field_icon enrty-field_req">
+                                        <input type="text" name="firstName" placeholder="Имя" class="enrty-field__field" data-name/>
                                     </div>
                                     <div class="field-block__undertext_error"></div>
                                 </div>
@@ -39,8 +39,8 @@
                                         <span class="field-block__req"></span>
                                     </div>
                                     <div>
-                                        <div class="page-input">
-                                            <input type="text" name="lastName" placeholder="Фамилия" class="page-input__field" data-lastname/>
+                                        <div class="enrty-field">
+                                            <input type="text" name="lastName" placeholder="Фамилия" class="enrty-field__field" data-lastname/>
                                         </div>
                                     </div>
                                 </div>
@@ -49,8 +49,8 @@
                                         <b class="field-block__title">Телефон</b>
                                         <span class="field-block__req">(обязательно)</span>
                                     </div>
-                                    <div class="page-input page-input_icon page-input_req">
-                                        <input type="tel" name="tel" class="page-input__field" data-tel/>
+                                    <div class="enrty-field enrty-field_icon enrty-field_req">
+                                        <input type="tel" name="tel" class="enrty-field__field" data-tel/>
                                     </div>
                                     <div class="field-block__undertext_error"></div>
                                 </div>
@@ -59,8 +59,8 @@
                                         <b class="field-block__title">Email</b>
                                         <span class="field-block__req">(обязательное)</span>
                                     </div>
-                                    <div class="page-input page-input_icon page-input_req">
-                                        <input type="email" name="email" placeholder="Email" class="page-input__field" data-email/>
+                                    <div class="enrty-field enrty-field_icon enrty-field_req">
+                                        <input type="email" name="email" placeholder="Email" class="enrty-field__field" data-email/>
                                     </div>
                                     <div class="field-block__undertext_error"></div>
                                 </div>
@@ -69,11 +69,11 @@
                                         <b class="field-block__title">Пароль</b>
                                         <span class="field-block__req">(обязательное)</span>
                                     </div>
-                                    <div class="page-input page-input_icon page-input_pass page-input_req">
-                                        <input type="password" name="password" readonly onfocus="this.removeAttribute('readonly');" placeholder="●●●●●●" value="" class="page-input__field" data-pass/>
-                                        <div class="page-input__numbers">
-                                            <span class="page-input__number-left">0</span>
-                                            <span class="page-input__number-right">/6</span>
+                                    <div class="enrty-field enrty-field_icon enrty-field_pass enrty-field_req">
+                                        <input type="password" name="password" readonly onfocus="this.removeAttribute('readonly');" placeholder="●●●●●●" value="" class="enrty-field__field" data-pass/>
+                                        <div class="enrty-field__numbers">
+                                            <span class="enrty-field__number-left">0</span>
+                                            <span class="enrty-field__number-right">/6</span>
                                         </div>
                                     </div>
                                     <div class="field-block__undertext">Не менее 6 символов. Можно использовать латинские буквы, цифры и символы !@#$%^&*()_-+=?.,</div>
@@ -84,11 +84,11 @@
                                         <b class="field-block__title">Пароль еще раз</b>
                                         <span class="field-block__req">(обязательное)</span>
                                     </div>
-                                    <div class="page-input page-input_icon page-input_pass page-input_req">
-                                        <input type="password" name="repassword" readonly onfocus="this.removeAttribute('readonly');" placeholder="●●●●●●" class="page-input__field" data-repass/>
-                                        <div class="page-input__numbers">
-                                            <span class="page-input__number-left">0</span>
-                                            <span class="page-input__number-right">/6</span>
+                                    <div class="enrty-field enrty-field_icon enrty-field_pass enrty-field_req">
+                                        <input type="password" name="repassword" readonly onfocus="this.removeAttribute('readonly');" placeholder="●●●●●●" class="enrty-field__field" data-repass/>
+                                        <div class="enrty-field__numbers">
+                                            <span class="enrty-field__number-left">0</span>
+                                            <span class="enrty-field__number-right">/6</span>
                                         </div>
                                     </div>
                                     <div class="field-block__undertext">Повторите пароль, введённый слева</div>
@@ -103,6 +103,6 @@
         </main>
         @@include('./html/footer.html')
     </div>
-    <script src="js/app/reg.js" ></script>
+    <script src="js/pages/reg.js" ></script>
 </body>
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Управление сайтом - Автозапчасти</title>
+    <meta name="description" content="Автозапчасти.ru"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+<body class="page">
+    <div class="page__preloader">
+        <div class="preloader"></div>
+    </div>
+    <div class="page__wrapper">
+        @@include('./html/popup.html')
+        <div class="page-overlay"></div>
+        @@include('./html/header.html', {"active": "active_profile"})
+        <main class="page-main">
+            <div class="page-content">
+                <section class="page-section section-tabs" data-tabs-root>
+                    <h1 class="page-section__title v-hidden">Управление сайтом</h1>
+                    <div class="tabs-pages">
+                        <ul class="tabs-pages__tabs">
+                            <li class="tabs-pages__item">
+                                <button class="tabs-pages__button" data-type="tab" data-state="catalog" data-link="/admin/catalog">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#stats" stroke="black"></use>
+                                    </svg>
+                                    <b class="tabs-pages__title">
+                                        Панель состояния
+                                    </b>
+                                </button>
+                            </li>
+                            <li class="tabs-pages__item">
+                                <button class="tabs-pages__button" data-type="tab" data-state="catalog" data-link="/admin/catalog">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#catalog"></use>
+                                    </svg>
+                                    <b class="tabs-pages__title">
+                                        Каталог
+                                    </b>
+                                </button>
+                            </li>
+                            <li class="tabs-pages__item">
+                                <button class="tabs-pages__button" data-type="tab" data-state="purchases" data-link="/user/purchases">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#cart"></use>
+                                    </svg>
+                                    <b class="tabs-pages__title">
+                                        Продажи
+                                    </b>
+                                </button>
+                            </li>
+                            <li class="tabs-pages__item">
+                                <button class="tabs-pages__button" data-type="tab" data-state="notifications" data-link="/user/notifications">
+                                    <svg>
+                                        <use xlink:href="img/svg/sprite.svg#sign-in"></use>
+                                    </svg>
+                                    <b class="tabs-pages__title">
+                                        Пользователи
+                                    </b>
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tabs-pages__content" data-tab>
+                            <ul class="tabs-pages__menu tabs-menu">
+                                <li class="tabs-menu__item">
+                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
+                                        Категории
+                                    </button>
+                                </li>
+                                <li class="tabs-menu__item">
+                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
+                                        Подкатегории
+                                    </button>
+                                </li>
+                                <li class="tabs-menu__item">
+                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
+                                        Продукты
+                                    </button>
+                                </li>
+                                <li class="tabs-menu__item">
+                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
+                                        Описание продуктов
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tabs-pages__data profile" data-menu>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        @@include('./html/footer.html')
+    </div>
+    <script src="js/pages/admin.js"></script>
+</body>
+</html>

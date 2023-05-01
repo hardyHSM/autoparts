@@ -24,5 +24,4 @@ export default class ValidationComponent {
     static isValidPart(name) {
         return name.length >= 3
     }
-
 }

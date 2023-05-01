@@ -47,10 +47,10 @@
 
 .section-contacts__row {
     display: flex;
-    margin-left: -15px;
-    margin-right: -15px;
+    gap: 30px;
     padding: 45px 30px;
     @media screen and (max-width: 960px) {
+        gap: 15px;
         flex-wrap: wrap;
         padding: 20px 15px;
         margin: 0;
@@ -58,24 +58,19 @@
 }
 
 .section-contacts__left, .section-contacts__right {
-    margin-left: 15px;
     flex-grow: 1;
-    margin-right: 15px;
     @media screen and (max-width: 960px) {
         width: 100%;
         margin: 0;
     }
 }
 
-.section-contacts__left {
-    @media screen and (max-width: 960px) {
-        margin-bottom: 20px;
-    }
-}
-
 .requisites__list {
     display: block;
     margin-bottom: 30px;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .requisites__item {

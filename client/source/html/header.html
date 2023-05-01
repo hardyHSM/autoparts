@@ -5,17 +5,17 @@
 
 
             </div>
-            <div class="catalog-menu__right">
-                <a href="/page_selection" class="catalog-menu__button button button_accent">Подбор запчастей</a>
-                <a href="#" class="catalog-menu__selection-link selection-link">
-                    <img src="img/links/1.png" alt="">
-                    <span class="selection-link__title">Подбор шин и дисков</span>
-                </a>
-                <a href="#" class="catalog-menu__selection-link selection-link">
-                    <img src="img/links/2.png" alt="">
-                    <span class="selection-link__title">Подбор АКБ</span>
-                </a>
-            </div>
+<!--            <div class="catalog-menu__right">-->
+<!--                <a href="/page_selection" class="catalog-menu__button button button_accent">Подбор запчастей</a>-->
+<!--                <a href="#" class="catalog-menu__selection-link selection-link">-->
+<!--                    <img src="img/links/1.png" alt="">-->
+<!--                    <span class="selection-link__title">Подбор шин и дисков</span>-->
+<!--                </a>-->
+<!--                <a href="#" class="catalog-menu__selection-link selection-link">-->
+<!--                    <img src="img/links/2.png" alt="">-->
+<!--                    <span class="selection-link__title">Подбор АКБ</span>-->
+<!--                </a>-->
+<!--            </div>-->
         </div>
     </div>
     <div class="page-content">
@@ -45,14 +45,14 @@
                             </div>
                             <div class="page-address__pick pick-address">
                                 <span class="pick-address__title">Выберите регион:</span>
-                                <div class="pick-address__search page-input page-input_search">
-                                    <button class="page-input__icon">
+                                <div class="pick-address__search enrty-field enrty-field_search">
+                                    <button class="enrty-field__icon">
                                         <svg>
                                             <use xlink:href="img/svg/sprite.svg#search"></use>
                                         </svg>
                                     </button>
                                     <div>
-                                        <input type="text" value="test" class="pick-address__input page-input__field" name="city-search" placeholder="Местоположение">
+                                        <input type="text" value="test" class="pick-address__input enrty-field__field" name="city-search" placeholder="Местоположение">
                                     </div>
                                 </div>
                                 <ul class="pick-address__list">
@@ -69,7 +69,7 @@
             <div class="page-header__right">
                 <div class="page-header__row page-header__row-top">
                     <a class="page-tel page-header__tel" href="tel:88005501980">8-800-550-19-80</a>
-                    <nav class="page-nav page-header__nav">
+                    <nav class="page-header__nav page-nav">
                         <ul class="page-nav__list">
                             <li class="page-nav__item page-nav__item_hidden">
                                 @@if (active === 'active_delivery') {
@@ -157,15 +157,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="page-header__row page-header__row_last">
-                    <div class="page-header__search-wrapper page-search page-input page-input_search" id="page-search">
+                <div class="page-header__row page-header__row_bottom">
+                    <div class="page-header__search-wrapper page-search enrty-field enrty-field_search" id="page-search">
                         <div class="page-search__form">
                             <button class="page-search__icon">
                                 <svg>
                                     <use xlink:href="img/svg/sprite.svg#search"></use>
                                 </svg>
                             </button>
-                            <input type="text" class="page-input__field page-search__field" name="site-search" id="site-search" placeholder="Что ищите?">
+                            <input type="text" class="enrty-field__field page-search__field" name="site-search" id="site-search" placeholder="Что ищите?">
                             <button class="page-search__button button button_accent">
                                 <svg>
                                     <use xlink:href="img/svg/sprite.svg#search"></use>

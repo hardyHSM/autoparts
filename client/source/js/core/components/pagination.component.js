@@ -1,3 +1,5 @@
+import { html } from 'code-tag'
+
 class PaginationComponent {
     constructor({ query, onChange }) {
         this.$node = document.querySelector(query)
@@ -12,7 +14,7 @@ class PaginationComponent {
     render({ count, currentPage }) {
         currentPage = +currentPage
         const pagesCount = Math.ceil(count / 12)
-        if(pagesCount === 1) return false
+        if (pagesCount === 1) return false
 
         let html = ''
 
@@ -75,13 +77,15 @@ class PaginationComponent {
 
     createPaginationItem(isLink = true, value, active = false) {
         if (isLink) {
-            return `<li class="pagination__item">
-                        <button data-page="${value}" class="pagination__link">${value}</button>
-                    </li>`
+            return html`
+                <li class="pagination__item">
+                    <button data-page="${value}" class="pagination__link">${value}</button>
+                </li>`
         } else {
-            return `<li class="pagination__item">
-                        <span class="pagination__link ${active && 'pagination__link_active'}">${value}</span>
-                    </li>`
+            return html`
+                <li class="pagination__item">
+                    <span class="pagination__link ${active && 'pagination__link_active'}">${value}</span>
+                </li>`
         }
     }
 }

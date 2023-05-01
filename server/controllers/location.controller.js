@@ -6,7 +6,7 @@ class LocationController {
     async getLocations(req, res, next) {
         try {
             const locations = await LocationsModel.find()
-            res.json(locations)
+            res.set('Cache-Control', 'public, max-age=31557600').json(locations)
         } catch (e) {
             next(e)
         }

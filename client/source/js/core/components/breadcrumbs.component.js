@@ -3,7 +3,7 @@ class BreadcrumbsComponent {
         this.$node = document.querySelector(query)
     }
 
-    renderMain() {
+    renderMainLink() {
         this.insertNode(`
             <li class="breadcrumbs__item">
                 <a href="/" class="breadcrumbs__link" title="Главная">Главная</a>
@@ -13,7 +13,7 @@ class BreadcrumbsComponent {
 
     renderPath(path) {
         this.clear()
-        this.renderMain()
+        this.renderMainLink()
         let html = path.map(item => {
             if (item === path.at(-1)) {
                 return this.renderCurrent(item)

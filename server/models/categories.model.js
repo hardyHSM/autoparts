@@ -20,3 +20,4 @@ const categoriesSchema = new Schema({
 const CategoriesModel = model('Category', categoriesSchema)
 
 export default CategoriesModel
+

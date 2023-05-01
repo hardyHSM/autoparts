@@ -1,7 +1,7 @@
 .page-header {
     background-color: #fff;
     padding-top: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     color: #222222;
     position: relative;
     @media screen and (max-width: 1280px) {
@@ -25,10 +25,6 @@
 
 .page-header__left {
     display: flex;
-    margin-right: 30px;
-    @media screen and (max-width: 1600px) {
-        margin-right: 20px;
-    }
     @media screen and (max-width: 640px) {
         padding-bottom: 20px;
         align-items: center;
@@ -37,6 +33,10 @@
 
 .page-header__right {
     flex-grow: 1;
+    margin-left: 30px;
+    @media screen and (max-width: 1600px) {
+        margin-left: 20px;
+    }
     @media screen and (max-width: 640px) {
        padding-bottom: 20px;
     }
@@ -47,10 +47,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-}
-
-.page-header__logo {
-    margin-right: 25px;
+    margin-left: 25px;
 }
 
 .page-header__address {
@@ -62,11 +59,10 @@
 }
 
 .page-header__tel {
-    margin-right: 45px;
     white-space: nowrap;
-    @media screen and (max-width: 1600px) {
-        margin-right: 25px;
-    }
+    //@media screen and (max-width: 1600px) {
+    //    margin-right: 25px;
+    //}
     @media screen and (max-width: 960px) {
         margin-right: 0;
         margin-left: 15px;
@@ -84,12 +80,13 @@
     margin-left: auto;
 }
 
-.page-header__row-top {
-    margin-bottom: 20px;
+.page-header__row_bottom {
+    margin-top: 20px;
     @media screen and (max-width: 640px) {
-        margin-bottom: 0;
+        margin-top: 0px;
     }
 }
+
 
 .page-header__bottom {
     background-color: #F0F0F0;
@@ -116,7 +113,9 @@
 }
 
 .page-header__nav {
+    margin-left: 45px;
     @media screen and (max-width: 1280px) {
+        margin-left: 0;
         padding-top: 15px;
         padding-bottom: 15px;
         .page-nav__list {
@@ -177,5 +176,11 @@
 .page-header__nav_active {
     @media screen and (max-width: 960px) {
         display: block;
+    }
+}
+
+.page-header__search-wrapper {
+    @media screen and (max-width: 960px) {
+        margin-left: 15px;
     }
 }

@@ -14,7 +14,6 @@ const dictionary = {
     'password': 'пароль'
 }
 
-
 class UserService {
     async registration(body) {
         const { firstName, lastName, email, password, repassword, tel } = body
@@ -55,7 +54,6 @@ class UserService {
         })
 
 
-
         mailService.sendActivationMail(candidateUser, `${process.env.API_URL}/activate/${activationData.link}`)
 
         const user = await UsersModel.create(candidateUser)
@@ -64,7 +62,7 @@ class UserService {
         const plainUser = {
             email: user.email,
             id: user._id,
-            isActivated: user.isActivated
+            role: user.role
         }
         const token = tokenService.generateToken({ ...plainUser })
         await tokenService.saveToken(plainUser.id, token)
@@ -81,22 +79,12 @@ class UserService {
         let createMessage = `Вы успешно изменили текущие параметры профиля: `
 
         for ( const key in body ) {
-            if(user[key] !== body[key]) {
+            if (user[key] !== body[key]) {
                 createMessage += `${dictionary[key]}, `
-                user[key] = body[key]
-                if(user[key] === 'email') {
-                    user.isActivated = false
-                    user.email = body.email
-                    user.activationData = {
-                        maxDate: DateService.nextDay(),
-                        link: v4()
-                    }
-                    user.notifications.push({
-                        messageType: 'info',
-                        message: `На вашу почту ${user.email} была отправлена ссылка с активацией!`,
-                        createdTime: new Date()
-                    })
-                    mailService.sendActivationMail(user, `${process.env.API_URL}/activate/${user.activationData.link}`)
+                if (key === 'email') {
+                    await this.changeEmail(user, body[key])
+                } else {
+                    user[key] = body[key]
                 }
             }
         }
@@ -113,6 +101,26 @@ class UserService {
         await user.save()
     }
 
+    async changeEmail(user, candidateEmail) {
+        const existingUser = await UsersModel.findOne({email: candidateEmail})
+        if(existingUser) {
+            throw ApiError.EmailAlreadyExists(candidateEmail)
+        }
+        user.isActivated = false
+        user.email = candidateEmail
+        user.activationData = {
+            maxDate: DateService.nextDay(),
+            link: v4()
+        }
+        user.notifications.push({
+            messageType: 'info',
+            message: `На вашу почту ${user.email} была отправлена ссылка с активацией!`,
+            createdTime: new Date()
+        })
+        mailService.sendActivationMail(user, `${process.env.API_URL}/activate/${user.activationData.link}`)
+        return await user.save()
+    }
+
     async login(email, password) {
         const user = await UsersModel.findOne({ email })
         if (!user) {
@@ -125,7 +133,7 @@ class UserService {
         const plainUser = {
             email: user.email,
             id: user._id,
-            isActivated: user.isActivated
+            role: user.role
         }
 
         const token = tokenService.generateToken({ ...plainUser })
@@ -253,13 +261,13 @@ class UserService {
             tel: user.tel,
             isActivated: user.isActivated,
             cart: user.cart,
-            unreadMessagesCount: this.getUnreadMessagesCount(user.notifications),
+            unreadMessagesCount: this.getUnreadMessagesCount(user.notifications)
         }
     }
 
     getUnreadMessagesCount(notifications) {
         return notifications.reduce((acc, message) => {
-            if(!message.isChecked) {
+            if (!message.isChecked) {
                 acc += 1
             }
             return acc
@@ -271,6 +279,7 @@ class UserService {
         user = await user.populate('orders.products.product')
         return user.orders
     }
+
     async getNotifications(id) {
         const user = await UsersModel.findById(id).populate('notifications')
         user.notifications = user.notifications.map(message => {

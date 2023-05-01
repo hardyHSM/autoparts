@@ -6,14 +6,12 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import errorMiddleware from './middlewares/error.middleware.js'
 import authMiddleware from './middlewares/auth.middleware.js'
-import ApiError from './service/error.service.js'
 
 import authRouter from './routes/auth.router.js'
 import locationsRouter from './routes/locations.router.js'
 import productRouter from './routes/product.router.js'
 import catalogRouter from './routes/catalog.router.js'
 import cartRouter from './routes/cart.router.js'
-import productService from './service/product.service.js'
 import selectionRouter from './routes/selection.router.js'
 import feedbackRouter from './routes/feedback.router.js'
 import ordersRouter from './routes/orders.router.js'
@@ -22,7 +20,8 @@ import searchRouter from './routes/search.router.js'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import xssClean from 'xss-clean'
-import ProductsModel from './models/products.model.js'
+import adminAccessMiddleware from './middlewares/admin.middleware.js'
+import ApiError from './service/error.service.js'
 
 config()
 global.__dirname = path.dirname('')
@@ -32,8 +31,6 @@ global.__client = path.resolve(__basedir, 'client')
 
 const PORT = process.env.PORT || 5000
 
-
-// mongodb+srv://jjus:Prs762mnTuoferOg@cluster0.0xwnghf.mongodb.net/Автозапчасти?retryWrites=true&w=majority
 
 class Application {
     app = express()
@@ -65,8 +62,8 @@ class Application {
         this.app.use(mongoSanitize({
             allowDots: true,
             onSanitize: ({ req, key }) => {
-                console.warn(`This request[${key}] is sanitized`, req.body);
-            },
+                console.warn(`This request[${key}] is sanitized`, req.body)
+            }
         }))
         this.app.use(xssClean())
         this.app.use(authMiddleware)
@@ -88,6 +85,17 @@ class Application {
         this.app.get('/', (req, res) => {
             res.status(200).sendFile(path.join(__client, 'build', 'index.html'))
         })
+
+        this.app.get(['/admin', '/admin/:link1', '/admin/:link1/:link2'],
+            authAccessMiddleware,
+            adminAccessMiddleware,
+            (req, res, next) => {
+               try {
+                   res.status(200).sendFile(path.join(__client, 'build', 'admin.html'))
+               } catch(e) {
+                   next(ApiError.Error404())
+               }
+            })
 
         this.app.get('/product/:id', (req, res) => {
             res.status(200).sendFile(path.join(__client, 'build', 'product.html'))

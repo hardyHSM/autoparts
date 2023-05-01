@@ -1,0 +1,88 @@
+import ModuleCore from './module.core.js'
+
+class ModuleTabs extends ModuleCore {
+    constructor(config) {
+        super(config)
+        this.$root = document.querySelector(config.root)
+        this.$tab = document.querySelector(config.tabQuery)
+        this.$menuQuery = config.menuQuery
+    }
+
+    init() {
+        super.init()
+        this.changeState()
+        this.registerHandler()
+    }
+
+    changeState() {
+        this.initRoutes()
+        this.renderTabState()
+        this.renderMenuState()
+    }
+
+    initRoutes() {
+        const { root, tab, menu } = this.router.getUrlParams()
+        try {
+            this.tabState = tab
+            this.tabHandler = this.config.tabsParams[this.tabState]
+            if (!menu) {
+                this.menuState = this.tabHandler.default
+                this.menuHandler = this.config.menuParams[this.menuState]
+            } else {
+                this.menuState = menu
+                this.menuHandler = this.config.menuParams[this.menuState]
+            }
+        } catch (e) {
+            this.router.redirectNotFound()
+        }
+    }
+
+    renderTabState() {
+        this.$tab.innerHTML = this.tabHandler.render()
+        this.registerActiveButton('tab', this.tabState, 'tabs-pages__button_active')
+    }
+
+    async renderMenuState() {
+        this.$menu = document.querySelector(this.$menuQuery)
+        this.registerActiveButton('menu', this.menuState, 'tabs-menu__button_active')
+        this.showPreloader()
+
+        this.isLoading = true
+        const data = await this.menuHandler?.middleware?.() || this.auth
+        this.isLoading = false
+        this.$menu.innerHTML = this.menuHandler?.render?.(data) || ''
+        this.menuHandler?.functional?.(this.$menu, data)
+    }
+
+    registerHandler() {
+        this.$root.addEventListener('click', ({ target }) => {
+            const $button = target.closest('[data-type]')
+            if (!$button || $button.dataset.active === 'true' || this.isLoading) return
+            const state = $button.dataset.state
+            const link = $button.dataset.link
+            const type = $button.dataset.type
+            const activeClass = type === 'tab' ? 'tabs-pages__button_active' : 'tabs-menu__button_active'
+            this.registerActiveButton(type, state, activeClass)
+            this.router.redirectUrlState(link)
+            this.router.init()
+            this.changeState()
+        })
+    }
+
+    registerActiveButton(type, state, activeClass) {
+        document.querySelectorAll(`[data-type="${type}"]`).forEach($item => {
+            $item.dataset.active = 'false'
+            $item.classList.remove(activeClass)
+        })
+        const $button = document.querySelector(`[data-state='${state}']`)
+        $button.dataset.active = 'true'
+        $button.classList.add(activeClass)
+    }
+
+    showPreloader() {
+        this.$menu.innerHTML = '<div class="preloader"></div>'
+    }
+}
+
+
+export default ModuleTabs
