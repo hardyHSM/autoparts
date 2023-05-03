@@ -10,7 +10,7 @@ export default class ValidationComponent {
         return str.length >= 6
     }
     static isValidName(str) {
-        return str.length > 1 && str.match(/^[А-яa-z ,.'-]+$/) && !str.match(/\s+/)
+        return str.length > 1 && str.match(/^[ЁёА-я ,.'-]+$/) && !str.match(/\s+/)
     }
     static isEqualPassword(str1, str2) {
         return str1 === str2

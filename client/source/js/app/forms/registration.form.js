@@ -72,7 +72,11 @@ class RegistrationForm extends FormComponent {
                 break
             }
             default: {
-                return
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Регистрация',
+                    text: `Что-то пошло не так!`
+                }).create()
             }
         }
     }

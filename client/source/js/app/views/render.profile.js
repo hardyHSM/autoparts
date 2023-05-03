@@ -241,8 +241,8 @@ export function renderPersonal({ info }) {
                 <div class="form__item field-block">
                     <div class="field-block__header">
                         <b class="field-block__title">Телефон</b>
-                        <span class="field-block__req">(Обязательно)</span>
-                    </div>
+                        <span class="field-block__req">(обязательно)</span>
+                    </div>О
                     <div class="entry-input entry-input_icon entry-input_req">
                         <input type="tel" name="tel" class="entry-input__field" value="${info?.tel || ''}" data-tel/>
                     </div>

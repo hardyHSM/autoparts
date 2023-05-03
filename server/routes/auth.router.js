@@ -11,7 +11,7 @@ const router = new Router()
 router.post(
     '/registration',
     body('email').escape().isEmail().trim(),
-    body('firstName').trim().escape().exists().matches(/^[ЁёА-я ]+$/).not().matches(/\d/),
+    body('firstName').trim().escape().exists().matches(/^[ЁёА-я ,.'-]+$/).not().matches(/\d/),
     body('lastName').escape().trim(),
     body('password').escape().isLength({ min: 6, max: 32 }),
     body('tel').escape().isLength({ min: 18, max: 18 }),
