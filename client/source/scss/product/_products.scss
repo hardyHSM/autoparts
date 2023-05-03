@@ -14,8 +14,6 @@
 }
 
 .products__item {
-    //width: calc(100% / 3);
-    //padding-right: 35px;
     &:hover {
         border: 1px solid #DDDDDD;
         transform: scale(1.1);
@@ -24,12 +22,6 @@
             transform: scale(1);
         }
     }
-    //@media screen and (max-width: 960px) {
-    //    margin-bottom: 10px;
-    //    &:last-child {
-    //        margin-bottom: 0;
-    //    }
-    //}
 }
 
 .products__filters {

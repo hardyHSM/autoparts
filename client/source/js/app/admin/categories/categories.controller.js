@@ -49,7 +49,7 @@ class CategoriesController {
             title: 'Удаление категории',
             text: 'Вы действительно хотите удалить эту категорию?',
             routerLink: router.categoriesLink,
-            id: data.category._id,
+            id: data._id,
             onsuccess: () => {
                 router.redirectUrlState('/admin/catalog/categories')
                 module.changeState()

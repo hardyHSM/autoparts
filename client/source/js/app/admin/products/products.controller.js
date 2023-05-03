@@ -14,7 +14,7 @@ class ProductsController {
         const products = await productsModel.get()
         return {
             products,
-            page
+            page: page || 1
         }
     }
 
