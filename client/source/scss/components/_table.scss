@@ -168,3 +168,8 @@
 .table__col[data-sort] {
     cursor: pointer;
 }
+
+.table__col_full {
+    max-width: 100%;
+    flex-grow: 1;
+}
