@@ -6,6 +6,9 @@ import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import errorMiddleware from './middlewares/error.middleware.js'
 import authMiddleware from './middlewares/auth.middleware.js'
+import authAccessMiddleware from './middlewares/auth.access.middleware.js'
+import adminAccessMiddleware from './middlewares/admin.middleware.js'
+import ApiError from './service/error.service.js'
 
 import authRouter from './routes/auth.router.js'
 import locationsRouter from './routes/locations.router.js'
@@ -15,13 +18,14 @@ import cartRouter from './routes/cart.router.js'
 import selectionRouter from './routes/selection.router.js'
 import feedbackRouter from './routes/feedback.router.js'
 import ordersRouter from './routes/orders.router.js'
-import authAccessMiddleware from './middlewares/auth.access.middleware.js'
+import categoriesRouter from './routes/categories.router.js'
 import searchRouter from './routes/search.router.js'
 import helmet from 'helmet'
 import mongoSanitize from 'express-mongo-sanitize'
 import xssClean from 'xss-clean'
-import adminAccessMiddleware from './middlewares/admin.middleware.js'
-import ApiError from './service/error.service.js'
+import subcategoriesRouter from './routes/subcategories.router.js'
+import commonRouter from './routes/common.router.js'
+
 
 config()
 global.__dirname = path.dirname('')
@@ -45,6 +49,7 @@ class Application {
     }
 
     registerStatic() {
+        this.app.use('/assets/', express.static(path.join('assets')))
         this.app.use('*/fonts/', express.static(path.join(__client, 'build', 'fonts')))
         this.app.use('*/img/', express.static(path.join(__client, 'build', 'img')))
         this.app.use('*/js/', express.static(path.join(__client, 'build', 'js')))
@@ -62,7 +67,7 @@ class Application {
         this.app.use(mongoSanitize({
             allowDots: true,
             onSanitize: ({ req, key }) => {
-                console.warn(`This request[${key}] is sanitized`, req.body)
+                console.warn(`This request[${key}] is sanitized`, req)
             }
         }))
         this.app.use(xssClean())
@@ -76,9 +81,14 @@ class Application {
         this.app.use('/api/selection', selectionRouter)
         this.app.use('/api/feedback', feedbackRouter)
         this.app.use('/api/locations', locationsRouter)
-        this.app.use('/api/product', productRouter)
+        this.app.use('/api/products', productRouter)
         this.app.use('/api/catalog', catalogRouter)
         this.app.use('/api/cart', cartRouter)
+
+        // admin
+        this.app.use('/api/categories', categoriesRouter)
+        this.app.use('/api/subcategories', subcategoriesRouter)
+        this.app.use('/api', commonRouter)
     }
 
     registerStaticPaths() {
@@ -86,18 +96,18 @@ class Application {
             res.status(200).sendFile(path.join(__client, 'build', 'index.html'))
         })
 
-        this.app.get(['/admin', '/admin/:link1', '/admin/:link1/:link2'],
+        this.app.get('/admin/*',
             authAccessMiddleware,
             adminAccessMiddleware,
             (req, res, next) => {
-               try {
-                   res.status(200).sendFile(path.join(__client, 'build', 'admin.html'))
-               } catch(e) {
-                   next(ApiError.Error404())
-               }
+                try {
+                    res.status(200).sendFile(path.join(__client, 'build', 'admin.html'))
+                } catch (e) {
+                    next(ApiError.Error404())
+                }
             })
 
-        this.app.get('/product/:id', (req, res) => {
+        this.app.get('/products/:id', (req, res) => {
             res.status(200).sendFile(path.join(__client, 'build', 'product.html'))
         })
 
@@ -166,7 +176,11 @@ class Application {
         })
 
         this.app.use((req, res, next) => {
-            res.status(404).sendFile(path.join(__client, 'build', '404.html'))
+            try {
+                res.status(404).sendFile(path.join(__client, 'build', '404.html'))
+            } catch (e) {
+                next(e)
+            }
         })
     }
 

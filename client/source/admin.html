@@ -18,12 +18,12 @@
         @@include('./html/header.html', {"active": "active_profile"})
         <main class="page-main">
             <div class="page-content">
-                <section class="page-section section-tabs" data-tabs-root>
+                <section class="page-section section-tabs section-admin" data-tabs-root>
                     <h1 class="page-section__title v-hidden">Управление сайтом</h1>
-                    <div class="tabs-pages">
+                    <div class="tabs-pages admin-panel">
                         <ul class="tabs-pages__tabs">
                             <li class="tabs-pages__item">
-                                <button class="tabs-pages__button" data-type="tab" data-state="catalog" data-link="/admin/catalog">
+                                <button class="tabs-pages__button" data-type="tab" data-state="" data-link="/admin/catalog">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#stats" stroke="black"></use>
                                     </svg>
@@ -43,7 +43,7 @@
                                 </button>
                             </li>
                             <li class="tabs-pages__item">
-                                <button class="tabs-pages__button" data-type="tab" data-state="purchases" data-link="/user/purchases">
+                                <button class="tabs-pages__button" data-type="tab" data-state="" data-link="/user/purchases">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#cart"></use>
                                     </svg>
@@ -53,7 +53,7 @@
                                 </button>
                             </li>
                             <li class="tabs-pages__item">
-                                <button class="tabs-pages__button" data-type="tab" data-state="notifications" data-link="/user/notifications">
+                                <button class="tabs-pages__button" data-type="tab" data-state="" data-link="/user/notifications">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
                                     </svg>
@@ -64,30 +64,7 @@
                             </li>
                         </ul>
                         <div class="tabs-pages__content" data-tab>
-                            <ul class="tabs-pages__menu tabs-menu">
-                                <li class="tabs-menu__item">
-                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
-                                        Категории
-                                    </button>
-                                </li>
-                                <li class="tabs-menu__item">
-                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
-                                        Подкатегории
-                                    </button>
-                                </li>
-                                <li class="tabs-menu__item">
-                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
-                                        Продукты
-                                    </button>
-                                </li>
-                                <li class="tabs-menu__item">
-                                    <button class="tabs-menu__button" data-state="" data-type="menu" data-link="">
-                                        Описание продуктов
-                                    </button>
-                                </li>
-                            </ul>
-                            <div class="tabs-pages__data profile" data-menu>
-                            </div>
+
                         </div>
                     </div>
                 </section>

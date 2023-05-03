@@ -1,3 +1,11 @@
+.field-block {
+    .textarea {
+        resize: none;
+        min-height: 450px;
+        overflow-y: overlay;
+    }
+}
+
 .field-block_disabled {
     opacity: 0.5;
 }
@@ -37,4 +45,14 @@
     color: #222222;
     padding-bottom: 5px;
     display: inline-block;
+}
+
+.field-block__image {
+    max-width: 300px;
+    height: auto;
+}
+
+.field-block__row {
+    gap: 0px 10px;
+    display: flex;
 }

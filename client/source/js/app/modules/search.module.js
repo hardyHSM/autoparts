@@ -1,10 +1,9 @@
-import { debounce, lazyLoadImages, sanitalize } from '../utils/utils.js'
+import ScrollToTop, { debounce, lazyLoadImages, sanitalize } from '../utils/utils.js'
 import { renderSearchComplete } from '../views/render.search.js'
 import renderProducts from '../views/render.products.js'
 import PaginationComponent from '../../core/components/pagination.component.js'
 import changeProductsViewHandler from '../utils/view.catalog.js'
-import SelectComponent from '../../core/components/select.component.js'
-import ScrollToTop from '../utils/smooth.scroll.js'
+import SelectComponent from '../../core/components/selects/select.component.js'
 import SidebarComponent from '../../core/components/sidebar.component.js'
 import ModuleCore from '../../core/modules/module.core.js'
 
@@ -201,7 +200,6 @@ class SearchModule extends ModuleCore{
         this.$searchPageInput = document.querySelector('[data-name-search]')
 
 
-        console.log(this.textParam)
         this.$searchPageInput.value = this.textParam
         this.setPreloaderSearchList()
         this.sortSelect.changeState(this.sortParam)

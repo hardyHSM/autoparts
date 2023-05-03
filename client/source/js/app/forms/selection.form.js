@@ -1,7 +1,7 @@
-import SelectComponent from '../../core/components/select.component.js'
+import SelectComponent from '../../core/components/selects/select.component.js'
 import NumberSelectComponent from '../../core/components/number.select.component.js'
 import FormComponent from '../../core/components/form.component.js'
-import { InputEmail, InputName, InputPart, InputVin } from '../../core/components/input.component.js'
+import { InputEmail, InputName, InputPart, InputVin } from '../../core/components/selects/input.component.js'
 import ModalComponent from '../../core/components/modal.component.js'
 
 class SelectionForm extends FormComponent {

@@ -64,6 +64,16 @@ export function getProductsCount(products) {
 }
 
 export function sanitalize(text) {
-    if(!text) return null
-    return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>','&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;')
+    if (!text) return null
+    return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;')
+}
+
+export default function ScrollToTop(query, type = 'smooth') {
+    document.querySelector(query).scrollIntoView(
+        {
+            behavior: type,
+            top: true,
+            block: 'center'
+        }
+    )
 }

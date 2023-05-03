@@ -3,6 +3,7 @@ import CategoriesModel from '../models/categories.model.js'
 import SubCategoriesModel from '../models/subcategories.model.js'
 import ProducersModel from '../models/producers.model.js'
 import ApiError from './error.service.js'
+import AssetsService from './assets.service.js'
 
 
 class ProductService {
@@ -10,8 +11,8 @@ class ProductService {
         return await ProductsModel.find(query).countDocuments().lean()
     }
 
-    async getProductsToPage(query, sortData, page, limit) {
-        return await ProductsModel.find(query).lean().sort(sortData).skip(page).limit(limit)
+    async getProductsByParams(query, sortData, page, limit) {
+        return await ProductsModel.find(query).sort(sortData).skip(page).limit(limit).lean()
     }
 
     async getProductClasses(cat, subcat) {
@@ -37,7 +38,7 @@ class ProductService {
     }
 
     async getProduct(id) {
-        const product = await ProductsModel.findById(id).populate(['info', 'category', 'subcategory']).lean()
+        const product = await ProductsModel.findById(id).populate(['info', 'category', 'subcategory'])
 
         if (!product) {
             throw ApiError.BadRequest('Продукция не найдена!')
@@ -118,7 +119,7 @@ class ProductService {
     }
 
     async getProductsSearchQuery({ sortData, page, query }) {
-        const [list, count ] = await Promise.all([
+        const [list, count] = await Promise.all([
             ProductsModel.find(query).lean().sort(sortData).limit(12).skip((page - 1) * 12),
             ProductsModel.find(query).lean().count()
         ])
@@ -201,6 +202,79 @@ class ProductService {
             return item
         })
         return res
+    }
+
+    async addProduct(data) {
+        const { categoryId, subcategoryId, descriptionId, image, attributes, ...body } = data
+        const [existProduct, category, subcategory, info] = await Promise.all([
+            ProductsModel.findOne({ title: body.title }),
+            CategoriesModel.findById(categoryId),
+            SubCategoriesModel.findById(subcategoryId),
+            ProducersModel.findById(descriptionId)
+        ])
+        if (!category || !subcategory || !info) {
+            throw ApiError.BadRequest('Проверьте введённые данные!')
+        }
+
+        if (existProduct) {
+            throw ApiError.ConflictError('Товар с таким названием уже существует!')
+        }
+
+        const candidateProduct = {}
+
+        for ( const key in body ) {
+            candidateProduct[key] = body[key]
+        }
+
+        candidateProduct.category = category
+        candidateProduct.subcategory = subcategory
+        candidateProduct.info = info
+        candidateProduct.attributes = Object.keys(attributes).length === 0 ? { 'Характеристика': 'Отсутствует' } : attributes
+
+
+        if (image) {
+            if (image === 'delete') {
+                candidateProduct.image = null
+            } else {
+                candidateProduct.image = await AssetsService.createImage(image)
+            }
+        }
+
+        const product = await ProductsModel.create(candidateProduct)
+        return product
+    }
+
+    async changeProduct(id, rest) {
+        const { categoryId, subcategoryId, descriptionId, image, ...body } = rest
+        const product = await this.getProduct(id)
+        if (!product) {
+            throw ApiError.BadRequest('Продукция не найдена!')
+        }
+        const category = await CategoriesModel.findById(categoryId)
+        const subcategory = await SubCategoriesModel.findById(subcategoryId)
+        const info = await ProducersModel.findById(descriptionId)
+        if (!category || !subcategory || !info) {
+            throw ApiError.BadRequest('Ошибка при вводе данных!')
+        }
+        product.category = category
+        product.subcategory = subcategory
+        product.info = info
+
+        if (image) {
+            if (image === 'delete') {
+                product.image = null
+            } else {
+                const url = await AssetsService.createImage(image)
+                product.image = url
+            }
+        }
+
+        for ( const key in body ) {
+            if (key in product) {
+                product[key] = body[key]
+            }
+        }
+        await product.save()
     }
 }
 

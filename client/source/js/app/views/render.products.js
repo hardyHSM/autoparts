@@ -28,7 +28,7 @@ export default function renderProducts(products, productClass = '') {
                                 </li>`
                         }).join('')}
                     </ul>
-                    <a href="/product/${product._id}" class="page-product__button button button_backwards-accent">Узнать
+                    <a href="/products/${product._id}" class="page-product__button button button_backwards-accent">Узнать
                         цену</a>
                 </div>
             </article>`

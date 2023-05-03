@@ -71,7 +71,7 @@ class CatalogController {
             const [countDocuments, productsWithParams] = await Promise.all(
                 [
                     productService.getCounts(productQuery),
-                    productService.getProductsToPage(productQuery, sortData, (page - 1) * 12, 12)
+                    productService.getProductsByParams(productQuery, sortData, (page - 1) * 12, 12)
                 ]
             )
 

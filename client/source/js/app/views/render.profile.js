@@ -220,8 +220,8 @@ export function renderPersonal({ info }) {
                         <b class="field-block__title">Имя</b>
                         <span class="field-block__req">(обязательное)</span>
                     </div>
-                    <div class="enrty-field enrty-field_icon enrty-field_req">
-                        <input type="text" name="firstName" placeholder="Имя" class="enrty-field__field" value="${info?.firstName || ''}" data-name/>
+                    <div class="entry-input entry-input_icon entry-input_req">
+                        <input type="text" name="firstName" placeholder="Имя" class="entry-input__field" value="${info?.firstName || ''}" data-name/>
                     </div>
                     <div class="field-block__undertext_error"></div>
                 </div>
@@ -231,8 +231,8 @@ export function renderPersonal({ info }) {
                         <span class="field-block__req"></span>
                     </div>
                     <div>
-                        <div class="enrty-field">
-                            <input type="text" name="lastName" placeholder="Фамилия" class="enrty-field__field" value="${info?.lastName || ''}" data-lastname/>
+                        <div class="entry-input">
+                            <input type="text" name="lastName" placeholder="Фамилия" class="entry-input__field" value="${info?.lastName || ''}" data-lastname/>
                         </div>
                     </div>
                 </div>
@@ -243,8 +243,8 @@ export function renderPersonal({ info }) {
                         <b class="field-block__title">Телефон</b>
                         <span class="field-block__req">(Обязательно)</span>
                     </div>
-                    <div class="enrty-field enrty-field_icon enrty-field_req">
-                        <input type="tel" name="tel" class="enrty-field__field" value="${info?.tel || ''}" data-tel/>
+                    <div class="entry-input entry-input_icon entry-input_req">
+                        <input type="tel" name="tel" class="entry-input__field" value="${info?.tel || ''}" data-tel/>
                     </div>
                     <div class="field-block__undertext_error"></div>
                 </div>
@@ -253,8 +253,8 @@ export function renderPersonal({ info }) {
                         <b class="field-block__title">Email</b>
                         <span class="field-block__req">(обязательное)</span>
                     </div>
-                    <div class="enrty-field enrty-field_icon enrty-field_req">
-                        <input type="email" name="email" autocomplete="none" placeholder="Email" class="enrty-field__field" value="${info?.email || ''}" data-email/>
+                    <div class="entry-input entry-input_icon entry-input_req">
+                        <input type="email" name="email" autocomplete="none" placeholder="Email" class="entry-input__field" value="${info?.email || ''}" data-email/>
                     </div>
                     <div class="field-block__undertext_error">
                         ${info?.isActivated ? '' : 'Ваша почта не подтверждена.'}
@@ -276,11 +276,11 @@ export function renderChangePassword() {
                         <b class="field-block__title">Старый пароль</b>
                         <span class="field-block_req">(обязательное)</span>
                     </div>
-                    <div class="enrty-field enrty-field_icon enrty-field_pass enrty-field_req">
-                        <input type="password" name="password" placeholder="●●●●●●" class="enrty-field__field" data-old-pass/>
-                        <div class="enrty-field__numbers">
-                            <span class="enrty-field__number-left">0</span>
-                            <span class="enrty-field__number-right">/6</span>
+                    <div class="entry-input entry-input_icon entry-input_pass entry-input_req">
+                        <input type="password" name="password" placeholder="●●●●●●" class="entry-input__field" data-old-pass/>
+                        <div class="entry-input__numbers">
+                            <span class="entry-input__number-left">0</span>
+                            <span class="entry-input__number-right">/6</span>
                         </div>
                     </div>
                     <div class="field-block__undertext">Введите старый пароль</div>
@@ -291,11 +291,11 @@ export function renderChangePassword() {
                         <b class="field-block__title">Новый пароль</b>
                         <span class="field-block__req">(обязательное)</span>
                     </div>
-                    <div class="enrty-field enrty-field_icon enrty-field_pass enrty-field_req">
-                        <input type="password" name="repassword" placeholder="●●●●●●" class="enrty-field__field" data-new-pass/>
-                        <div class="enrty-field__numbers">
-                            <span class="enrty-field__number-left">0</span>
-                            <span class="enrty-field__number-right">/6</span>
+                    <div class="entry-input entry-input_icon entry-input_pass entry-input_req">
+                        <input type="password" name="repassword" placeholder="●●●●●●" class="entry-input__field" data-new-pass/>
+                        <div class="entry-input__numbers">
+                            <span class="entry-input__number-left">0</span>
+                            <span class="entry-input__number-right">/6</span>
                         </div>
                     </div>
                     <div class="field-block__undertext">Не менее 6 символов. Можно использовать латинские буквы, цифры и

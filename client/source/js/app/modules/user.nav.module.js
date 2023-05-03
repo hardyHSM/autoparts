@@ -21,8 +21,8 @@ class UserNavModule extends ModuleCore {
 
     render() {
         if (this.auth.isAuth) {
-            this.$cart.dataset.count = getProductsCount(this.auth.userData.cart.list) || ''
-            this.$sign.dataset.count = this.auth.userData.unreadMessagesCount || ''
+            this.$cart.dataset.cartCount = getProductsCount(this.auth.userData.cart.list) || ''
+            this.$sign.dataset.cartCount = this.auth.userData.unreadMessagesCount || ''
             this.$sign.innerHTML = !this.router.isProfilePage ? html`
                 <a href="/user/profile" class="user-nav__link">
                     <svg>
@@ -57,7 +57,7 @@ class UserNavModule extends ModuleCore {
             this.registerLogout()
         } else {
             const cart = JSON.parse(localStorage.getItem('cart'))?.products || []
-            this.$cart.dataset.count = getProductsCount(cart) || ''
+            this.$cart.dataset.cartCount = getProductsCount(cart) || ''
             this.$sign.innerHTML = html`
                 <button class="user-nav__link">
                     <svg>

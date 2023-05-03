@@ -1,4 +1,4 @@
-.enrty-field {
+.entry-input {
     position: relative;
     font-size: 14px;
     line-height: 20px;
@@ -6,8 +6,8 @@
     background-color: #fff;
 }
 
-.enrty-field_search {
-    .enrty-field__icon {
+.entry-input_search {
+    .entry-input__icon {
         position: absolute;
         left: 20px;
         top: 50%;
@@ -16,7 +16,7 @@
         height: 18px;
     }
 
-    .enrty-field__field {
+    .entry-input__field {
         width: 100%;
         padding-left: 50px;
         padding-top: 18px;
@@ -24,8 +24,8 @@
     }
 }
 
-.enrty-field_pass {
-    .enrty-field__numbers {
+.entry-input_pass {
+    .entry-input__numbers {
         position: absolute;
         color: #BBBBBB;
         right: 20px;
@@ -35,15 +35,15 @@
         max-height: 11px;
     }
 
-    .enrty-field__number-left,
-    .enrty-field__number-right {
+    .entry-input__number-left,
+    .entry-input__number-right {
         font-size: 11px;
         line-height: 1;
     }
 }
 
 
-.enrty-field__field {
+.entry-input__field {
     display: block;
     padding: 20px 20px;
     line-height: 20px;
@@ -62,15 +62,17 @@
         line-height: 14px;
         color: #999999;
     }
-
     &:focus {
         outline: none;
         border: 1px solid #999999;
     }
+    &:disabled {
+        opacity: 0.5;
+    }
 }
 
-.enrty-field_icon {
-    .enrty-field__field {
+.entry-input_icon {
+    .entry-input__field {
         padding-right: 35px;
     }
 
@@ -88,22 +90,22 @@
     }
 }
 
-.enrty-field_req {
+.entry-input_req {
     &:after {
         background-image: url("../img/svg/requirement.svg");
     }
 
-    &:focus .enrty-field__field {
+    &:focus .entry-input__field {
         border: 1px solid red;
     }
 
-    .enrty-field__numbers {
+    .entry-input__numbers {
         display: none;
     }
 }
 
-.enrty-field_focus {
-    .enrty-field__field {
+.entry-input_focus {
+    .entry-input__field {
         border: 1px solid #999999
     }
 
@@ -111,22 +113,22 @@
         display: none;
     }
 
-    .enrty-field__numbers {
+    .entry-input__numbers {
         display: block;
     }
 }
 
-.enrty-field_pass.enrty-field_error {
+.entry-input_pass.entry-input_error {
     &:after {
         display: none;
     }
 
-    .enrty-field__numbers {
+    .entry-input__numbers {
         color: #FF4400;
     }
 }
 
-.enrty-field_correct {
+.entry-input_correct {
     &:after {
         display: block;
         stroke: #3CA255;
@@ -137,13 +139,13 @@
         height: 10px;
     }
 
-    .enrty-field__numbers {
+    .entry-input__numbers {
         display: none;
     }
 }
 
-.enrty-field_error {
-    .enrty-field__field {
+.entry-input_error {
+    .entry-input__field {
         border: 1px solid #FF4400;
     }
 
@@ -158,150 +160,48 @@
     }
 }
 
-.enrty-field_area {
+.entry-input_area {
     &:after {
         display: none;
     }
 }
 
+.entry-input__complete {
+    display: none;
+    position: absolute;
+    z-index: 50;
+    max-height: 224px;
+    position: absolute;
+    top: 98%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border-radius: 0 0 4px 4px;
+    border: 1px solid #999999;
+    border-top: none;
+    overflow-y: overlay;
+}
 
-//.enrty-field_icon {
-//    position: relative;
-//    input, textarea {
-//        padding: 20px 20px;
-//        line-height: 1;
-//        width: 100%;
-//        background: #FFFFFF;
-//        border: 1px solid #BBBBBB;
-//        box-sizing: border-box;
-//        border-radius: 4px;
-//        color: #222;
-//        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-//        &::placeholder {
-//            font-family: "Gotham Pro";
-//            font-size: 14px;
-//            line-height: 14px;
-//            color: #999999;
-//        }
-//        &:focus {
-//            outline: none;
-//        }
-//    }
-//    textarea {
-//        padding-right: 40px;
-//    }
-//    &::after {
-//        content: "";
-//        width: 11px;
-//        height: 11px;
-//        position: absolute;
-//        right: 25px;
-//        top: 50%;
-//        transform: translateY(-50%);
-//        opacity: 0;
-//        visibility: hidden;
-//        background-position: center;
-//        background-size: 100%;
-//        background-repeat: no-repeat;
-//        width: 10px;
-//        height: 10px;
-//        transition: all .2s linear;
-//    }
-//}
-//
-//.enrty-field-icon_area {
-//    &::after {
-//        top: 25px;
-//        transform: none;
-//    }
-//}
-//
-//.enrty-field-icon_error {
-//    input,textarea {
-//        border: 1px solid #FF4400;
-//    }
-//    &::after {
-//        fill: #FF4400;
-//        visibility: visible;
-//        opacity: 1;
-//        background-image: url("../img/svg/close.svg");
-//        width: 10px;
-//        height: 10px;
-//    }
-//}
-//
-//.enrty-field-icon_active {
-//    &::after {
-//        stroke: #3CA255;
-//        visibility: visible;
-//        opacity: 1;
-//        background-image: url("../img/svg/yes.svg");
-//        width: 13px;
-//        height: 10px;
-//    }
-//}
-//
-//.enrty-field-icon_focus {
-//
-//    &::after {
-//        fill: #FF4400;
-//        visibility: visible;
-//        opacity: 1;
-//        background-image: url("../img/svg/requirement.svg");
-//        width: 10px;
-//        height: 10px;
-//    }
-//}
-//
-//.enrty-field-count {
-//    position: relative;
-//    input, textarea {
-//        padding: 20px 20px;
-//        line-height: 1;
-//        width: 100%;
-//        background: #FFFFFF;
-//        border: 1px solid #BBBBBB;
-//        box-sizing: border-box;
-//        border-radius: 4px;
-//        color: #222;
-//        box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
-//        &::placeholder {
-//            font-family: "Gotham Pro";
-//            font-size: 14px;
-//            line-height: 14px;
-//            color: #999999;
-//        }
-//        &:focus {
-//            outline: none;
-//        }
-//    }
-//    textarea {
-//        padding-right: 40px;
-//    }
-//}
-//
-//.enrty-field-count_error{
-//    input, textarea {
-//        border: 1px solid #E15353 !important;
-//    }
-//    .enrty-field-count__number-left, .enrty-field-count__number-right {
-//        color: #E15353;
-//    }
-//}
-//
-//.enrty-field-count {
-//    position: relative;
-//    .enrty-field-count__numbers {
-//        position: absolute;
-//        color: #BBBBBB;
-//        right: 25px;
-//        top: 50%;
-//        transform: translateY(-50%);
-//        right: 25px;
-//        font-size: 0px;
-//    }
-//    .enrty-field-count__number-left, .enrty-field-count__number-right {
-//        font-size: 11px;
-//    }
-//}
-//
+.entry-input__item {
+    padding: 20px;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all .05s ease;
+    cursor: pointer;
+    &:hover {
+        background: rgba(28, 105, 212, 0.1);
+    }
+}
+
+.entry-input_active {
+    .entry-input__field {
+        border-bottom-color: transparent;
+        border-radius: 4px 4px 0px 0px;
+        //box-shadow: none;
+    }
+    .entry-input__complete {
+        display: block;
+    }
+}

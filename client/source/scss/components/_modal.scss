@@ -125,3 +125,9 @@
 .page-popup__block {
     margin-bottom: 20px;
 }
+
+.page-popup__row {
+    display: flex;
+    align-items: center;
+    gap: 0px 15px;
+}

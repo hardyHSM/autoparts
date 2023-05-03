@@ -12,15 +12,15 @@ export const states = {
             <h2 class="page-popup__title">Вход на сайт</h2>
             <div class="page-popup__errors" data-errors>
             </div>
-            <form action="#">
+            <form >
                 <div class="page-popup__block">
-                    <div class="enrty-field">
-                        <input type="email"  name="email" class="page-popup__input enrty-field__field" placeholder="E-mail" data-email/>
+                    <div class="entry-input">
+                        <input type="email"  name="email" class="page-popup__input entry-input__field" placeholder="E-mail" data-email/>
                     </div>
                 </div>
                 <div>
-                    <div class="enrty-field">
-                        <input type="password" name="password" autocomplete="off" class="page-popup__input enrty-field__field" placeholder="Пароль" data-pass/>
+                    <div class="entry-input">
+                        <input type="password" name="password" autocomplete="off" class="page-popup__input entry-input__field" placeholder="Пароль" data-pass/>
                     </div>
                     <button type="button" class="page-popup__link page-popup__link-forget" data-forget-pass tabindex="-1">Забыли пароль?</button>
                 </div>
@@ -39,10 +39,10 @@ export const states = {
             <div class="page-popup__errors" data-errors>
     
             </div>
-            <form action="#">
+            <form >
                 <div class="page-popup__block">
-                    <div class="enrty-field">
-                        <input type="email" autocomplete="off" class="page-popup__input enrty-field__field" placeholder="E-mail" data-email/>
+                    <div class="entry-input">
+                        <input type="email" autocomplete="off" class="page-popup__input entry-input__field" placeholder="E-mail" data-email/>
                     </div>
                 </div>
                 <button class="page-popup__button button button_accent page-popup__button-pass" type="submit" data-login-submit>Отправить письмо</button>

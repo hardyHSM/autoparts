@@ -22,7 +22,7 @@ class CatalogMenuModule {
         const data = categories.map(cat => {
             return {
                 ...cat,
-                children: subCategories.filter(subcat => subcat.category._id === cat._id)
+                children: subCategories.filter(subcat => subcat.category?._id === cat?._id)
             }
         }).sort((prev, next) => prev.number - next.number)
 

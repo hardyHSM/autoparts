@@ -1,4 +1,4 @@
-import MultiSelectComponent from '../../core/components/multiselect.input.component.js'
+import MultiSelectComponent from '../../core/components/selects/multiselect.input.component.js'
 import { debounce, sanitalize } from '../utils/utils.js'
 import { html } from 'code-tag'
 
@@ -203,8 +203,8 @@ class FilterModule {
                     <b class="filter-block__name">Поиск по наименованию</b>
                 </div>
                 <div class="filter-block__body">
-                    <div class="enrty-field">
-                        <input type="text" name="name" placeholder="Введите текст" class="enrty-field__field" data-filter="name"/>
+                    <div class="entry-input">
+                        <input type="text" name="name" placeholder="Введите текст" class="entry-input__field" data-filter="name"/>
                     </div>
                 </div>
             </div>

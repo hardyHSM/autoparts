@@ -1,4 +1,4 @@
-import RecoveryForm from '../../app/forms/recovery.form.js'
+import RecoveryForm from '../forms/recovery.form.js'
 
 class RecoveryController {
     constructor(config) {

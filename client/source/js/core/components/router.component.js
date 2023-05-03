@@ -17,9 +17,9 @@ class RouterComponent {
 
     getUrlParams() {
         const path = this.url.pathname
-        const [root, tab, menu] = path.split('/').filter(string => string.length)
+        const [root, tab, menu, additionalAction] = path.split('/').filter(string => string.length)
         return {
-            root, tab, menu
+            root, tab, menu, additionalAction
         }
     }
 
@@ -35,7 +35,7 @@ class RouterComponent {
         this.url.search = ''
     }
 
-    prevState() {
+    setPrevState() {
         history.back()
     }
 
@@ -127,6 +127,10 @@ class RouterComponent {
         return `/api/cart/`
     }
 
+    get productsLink() {
+        return `/api/products`
+    }
+
     get cartProductsLink() {
         return `/api/cart/get-products`
     }
@@ -169,6 +173,35 @@ class RouterComponent {
 
     get isProfilePage() {
         return this.url.pathname.startsWith('/user')
+    }
+
+    get categoriesLink() {
+        return '/api/categories'
+    }
+
+    get subcategoriesLink() {
+        return '/api/subcategories'
+    }
+
+    getCategoryLink(id) {
+        return `/api/categories?id=${id}`
+    }
+
+    getSubcategoryLink(id) {
+        return `/api/subcategories?id=${id}`
+    }
+
+    get productsLinkWithParams() {
+        return `/api/products${this.url.search}`
+    }
+    get productsDescriptionsLink() {
+        return '/api/products_descriptions'
+    }
+    get providerLink() {
+        return '/api/products_providers'
+    }
+    get stocksLink() {
+        return '/api/products_stocks'
     }
 }
 

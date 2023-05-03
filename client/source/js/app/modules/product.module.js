@@ -1,8 +1,7 @@
-import ScrollToTop from '../utils/smooth.scroll.js'
 import renderProductPage from '../views/render.product.page.js'
 import ButtonComponent from '../../core/components/button.component.js'
 import renderProducts from '../views/render.products.js'
-import { lazyLoadImages } from '../utils/utils.js'
+import ScrollToTop, { lazyLoadImages } from '../utils/utils.js'
 import ModuleCore from '../../core/modules/module.core.js'
 
 class ProductModule extends ModuleCore {

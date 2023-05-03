@@ -24,4 +24,16 @@ export default class ValidationComponent {
     static isValidPart(name) {
         return name.length >= 3
     }
+    static isValidLink(link) {
+        return link.match(/^[^0-9а-яА-я]+$/g)
+    }
+    static isValidNumber(number) {
+        return number.match(/^\d+$/)
+    }
+    static isValidCategory(category) {
+        return category.match(/^[А-яa-z,. '-]+$/)
+    }
+    static isExist(text) {
+        return text.length >= 1
+    }
 }

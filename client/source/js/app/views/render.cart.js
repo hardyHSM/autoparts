@@ -4,10 +4,10 @@ export default function renderCartTable(output, data) {
     data.forEach(item => {
         const { count, product } = item
         const view = html`
-            <tr class="cart-table__row product-table" data-product data-product-id="${product._id}">
-                <td class="cart-table__col cart-table__col_big">
+            <tr class="table__row product-table" data-product data-product-id="${product._id}">
+                <td class="table__col table__col_big">
                     <div class="product-table__header">
-                        <a href="/product/${product._id}" class="product-table__title">${product.maker}</a>
+                        <a href="/products/${product._id}" class="product-table__title">${product.maker}</a>
                         <div class="product-table__tooltip tooltip-picture">
                             <svg class="tooltip-picture__icon">
                                 <use xlink:href="img/svg/sprite.svg#photo"></use>
@@ -19,22 +19,22 @@ export default function renderCartTable(output, data) {
                     </div>
                     <p class="product-table__descr">${product.title}</p>
                 </td>
-                <td class="cart-table__col product-table__supplier">
+                <td class="table__col product-table__supplier">
                     <span class="product-table__supplier-name">
                         ${product.provider}
                     </span>
                 </td>
-                <td class="cart-table__col">
+                <td class="table__col">
                     <span class="product-table__stock">
                         ${product.stock}
                     </span>
                 </td>
-                <td class="cart-table__col">
+                <td class="table__col">
                     <span class="product-table__price" data-price>
                        ${product.price} ₽
                     </span>
                 </td>
-                <td class="cart-table__col">
+                <td class="table__col">
                     <div class="number-select" data-numberselect>
                         <div class="number-select__body">
                             <div class="number-select__button number-select__left-button" data-decr>
@@ -52,14 +52,14 @@ export default function renderCartTable(output, data) {
                         </button>
                     </div>
                 </td>
-                <td class="cart-table__col">
+                <td class="table__col">
                     <div class="product-table__summa" data-summa>${product.price * count} ₽</div>
                 </td>
-                <td class="cart-table__col">
+                <td class="table__col">
                     ${getRelevanceClass(product.popularity)}
                 </td>
-                <td class="cart-table__col cart-table__col_small">
-                    <label class="checkbox cart-table__checkbox">
+                <td class="table__col table__col_small">
+                    <label class="checkbox table__checkbox">
                         <input class="checkbox__input" type="checkbox" data-cart-checkbox>
                         <span class="checkbox__view">
                             <svg>

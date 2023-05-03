@@ -1,6 +1,7 @@
 import ApiError from '../service/error.service.js'
 
 export default function errorMiddleware(err, req, res, next) {
+    console.log(err)
     if (err instanceof ApiError) {
         if (err.status === 404) {
             return res.redirect('/404')

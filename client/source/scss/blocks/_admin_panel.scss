@@ -1,0 +1,36 @@
+.admin-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.admin-panel__title {
+    font-size: 32px;
+    font-weight: 700;
+    display: flex;
+}
+
+
+.admin-panel__count {
+    color: #777;
+    font-size: 16px;
+    display: block;
+    margin-left: 15px;
+    align-self: flex-end;
+    font-weight: normal;
+    padding-bottom: 5px;
+}
+
+.admin-panel__form {
+    //max-width: 600px;
+    .form__row {
+        flex-wrap: nowrap;
+        gap: 0px 15px;
+    }
+    .field-block {
+        flex-grow: 1;
+    }
+}

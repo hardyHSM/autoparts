@@ -1,4 +1,5 @@
 import ModuleCore from './module.core.js'
+import ScrollToTop from '../../app/utils/utils.js'
 
 class ModuleTabs extends ModuleCore {
     constructor(config) {
@@ -6,10 +7,13 @@ class ModuleTabs extends ModuleCore {
         this.$root = document.querySelector(config.root)
         this.$tab = document.querySelector(config.tabQuery)
         this.$menuQuery = config.menuQuery
+        window.addEventListener('popstate', () => {
+            this.router.init()
+            this.changeState()
+        })
     }
 
     init() {
-        super.init()
         this.changeState()
         this.registerHandler()
     }
@@ -21,7 +25,8 @@ class ModuleTabs extends ModuleCore {
     }
 
     initRoutes() {
-        const { root, tab, menu } = this.router.getUrlParams()
+        this.router.init()
+        const { root, tab, menu, additionalAction } = this.router.getUrlParams()
         try {
             this.tabState = tab
             this.tabHandler = this.config.tabsParams[this.tabState]
@@ -29,10 +34,15 @@ class ModuleTabs extends ModuleCore {
                 this.menuState = this.tabHandler.default
                 this.menuHandler = this.config.menuParams[this.menuState]
             } else {
+                let menuData = menu
+                if(additionalAction) {
+                    menuData = [menu, additionalAction].join('/')
+                }
                 this.menuState = menu
-                this.menuHandler = this.config.menuParams[this.menuState]
+                this.menuHandler = this.config.menuParams[menuData]
             }
         } catch (e) {
+            console.log(e)
             this.router.redirectNotFound()
         }
     }
@@ -43,15 +53,19 @@ class ModuleTabs extends ModuleCore {
     }
 
     async renderMenuState() {
-        this.$menu = document.querySelector(this.$menuQuery)
-        this.registerActiveButton('menu', this.menuState, 'tabs-menu__button_active')
-        this.showPreloader()
-
-        this.isLoading = true
-        const data = await this.menuHandler?.middleware?.() || this.auth
-        this.isLoading = false
-        this.$menu.innerHTML = this.menuHandler?.render?.(data) || ''
-        this.menuHandler?.functional?.(this.$menu, data)
+        try {
+            this.$menu = document.querySelector(this.$menuQuery)
+            this.registerActiveButton('menu', this.menuState, 'tabs-menu__button_active')
+            this.showPreloader()
+            this.isLoading = true
+            const data = await this.menuHandler?.middleware?.() || this.auth
+            this.isLoading = false
+            this.$menu.innerHTML = this.menuHandler?.render?.(data) || ''
+            ScrollToTop('#top-element', 'auto')
+            this.menuHandler?.functional?.(this.$menu, data, this)
+        } catch(e) {
+            this.router.setPrevState()
+        }
     }
 
     registerHandler() {
@@ -64,7 +78,6 @@ class ModuleTabs extends ModuleCore {
             const activeClass = type === 'tab' ? 'tabs-pages__button_active' : 'tabs-menu__button_active'
             this.registerActiveButton(type, state, activeClass)
             this.router.redirectUrlState(link)
-            this.router.init()
             this.changeState()
         })
     }

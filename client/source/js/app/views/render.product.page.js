@@ -47,7 +47,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
                             ${sizes.reduce((acc, item) => {
                                 acc += `
                                         <li class="sizes__item">
-                                            <a class="sizes__link button button_mini button_neutral" href="/product/${item._id}">${item.size}</a>
+                                            <a class="sizes__link button button_mini button_neutral" href="/products/${item._id}">${item.size}</a>
                                         </li>
                                     `
                                 return acc

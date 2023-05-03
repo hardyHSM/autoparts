@@ -1,5 +1,5 @@
 import FormComponent from '../../core/components/form.component.js'
-import { InputPass } from '../../core/components/input.component.js'
+import { InputPass } from '../../core/components/selects/input.component.js'
 import ModalComponent from '../../core/components/modal.component.js'
 import ValidationComponent from '../../core/components/validation.component.js'
 

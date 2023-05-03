@@ -12,8 +12,7 @@ const productsSchema = new Schema({
         index: true
     },
     attributes: {
-        type: Object,
-        index: true
+        type: Object
     },
     image: {
         type: String,
@@ -42,7 +41,12 @@ const productsSchema = new Schema({
         required: false,
         index: true,
         default: 0
-    }
+    },
+    stock: String,
+    provider: String,
+    count: Number
+}, {
+    timestamps: { createdAt: 'created_at', updatedAt: false }
 })
 
 const ProductsModel = model('Product', productsSchema)

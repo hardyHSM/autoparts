@@ -81,8 +81,8 @@ export function renderOrderFirstStage(auth) {
                     <b class="field-block__title">Имя</b>
                     <span class="field-block__req">(обязательное)</span>
                 </div>
-                <div class="enrty-field enrty-field_icon enrty-field_req">
-                    <input type="text" name="firstName"  placeholder="Имя" class="enrty-field__field" value="${auth?.userData?.firstName || ''}" data-name/>
+                <div class="entry-input entry-input_icon entry-input_req">
+                    <input type="text" name="firstName"  placeholder="Имя" class="entry-input__field" value="${auth?.userData?.firstName || ''}" data-name/>
                 </div>
                 <div class="field-block__undertext_error"></div>
             </div>
@@ -92,8 +92,8 @@ export function renderOrderFirstStage(auth) {
                     <span class="field-block__req"></span>
                 </div>
                 <div>
-                    <div class="enrty-field">
-                        <input type="text" name="lastName"  placeholder="Фамилия" class="enrty-field__field" value="${auth?.userData?.lastName || ''}" data-lastname/>
+                    <div class="entry-input">
+                        <input type="text" name="lastName"  placeholder="Фамилия" class="entry-input__field" value="${auth?.userData?.lastName || ''}" data-lastname/>
                     </div>
                 </div>
             </div>
@@ -104,8 +104,8 @@ export function renderOrderFirstStage(auth) {
                     <b class="field-block__title">Телефон</b>
                     <span class="field-block__req">(Обязательно)</span>
                 </div>
-                <div class="enrty-field enrty-field_icon enrty-field_req">
-                    <input type="tel" name="tel"  class="enrty-field__field" value="${auth?.userData?.tel || ''}" data-tel/>
+                <div class="entry-input entry-input_icon entry-input_req">
+                    <input type="tel" name="tel"  class="entry-input__field" value="${auth?.userData?.tel || ''}" data-tel/>
                 </div>
                 <div class="field-block__undertext_error"></div>
             </div>
@@ -114,8 +114,8 @@ export function renderOrderFirstStage(auth) {
                     <b class="field-block__title">Email</b>
                     <span class="field-block__req">(обязательное)</span>
                 </div>
-                <div class="enrty-field enrty-field_icon enrty-field_req">
-                    <input type="email" name="email" autocomplete="none" placeholder="Email" class="enrty-field__field" value="${auth?.userData?.email || ''}" data-email/>
+                <div class="entry-input entry-input_icon entry-input_req">
+                    <input type="email" name="email" autocomplete="none" placeholder="Email" class="entry-input__field" value="${auth?.userData?.email || ''}" data-email/>
                 </div>
                 <div class="field-block__undertext_error"></div>
             </div>

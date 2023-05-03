@@ -88,7 +88,7 @@
         height: 18px;
     }
     &::after {
-        content: attr(data-count);
+        content: attr(data-cart-count);
         position: absolute;
         z-index: 5;
         font-weight: bold;
@@ -113,7 +113,7 @@
         height: 19px;
     }
     &::after {
-        content: attr(data-count);
+        content: attr(data-cart-count);
         position: absolute;
         z-index: 5;
         font-weight: bold;

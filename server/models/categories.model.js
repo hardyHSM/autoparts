@@ -9,11 +9,11 @@ const categoriesSchema = new Schema({
     link: {
         type: String,
         required: true,
-        index: true
+        index: true,
+        unique: true
     },
     number: {
-        type: Number,
-        unique: true
+        type: Number
     }
 })
 

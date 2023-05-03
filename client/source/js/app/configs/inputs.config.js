@@ -1,9 +1,9 @@
 const config = {
-    classActive: 'enrty-field_focus',
-    classReq: 'enrty-field_req',
-    classCorrect: 'enrty-field_correct',
-    classError: 'enrty-field_error',
-    parent: '.enrty-field'
+    classActive: 'entry-input_focus',
+    classReq: 'entry-input_req',
+    classCorrect: 'entry-input_correct',
+    classError: 'entry-input_error',
+    parent: '.entry-input'
 }
 
 

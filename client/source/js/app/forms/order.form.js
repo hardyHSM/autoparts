@@ -1,10 +1,9 @@
 import FormComponent from '../../core/components/form.component.js'
-import { InputEmail, InputLastName, InputName, InputTel } from '../../core/components/input.component.js'
+import { InputEmail, InputLastName, InputName, InputTel } from '../../core/components/selects/input.component.js'
 import { renderOrderFirstStage, renderOrderSecondStage, renderOrderSuccess } from '../views/render.order.js'
-import ScrollToTop from '../utils/smooth.scroll.js'
 import ButtonComponent from '../../core/components/button.component.js'
 import ModalComponent from '../../core/components/modal.component.js'
-import { getTotalPriceWithPromo } from '../utils/utils.js'
+import ScrollToTop, { getTotalPriceWithPromo } from '../utils/utils.js'
 
 class OrderForm extends FormComponent {
     constructor(config) {

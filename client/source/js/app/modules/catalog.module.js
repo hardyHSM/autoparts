@@ -1,8 +1,7 @@
 import renderProducts from '../views/render.products.js'
-import SelectComponent from '../../core/components/select.component.js'
-import ScrollToTop from '../utils/smooth.scroll.js'
+import SelectComponent from '../../core/components/selects/select.component.js'
 import changeProductsViewHandler from '../utils/view.catalog.js'
-import { lazyLoadImages } from '../utils/utils.js'
+import ScrollToTop, { lazyLoadImages } from '../utils/utils.js'
 import PaginationComponent from '../../core/components/pagination.component.js'
 import SidebarComponent from '../../core/components/sidebar.component.js'
 import ModuleCore from '../../core/modules/module.core.js'
@@ -41,8 +40,11 @@ export default class CatalogModule extends ModuleCore {
                     })
                 }
             })
-            this.renderFilterSidebar()
-            this.data = await this.changeState()
+            const [data] = await Promise.all([
+                this.changeState(),
+                this.renderFilterSidebar()
+            ])
+            this.data = data
             this.preloader.hide()
             this.renderCatalogHeader(this.data)
         } catch(e) {

@@ -251,8 +251,8 @@ class CartModule extends ModuleCore {
 
     renderEmptyCart() {
         const view = html`
-            <tr class="cart-table__row product-table">
-                <td class="cart-table__col cart-table__col_big">Корзина пустая</td>
+            <tr class="table__row product-table">
+                <td class="table__col table__col_big">Корзина пустая</td>
             </tr>`
         this.$cartNode.insertAdjacentHTML('beforeend', view)
     }

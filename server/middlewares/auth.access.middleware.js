@@ -5,7 +5,7 @@ export default async function authAccessMiddleware(req, res, next) {
         if(req.user) {
             next()
         } else {
-           next(ApiError.Error404())
+           next(ApiError.UnauthorizedError())
         }
     } catch(e) {
         next(e)

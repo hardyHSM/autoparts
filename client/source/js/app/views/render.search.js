@@ -108,7 +108,7 @@ const renderSearchProducts = (title, data = []) => {
             </div>
             ${data.reduce((acc, product) => {
                 acc += `
-                    <a href="/product/${product._id}" class="search-list__body search-list__body_product">
+                    <a href="/products/${product._id}" class="search-list__body search-list__body_product">
                     <img src="/${product.image || 'img/assets/no_photo.jpg'}" alt="" title="${product.title}">
                        <span class="search-list__name">${product.title}</span>
                     </a>

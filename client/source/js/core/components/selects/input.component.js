@@ -1,7 +1,7 @@
-import ValidationComponent from './validation.component.js'
-import CONFIG_INPUTS from '../../app/configs/inputs.config.js'
+import ValidationComponent from '../validation.component.js'
+import CONFIG_INPUTS from '../../../app/configs/inputs.config.js'
 import IMask from 'imask'
-import loginModal from '../../app/modules/login.modal.js'
+import loginModal from '../../../app/modules/login.modal.js'
 
 export class InputComponent {
     constructor({ selector, onChange, parent }) {
@@ -22,11 +22,11 @@ export class InputComponent {
     }
 
     setFocus() {
-        this.$parent.classList.add('enrty-field_focus')
+        this.$parent.classList.add('entry-input_focus')
     }
 
     removeFocus() {
-        this.$parent.classList.remove('enrty-field_focus')
+        this.$parent.classList.remove('entry-input_focus')
     }
 
     setValue(value) {
@@ -41,7 +41,7 @@ export class InputValidation extends InputComponent {
         super(config)
         this.req = config.req
         this.classes = CONFIG_INPUTS
-        this.validation = config.validationFunc
+        this.validation = config.validationFunc || ValidationComponent.isExist
         this.isValid = false
         this.$fieldBlock = this.$field.closest('.field-block')
         this.init()
@@ -136,7 +136,7 @@ export class InputValidation extends InputComponent {
 export class InputPass extends InputValidation {
     constructor(props) {
         props.req = true
-        props.number = '.enrty-field__number-left'
+        props.number = '.entry-input__number-left'
 
         super(props)
         this.$countField = this.$parent.querySelector(props.number)

@@ -11,9 +11,9 @@ class PaginationComponent {
         this.$list.innerHTML = ''
     }
 
-    render({ count, currentPage }) {
+    render({ count, currentPage, limit = 12 }) {
         currentPage = +currentPage
-        const pagesCount = Math.ceil(count / 12)
+        const pagesCount = Math.ceil(count / limit)
         if (pagesCount === 1) return false
 
         let html = ''
