@@ -1,10 +1,10 @@
 import subcategoriesModel from './subcategories.model.js'
 import categoriesModel from '../categories/categories.model.js'
 import { apiService, auth, router } from '../../common.modules.js'
-import SelectInputComponent from '../../../core/components/selects/select.input.component.js'
+import SelectInputComponent from '../../../core/components/selects.inputs/select.input.component.js'
 import SubcategoryForm from './subcategories.form.js'
-import ModalComponent from '../../../core/components/modal.component.js'
-import DeleteHelper from '../common/delete.provider.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import DeleteHelper from '../../../core/providers/delete.provider.js'
 
 class SubcategoriesController {
     async middleware() {

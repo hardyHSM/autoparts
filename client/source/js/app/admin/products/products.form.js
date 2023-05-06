@@ -1,10 +1,11 @@
 import FormComponent from '../../../core/components/form.component.js'
 import ValidationComponent from '../../../core/components/validation.component.js'
-import { InputValidation } from '../../../core/components/selects/input.component.js'
-import ModalComponent from '../../../core/components/modal.component.js'
-import SelectInputComponent from '../../../core/components/selects/select.input.component.js'
-import InputFileComponent from '../../../core/components/selects/input.file.component.js'
-import InputCompleteComponent from '../../../core/components/selects/input.complete.component.js'
+import { InputValidation } from '../../../core/components/selects.inputs/input.component.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import SelectInputComponent from '../../../core/components/selects.inputs/select.input.component.js'
+import InputFileComponent from '../../../core/components/selects.inputs/input.file.component.js'
+import InputCompleteComponent from '../../../core/components/selects.inputs/input.complete.component.js'
+import scrollToTop from '../../utils/utils.js'
 
 class ProductsForm extends FormComponent {
     constructor(config) {
@@ -12,22 +13,17 @@ class ProductsForm extends FormComponent {
         this.method = config.method
         this.title = config.title
         this.data = config.data
-        this.onsuccess = config.onsuccess
+        this.onsuccess = config.onsuccess || new Function()
     }
 
     init() {
         this.registerSelects()
-
         this.fileInput = new InputFileComponent({
             root: '[data-image-input]'
         })
         this.fileInput.init()
         this.name = new InputValidation({
             selector: '[data-name]',
-            req: true
-        })
-        this.maker = new InputValidation({
-            selector: '[data-maker]',
             req: true
         })
         this.count = new InputValidation({
@@ -44,6 +40,12 @@ class ProductsForm extends FormComponent {
             selector: '[data-popularity]',
             req: true,
             validationFunc: ValidationComponent.isValidNumber
+        })
+
+        this.maker = new InputCompleteComponent({
+            selector: '[data-maker]',
+            req: true,
+            data: this.data.makers
         })
 
         this.provider = new InputCompleteComponent({
@@ -110,7 +112,7 @@ class ProductsForm extends FormComponent {
     }
 
     async requestTo() {
-        this.submitComponent.setPreloaderState()
+        let error = false
         const body = {}
         new FormData(this.$form).forEach((value, key) => {
             if (key === 'attributes') {
@@ -121,15 +123,20 @@ class ProductsForm extends FormComponent {
         })
         this.selectsList.forEach(select => {
             if (!select.getValue()) {
-                return select.showError(`Выберите данное поле!`)
+                scrollToTop(select.$header)
+                select.showError(`Выберите данное поле!`)
+                error = true
             } else {
                 body[select.key] = select.getValue()
             }
         })
+        if (error) return
+
         if (this.fileInput.file) {
             body['image'] = this.fileInput.file
         }
 
+        this.submitComponent.setPreloaderState()
         const res = await this.apiService.useRequest(this.router.productsLink, {
             method: this.method,
             headers: {
@@ -143,7 +150,7 @@ class ProductsForm extends FormComponent {
             new ModalComponent({
                 template: 'default',
                 title: this.title,
-                text: res.success
+                text: `${res.success}. Товар можно посмотреть здесь - <a class="page-link" href="/products/${res.product._id}">*тык*</a>`
             }).create()
             this.onsuccess()
         } else {

@@ -80,9 +80,7 @@ const renderSearchAttributes = (title, data = [], isFull) => {
                     ${attr.key}
                 </div>
                 ${attr.values.reduce((a, value) => {
-                    const key = encodeURIComponent(sanitalize(attr.key))
-                    const val = encodeURIComponent(sanitalize(value.name))
-                    const url = `/search/attributes?key=${key}&value=${val}`
+                    const url = `/search/attributes?key=${attr.key}&value=${value.name}`
                     a += html`
                         <a href="${url}" class="search-list__body">
                             <span class="search-list__name">${value.name}</span>

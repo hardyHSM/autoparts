@@ -1,3 +1,5 @@
+import { Editor, HTMLMdNodeConvertorMap } from '@toast-ui/editor'
+
 export function debounce(callee, timeoutMs) {
     let previousCall = Date.now()
     let lastCallTimer = null
@@ -68,12 +70,62 @@ export function sanitalize(text) {
     return text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll('\'', '&#039;')
 }
 
-export default function ScrollToTop(query, type = 'smooth') {
-    document.querySelector(query).scrollIntoView(
+export function decodeString(text) {
+    if (!text) return null
+    return text.replaceAll('&amp;', '&').replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&quot;', '"').replaceAll('&#039;', '\'')
+}
+
+export function escapeRegex(str) {
+    if (!str) return null
+    return str.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&')
+}
+
+
+export default function scrollToTop(node, type = 'smooth') {
+    let root
+    if (typeof node === 'string') {
+        root = document.querySelector(node)
+    } else {
+        root = node
+    }
+    root.scrollIntoView(
         {
             behavior: type,
             top: true,
             block: 'center'
         }
     )
+}
+
+export function parseArrayToHTML(description) {
+    if (Array.isArray(description)) {
+        return description.reduce((acc, item) => {
+            const { title, text, textList } = item
+            if (title) {
+                acc += `<h2>${title}</h2>`
+            }
+            if (text) {
+                acc += `<p>${text}</p>`
+            }
+            if (textList) {
+                let list = ''
+                textList.forEach(item => {
+                    list += `<li>${item}</li>`
+                })
+                acc += `<ul>${list}</ul>`
+            }
+            return acc
+        }, '')
+    } else {
+        const tempNode = document.createElement('div')
+        tempNode.setAttribute('id', 'editor-temp-element')
+        tempNode.style.display = 'none'
+        document.body.appendChild(tempNode)
+        const editor = new Editor({
+            el: document.querySelector('#editor-temp-element'),
+            initialEditType: 'markdown',
+            initialValue: description
+        })
+        return editor.getHTML()
+    }
 }

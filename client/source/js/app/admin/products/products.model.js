@@ -5,8 +5,8 @@ class ProductsModel {
         const res = await apiService.useRequest(router.productsLinkWithParams)
         return res
     }
-    async getAllDescriptions() {
-        const res = await apiService.useRequest(router.productsDescriptionsLink)
+    async search(value) {
+        const res = await apiService.useRequest(router.getSearchProducts(value))
         return res
     }
     async getAllProviders() {
@@ -15,6 +15,10 @@ class ProductsModel {
     }
     async getAllStocks() {
         const res = await apiService.useRequest(router.stocksLink)
+        return res
+    }
+    async getAllMakers() {
+        const res = await apiService.useRequest(router.makersLink)
         return res
     }
 }

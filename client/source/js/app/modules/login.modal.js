@@ -1,4 +1,4 @@
-import ModalComponent from '../../core/components/modal.component.js'
+import ModalComponent from '../../core/components/modals/modal.component.js'
 import ValidationComponent from '../../core/components/validation.component.js'
 import ButtonComponent from '../../core/components/button.component.js'
 import { template, states } from '../configs/login.modal.config.js'

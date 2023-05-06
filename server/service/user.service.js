@@ -261,6 +261,7 @@ class UserService {
             tel: user.tel,
             isActivated: user.isActivated,
             cart: user.cart,
+            role: user.role,
             unreadMessagesCount: this.getUnreadMessagesCount(user.notifications)
         }
     }

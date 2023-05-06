@@ -1,9 +1,10 @@
 import ProductsModel from '../models/products.model.js'
 import CategoriesModel from '../models/categories.model.js'
 import SubCategoriesModel from '../models/subcategories.model.js'
-import ProducersModel from '../models/producers.model.js'
+import descriptionsModel from '../models/descriptions.model.js'
 import ApiError from './error.service.js'
 import AssetsService from './assets.service.js'
+import { decodeString, escapeRegExp } from '../utils/utils.js'
 
 
 class ProductService {
@@ -12,7 +13,7 @@ class ProductService {
     }
 
     async getProductsByParams(query, sortData, page, limit) {
-        return await ProductsModel.find(query).sort(sortData).skip(page).limit(limit).lean()
+        return await ProductsModel.find(query).sort(sortData).skip(page).limit(limit).populate(['info', 'category', 'subcategory']).exec()
     }
 
     async getProductClasses(cat, subcat) {
@@ -76,11 +77,11 @@ class ProductService {
 
     async getProductsBySearch({ text, sortData, count, page }) {
         const [list, productCount, makers, categories, subCategories, attributes] = await Promise.all([
-            ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'gi') } }).lean().sort(sortData).limit(count).skip((page - 1) * 12),
-            ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'gi') } }).lean().count(),
+            ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'i') } }).lean().sort(sortData).limit(count).skip((page - 1) * 12),
+            ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'i') } }).lean().count(),
             ProductsModel.aggregate([
                 {
-                    $match: { maker: { $regex: new RegExp(`${text}`, 'gi') } }
+                    $match: { maker: { $regex: new RegExp(`${text}`, 'i') } }
                 },
                 {
                     $group: {
@@ -210,7 +211,7 @@ class ProductService {
             ProductsModel.findOne({ title: body.title }),
             CategoriesModel.findById(categoryId),
             SubCategoriesModel.findById(subcategoryId),
-            ProducersModel.findById(descriptionId)
+            descriptionsModel.findById(descriptionId)
         ])
         if (!category || !subcategory || !info) {
             throw ApiError.BadRequest('Проверьте введённые данные!')
@@ -252,7 +253,7 @@ class ProductService {
         }
         const category = await CategoriesModel.findById(categoryId)
         const subcategory = await SubCategoriesModel.findById(subcategoryId)
-        const info = await ProducersModel.findById(descriptionId)
+        const info = await descriptionsModel.findById(descriptionId)
         if (!category || !subcategory || !info) {
             throw ApiError.BadRequest('Ошибка при вводе данных!')
         }
@@ -275,6 +276,27 @@ class ProductService {
             }
         }
         await product.save()
+        return product
+    }
+
+    parseQueryRegexp(value) {
+        return {
+            $regex: new RegExp(value, 'gi')
+        }
+    }
+
+    parseOrderQueryRegexp(value) {
+        const [_, sign, n] = value.match(/^(\&gt;|\&lt;)+(\d+)/i)
+        if (sign === '&gt;') {
+            return {
+                $gt: Number(n)
+            }
+        }
+        if (sign === '&lt;') {
+            return {
+                $lt: Number(n)
+            }
+        }
     }
 }
 

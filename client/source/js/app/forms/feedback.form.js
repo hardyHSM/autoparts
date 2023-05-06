@@ -1,6 +1,6 @@
 import FormComponent from '../../core/components/form.component.js'
-import { InputEmail, InputName, InputText } from '../../core/components/selects/input.component.js'
-import ModalComponent from '../../core/components/modal.component.js'
+import { InputEmail, InputName, InputText } from '../../core/components/selects.inputs/input.component.js'
+import ModalComponent from '../../core/components/modals/modal.component.js'
 
 class FeedbackForm extends FormComponent {
     constructor(config) {

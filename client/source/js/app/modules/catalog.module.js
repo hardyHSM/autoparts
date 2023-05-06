@@ -1,7 +1,7 @@
 import renderProducts from '../views/render.products.js'
-import SelectComponent from '../../core/components/selects/select.component.js'
-import changeProductsViewHandler from '../utils/view.catalog.js'
-import ScrollToTop, { lazyLoadImages } from '../utils/utils.js'
+import SelectComponent from '../../core/components/selects.inputs/select.component.js'
+import changeProductsViewHandler from '../service/view.catalog.js'
+import scrollToTop, { lazyLoadImages } from '../utils/utils.js'
 import PaginationComponent from '../../core/components/pagination.component.js'
 import SidebarComponent from '../../core/components/sidebar.component.js'
 import ModuleCore from '../../core/modules/module.core.js'
@@ -36,7 +36,7 @@ export default class CatalogModule extends ModuleCore {
                 onChange: (pageNumber) => {
                     this.addParamState('page', pageNumber, () => {
                         this.changeState()
-                        ScrollToTop('#top-element')
+                        scrollToTop('#top-element')
                     })
                 }
             })
@@ -89,7 +89,7 @@ export default class CatalogModule extends ModuleCore {
             onselect: (data) => {
                 this.addParamState('sort', data.value, () => {
                     this.changeState()
-                    ScrollToTop('#top-element')
+                    scrollToTop('#top-element')
                 })
             }
         })

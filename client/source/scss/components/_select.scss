@@ -21,8 +21,8 @@
     max-height: 224px;
     position: absolute;
     top: 100%;
-    left: -0.5px;
-    right: -0.5px;
+    left: -1px;
+    right: -1px;
     transition: opacity .1s linear;
     background-color: #fff;
     visibility: hidden;
@@ -195,7 +195,7 @@
         line-height: 14px;
         font-weight: 400;
         color: #222;
-        padding: 18px 30px 18px 18px;
+        padding: 18px 45px 18px 18px;
         border: none;
         border-radius: 4px;
         &::placeholder {
@@ -212,6 +212,7 @@
 
     .select__body {
         top: 99%;
+        width: 101%;
         left: -1px;
         right: -1px;
         overflow-y: auto;

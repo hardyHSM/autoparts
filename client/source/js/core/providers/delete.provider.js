@@ -1,5 +1,5 @@
-import ModalComponent from '../../../core/components/modal.component.js'
-import { apiService, router } from '../../common.modules.js'
+import ModalComponent from '../components/modals/modal.component.js'
+import { apiService, router } from '../../app/common.modules.js'
 
 class DeleteHelper {
     static delete({ selector, title, text, routerLink, id, onsuccess }) {
@@ -20,6 +20,7 @@ class DeleteHelper {
                             id: id
                         })
                     })
+                    return res
                 },
                 closeHandler: async () => {
                     onsuccess()

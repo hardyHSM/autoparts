@@ -1,9 +1,9 @@
 import FormComponent from '../../core/components/form.component.js'
-import { InputEmail, InputLastName, InputName, InputTel } from '../../core/components/selects/input.component.js'
+import { InputEmail, InputLastName, InputName, InputTel } from '../../core/components/selects.inputs/input.component.js'
 import { renderOrderFirstStage, renderOrderSecondStage, renderOrderSuccess } from '../views/render.order.js'
 import ButtonComponent from '../../core/components/button.component.js'
-import ModalComponent from '../../core/components/modal.component.js'
-import ScrollToTop, { getTotalPriceWithPromo } from '../utils/utils.js'
+import ModalComponent from '../../core/components/modals/modal.component.js'
+import scrollToTop, { getTotalPriceWithPromo } from '../utils/utils.js'
 
 class OrderForm extends FormComponent {
     constructor(config) {
@@ -33,7 +33,7 @@ class OrderForm extends FormComponent {
             this.validationForm(e, this.renderSecondStage.bind(this))
         })
         document.querySelector('.pick-location__change').addEventListener('click', (e) => {
-            ScrollToTop('#top-element')
+            scrollToTop('#top-element')
             this.locationModule.showLocationChoose()
         })
     }

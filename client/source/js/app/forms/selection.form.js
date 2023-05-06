@@ -1,8 +1,8 @@
-import SelectComponent from '../../core/components/selects/select.component.js'
-import NumberSelectComponent from '../../core/components/number.select.component.js'
+import SelectComponent from '../../core/components/selects.inputs/select.component.js'
+import NumberSelectComponent from '../../core/components/selects.inputs/number.select.component.js'
 import FormComponent from '../../core/components/form.component.js'
-import { InputEmail, InputName, InputPart, InputVin } from '../../core/components/selects/input.component.js'
-import ModalComponent from '../../core/components/modal.component.js'
+import { InputEmail, InputName, InputPart, InputVin } from '../../core/components/selects.inputs/input.component.js'
+import ModalComponent from '../../core/components/modals/modal.component.js'
 
 class SelectionForm extends FormComponent {
     constructor(config) {

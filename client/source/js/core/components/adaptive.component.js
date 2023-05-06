@@ -1,15 +1,14 @@
 export default class ElementTransporter {
     prevWindowWidth = null
+
     appendElements(config) {
-        window.addEventListener('DOMContentLoaded', () => {
-            this.prevWindowWidth = document.body.clientWidth
-            config.forEach(item => this.toChange(item))
-        })
-        new ResizeObserver(() => {
-            if (document.body.clientWidth !== this.prevWindowWidth) {
+        config.forEach(item => this.toChange(item))
+        this.prevWindowWidth = window.innerWidth
+        window.addEventListener('resize', e => {
+            if (window.innerWidth !== this.prevWindowWidth) {
                 config.forEach(item => this.toChange(item))
             }
-        }).observe(document.body)
+        })
     }
 
     toChange(config) {
@@ -20,7 +19,8 @@ export default class ElementTransporter {
                 if (window.innerWidth <= value) {
                     $where_element.insertAdjacentElement(config.pos, $element)
                 }
-            } else {
+            }
+            if (key === 'more') {
                 if (window.innerWidth > value) {
                     $where_element.insertAdjacentElement(config.pos, $element)
                 }

@@ -194,14 +194,25 @@ class RouterComponent {
     get productsLinkWithParams() {
         return `/api/products${this.url.search}`
     }
+
+    getSearchProducts(title) {
+        return `/api/products?title=${title}`
+    }
+
     get productsDescriptionsLink() {
         return '/api/products_descriptions'
+    }
+    get productsDescriptionsLinkWithParams() {
+        return `/api/products_descriptions${this.url.search}`
     }
     get providerLink() {
         return '/api/products_providers'
     }
     get stocksLink() {
         return '/api/products_stocks'
+    }
+    get makersLink() {
+        return '/api/products_makers'
     }
 }
 

@@ -1,9 +1,9 @@
-import ScrollToTop, { debounce, lazyLoadImages, sanitalize } from '../utils/utils.js'
+import scrollToTop, { debounce, escapeRegex, lazyLoadImages, sanitalize } from '../utils/utils.js'
 import { renderSearchComplete } from '../views/render.search.js'
 import renderProducts from '../views/render.products.js'
 import PaginationComponent from '../../core/components/pagination.component.js'
-import changeProductsViewHandler from '../utils/view.catalog.js'
-import SelectComponent from '../../core/components/selects/select.component.js'
+import changeProductsViewHandler from '../service/view.catalog.js'
+import SelectComponent from '../../core/components/selects.inputs/select.component.js'
 import SidebarComponent from '../../core/components/sidebar.component.js'
 import ModuleCore from '../../core/modules/module.core.js'
 
@@ -45,7 +45,7 @@ class SearchModule extends ModuleCore{
             })
             this.$searchButton.addEventListener('click', () => {
                 const value = sanitalize(this.$searchField.value)
-                this.router.redirect(`/search?text=${sanitalize(encodeURIComponent(value || ''))}`)
+                this.router.redirect(`/search?text=${value}`)
             })
 
         })
@@ -55,7 +55,7 @@ class SearchModule extends ModuleCore{
         if(!this.$searchField.value.length) return
         this.enableLoader()
         const res = await this.requestToSearch({
-            text: sanitalize(this.$searchField.value),
+            text: this.$searchField.value,
             count: 5
         })
         this.disableLoader()
@@ -113,8 +113,8 @@ class SearchModule extends ModuleCore{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                text,
-                name,
+                text: escapeRegex(text),
+                name: name,
                 page,
                 sort
             })
@@ -129,9 +129,9 @@ class SearchModule extends ModuleCore{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                key,
-                value,
-                text,
+                key: key,
+                value: value,
+                text: escapeRegex(text),
                 page,
                 sort
             })
@@ -146,7 +146,7 @@ class SearchModule extends ModuleCore{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                text,
+                text: escapeRegex(text),
                 count,
                 page,
                 sort
@@ -187,12 +187,12 @@ class SearchModule extends ModuleCore{
         })
         this.sortSelect.render()
 
-        this.nameParam = sanitalize(this.router.getParam('name'))
-        this.textParam = sanitalize(this.router.getParam('text'))
-        this.sortParam = sanitalize(this.router.getParam('sort'))
-        this.keyParam = sanitalize(this.router.getParam('key'))
-        this.valueParam = sanitalize(this.router.getParam('value'))
-        this.pageParam = sanitalize(this.router.getParam('page'))
+        this.nameParam = this.router.getParam('name')
+        this.textParam = this.router.getParam('text')
+        this.sortParam = this.router.getParam('sort')
+        this.keyParam = this.router.getParam('key')
+        this.valueParam = this.router.getParam('value')
+        this.pageParam = this.router.getParam('page')
 
         this.$productList = document.querySelector('#products_list')
         this.$title = document.querySelector('.page-section__title')
@@ -221,7 +221,7 @@ class SearchModule extends ModuleCore{
                 this.router.redirectUrlState()
                 this.pageParam = pageNumber
                 this.setCurrentState()
-                ScrollToTop('#top-element')
+                scrollToTop('#top-element')
             }
         })
         this.pagination.clear()

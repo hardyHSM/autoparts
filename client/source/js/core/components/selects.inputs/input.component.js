@@ -4,8 +4,8 @@ import IMask from 'imask'
 import loginModal from '../../../app/modules/login.modal.js'
 
 export class InputComponent {
-    constructor({ selector, onChange, parent }) {
-        this.$field = document.querySelector(selector)
+    constructor({ node, selector, onChange, parent }) {
+        this.$field = node ? node : document.querySelector(selector)
         this.$parent = this.$field.closest(parent) || this.$field.parentNode
         this.isChanged = false
         this.onChange = onChange
@@ -80,6 +80,7 @@ export class InputValidation extends InputComponent {
         } else {
             this.removeCorrect()
         }
+        return isVal
     }
 
     showError(text) {

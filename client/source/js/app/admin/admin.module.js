@@ -1,22 +1,23 @@
-import { apiService, auth, router } from '../common.modules.js'
 import ModuleTabs from '../../core/modules/module.tabs.js'
 import {
-    renderAddCategoryAdmin, renderAddProductsAdmin,
+    renderAddCategoryAdmin,
+    renderAddProductsAdmin,
     renderAddSubcategoryAdmin,
     renderCatalogAdmin,
     renderCategoriesAdmin,
+    renderDescriptionsAdmin,
     renderEditCategoryAdmin,
+    renderEditDescriptionsAdmin,
     renderEditProductsAdmin,
     renderEditSubcategoryAdmin,
     renderProductsAdmin,
-    renderSubcategoriesAdmin
+    renderSubcategoriesAdmin,
+    renderAddDescriptionsAdmin
 } from './render.admin.js'
 import categoriesController from './categories/categories.controller.js'
 import subcategoriesController from './subcategories/subcategories.controller.js'
-import ProductsController from './products/products.model.js'
-import ProductsForm from './products/products.form.js'
-import PaginationComponent from '../../core/components/pagination.component.js'
 import productsController from './products/products.controller.js'
+import descriptionsController from './descriptions/descriptions.controller.js'
 
 
 class AdminModule extends ModuleTabs {
@@ -24,6 +25,7 @@ class AdminModule extends ModuleTabs {
         super(config)
         this.config = {
             root: 'admin',
+            default: 'catalog',
             tabsParams: {
                 'catalog': {
                     render: renderCatalogAdmin,
@@ -72,6 +74,20 @@ class AdminModule extends ModuleTabs {
                     middleware: productsController.middlewareAdd,
                     render: renderAddProductsAdmin,
                     functional: productsController.functionalAdd
+                },
+                'products_description': {
+                    middleware: descriptionsController.middleware,
+                    render: renderDescriptionsAdmin,
+                    functional: descriptionsController.functional
+                },
+                'products_description/edit': {
+                    middleware: descriptionsController.middlewareEdit,
+                    render: renderEditDescriptionsAdmin,
+                    functional: descriptionsController.functionalEdit
+                },
+                'products_description/add': {
+                    render: renderAddDescriptionsAdmin,
+                    functional: descriptionsController.functionalAdd
                 }
             }
         }

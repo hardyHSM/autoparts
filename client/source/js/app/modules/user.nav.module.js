@@ -40,6 +40,11 @@ class UserNavModule extends ModuleCore {
             `
             this.$sign.innerHTML += html`
                 <ul class="profile-list">
+                    ${this.auth.userData.role.toLowerCase() === 'admin' && `
+                        <li class="profile-list__item">
+                            <a href="/admin" class="profile-list__link">Управление сайтом</a>
+                        </li>
+                    `}
                     <li class="profile-list__item">
                         <a href="/user/profile/" class="profile-list__link">Профиль</a>
                     </li>

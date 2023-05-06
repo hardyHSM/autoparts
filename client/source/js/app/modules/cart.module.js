@@ -1,8 +1,8 @@
 import renderCartTable from '../views/render.cart.js'
 import renderCartNotification from '../views/render.notification.cart.js'
-import NumberSelectComponent from '../../core/components/number.select.component.js'
+import NumberSelectComponent from '../../core/components/selects.inputs/number.select.component.js'
 import { debounce, getTotalPrice, getTotalPriceWithPromo } from '../utils/utils.js'
-import ModalComponent from '../../core/components/modal.component.js'
+import ModalComponent from '../../core/components/modals/modal.component.js'
 import ModuleCore from '../../core/modules/module.core.js'
 import { html } from 'code-tag'
 
@@ -19,6 +19,9 @@ class CartModule extends ModuleCore {
         this.renderCartNotification = renderCartNotification.bind(this)
         this.selectedToOrder = []
         this.promoIsUsed = false
+        this.cart = {
+            products: []
+        }
     }
 
     async init() {
@@ -58,12 +61,15 @@ class CartModule extends ModuleCore {
 
     parseCheckbox(item) {
         const $product = item.closest('[data-product]')
+        const id = $product.dataset.productId
         if (item.checked) {
-            this.selectedToOrder.push({
-                id: $product.dataset.productId,
-                price: +($product.querySelector('[data-price]').textContent.match(/\d+/g).join('')),
-                count: +$product.querySelector('[data-numberselect] [data-value]').textContent
-            })
+            if (!this.selectedToOrder.find(order => order.id === id)) {
+                this.selectedToOrder.push({
+                    id,
+                    price: this.cart.products.find(item => item.product._id === id).price,
+                    count: this.cart.products.find(item => item.product._id === id).count
+                })
+            }
         } else {
             this.selectedToOrder = this.selectedToOrder.filter(p => p.id !== $product.dataset.productId)
         }
@@ -141,13 +147,16 @@ class CartModule extends ModuleCore {
                 },
                 body: JSON.stringify(cart)
             })
-            cart.products = cart.products.map(product => {
-                product.price = res.products.find(item => item.product._id === product.id).price
-                return product
+
+            this.cart.products = res.products.map(item => {
+                return {
+                    count: item.count,
+                    price: item.product.price,
+                    product: item.product
+                }
             })
-            localStorage.setItem('cart', JSON.stringify(cart))
+            this.saveCartToStorage(this.cart)
             this.renderCart(res.products)
-            this.cart = res
         } else {
             this.renderEmptyCart()
         }
@@ -185,6 +194,7 @@ class CartModule extends ModuleCore {
         })
         document.querySelectorAll('[data-delete]').forEach(button => {
             button.addEventListener('click', async (e) => {
+                console.log('delete product')
                 await this.deleteProduct(button.closest('[data-product]').dataset.productId)
                 button.closest('[data-product]').remove()
                 if (this.$cartNode.childElementCount < 2) {
@@ -202,10 +212,8 @@ class CartModule extends ModuleCore {
             this.renderDiscount()
         }
         if (!this.auth.isAuth) {
-            const cart = JSON.parse(localStorage.getItem('cart'))
-            cart.products = cart.products.filter(product => product.id !== id)
-            cart.total = getTotalPrice(cart.products)
-            localStorage.setItem('cart', JSON.stringify(cart))
+            this.cart.products = this.cart.products.filter(item => item.product._id !== id)
+            this.saveCartToStorage(this.cart)
         } else {
             this.showPreloader()
             await this.apiService.useRequest(this.router.cartLink, {
@@ -225,11 +233,10 @@ class CartModule extends ModuleCore {
 
     async changeProductCount(id, value) {
         if (!this.auth.isAuth) {
-            const cart = JSON.parse(localStorage.getItem('cart'))
-            const changedProductIndex = cart.products.findIndex(product => product.id === id)
-            cart.products[changedProductIndex].count = value
-            cart.total = getTotalPrice(cart.products)
-            localStorage.setItem('cart', JSON.stringify(cart))
+            const changedProductIndex = this.cart.products.findIndex(item => item.product._id === id)
+            this.cart.products[changedProductIndex].count = value
+
+            this.saveCartToStorage(this.cart)
         } else {
             this.showPreloader()
             await this.apiService.useRequest(this.router.cartLink, {
@@ -269,8 +276,7 @@ class CartModule extends ModuleCore {
 
         const plainProduct = {
             count: 1,
-            id,
-            price: product.price
+            id
         }
 
         if (index >= 0) {
@@ -330,6 +336,18 @@ class CartModule extends ModuleCore {
 
     hidePreloader() {
         this.$preloaderCart.classList.remove('cart__preloader_active')
+    }
+
+    saveCartToStorage(cart) {
+        const storageCart = JSON.parse(JSON.stringify(cart))
+        storageCart.products = storageCart.products.map(item => {
+            return {
+                count: item.count,
+                id: item.product._id
+            }
+        })
+        storageCart.total = getTotalPrice(cart.products)
+        localStorage.setItem('cart', JSON.stringify(storageCart))
     }
 }
 

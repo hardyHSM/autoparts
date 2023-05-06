@@ -1,7 +1,7 @@
 import renderProductPage from '../views/render.product.page.js'
 import ButtonComponent from '../../core/components/button.component.js'
 import renderProducts from '../views/render.products.js'
-import ScrollToTop, { lazyLoadImages } from '../utils/utils.js'
+import scrollToTop, { lazyLoadImages } from '../utils/utils.js'
 import ModuleCore from '../../core/modules/module.core.js'
 
 class ProductModule extends ModuleCore {
@@ -34,7 +34,7 @@ class ProductModule extends ModuleCore {
 
     registerHandlers() {
         this.$node.querySelector('[data-properties-all]').addEventListener('click', () => {
-            ScrollToTop('.properties_full')
+            scrollToTop('.properties_full')
         })
         if (this.addButton) {
             this.addButton.$node.addEventListener('click', async (e) => {

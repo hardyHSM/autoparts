@@ -1,5 +1,5 @@
 import ModuleCore from './module.core.js'
-import ScrollToTop from '../../app/utils/utils.js'
+import scrollToTop from '../../app/utils/utils.js'
 
 class ModuleTabs extends ModuleCore {
     constructor(config) {
@@ -26,23 +26,27 @@ class ModuleTabs extends ModuleCore {
 
     initRoutes() {
         this.router.init()
-        const { root, tab, menu, additionalAction } = this.router.getUrlParams()
         try {
-            this.tabState = tab
-            this.tabHandler = this.config.tabsParams[this.tabState]
+            const { root, tab, menu, additionalAction } = this.router.getUrlParams()
+            if(root === this.config.root && !tab && !menu && !additionalAction) {
+                this.tabState = this.config.default
+                this.tabHandler = this.config.tabsParams[this.tabState]
+            } else {
+                this.tabState = tab
+                this.tabHandler = this.config.tabsParams[this.tabState]
+            }
             if (!menu) {
                 this.menuState = this.tabHandler.default
                 this.menuHandler = this.config.menuParams[this.menuState]
             } else {
                 let menuData = menu
-                if(additionalAction) {
+                if (additionalAction) {
                     menuData = [menu, additionalAction].join('/')
                 }
                 this.menuState = menu
                 this.menuHandler = this.config.menuParams[menuData]
             }
         } catch (e) {
-            console.log(e)
             this.router.redirectNotFound()
         }
     }
@@ -61,9 +65,10 @@ class ModuleTabs extends ModuleCore {
             const data = await this.menuHandler?.middleware?.() || this.auth
             this.isLoading = false
             this.$menu.innerHTML = this.menuHandler?.render?.(data) || ''
-            ScrollToTop('#top-element', 'auto')
+            scrollToTop('#top-element', 'auto')
             this.menuHandler?.functional?.(this.$menu, data, this)
-        } catch(e) {
+        } catch (err) {
+            console.log(err)
             this.router.setPrevState()
         }
     }

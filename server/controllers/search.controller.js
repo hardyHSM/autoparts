@@ -5,7 +5,7 @@ class SearchController {
     async searchOptions(req, res, next) {
         try {
             const params = {
-                text: req.body.text,
+                text: req.body.text?.trim(),
                 count: req.body.count || 12,
                 page: req.body.page || 1,
                 sort: req.body.sort || 'popularity'
@@ -14,10 +14,10 @@ class SearchController {
                 [params.sort]: 1
             }
 
+
             if (!params.text) {
                 return next(ApiError.BadRequest('Некорректный запрос'))
             }
-
             const result = await productService.getProductsBySearch({
                 text: params.text,
                 count: params.count,
@@ -34,7 +34,7 @@ class SearchController {
     async searchMaker(req, res, next) {
         try {
             const params = {
-                text: req.body.text,
+                text: req.body.text?.trim(),
                 page: req.body.page || 1,
                 sort: req.body.sort || 'popularity',
                 maker: req.body.name
@@ -70,7 +70,7 @@ class SearchController {
     async searchAttributes(req, res, next) {
         try {
             const params = {
-                text: req.body.text,
+                text: req.body.text?.trim(),
                 page: req.body.page || 1,
                 sort: req.body.sort || 'popularity',
                 attrKey: req.body.key,
@@ -94,7 +94,7 @@ class SearchController {
             const result = await productService.getProductsSearchQuery({
                 sortData,
                 query,
-                page: params.page,
+                page: params.page
             })
 
             res.status(200).json({

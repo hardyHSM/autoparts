@@ -3,6 +3,8 @@
         resize: none;
         min-height: 450px;
         overflow-y: overlay;
+        font-size: 18px;
+        line-height: 23px;
     }
 }
 
@@ -50,6 +52,8 @@
 .field-block__image {
     max-width: 300px;
     height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .field-block__row {

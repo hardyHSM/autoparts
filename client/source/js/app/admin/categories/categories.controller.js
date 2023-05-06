@@ -1,8 +1,8 @@
 import categoriesModel from './categories.model.js'
 import { apiService, auth, router } from '../../common.modules.js'
 import CategoryForm from './categories.form.js'
-import ModalComponent from '../../../core/components/modal.component.js'
-import DeleteHelper from '../common/delete.provider.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import DeleteHelper from '../../../core/providers/delete.provider.js'
 
 class CategoriesController {
     middleware() {

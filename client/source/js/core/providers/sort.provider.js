@@ -54,9 +54,9 @@ class SortProvider {
         const $nodeSort = this.$root.querySelector(`[data-sort="${name}"]`)
         this.removeAllIcons()
         if (this.sortData.type === 1) {
-            this.showDescIcon($nodeSort)
-        } else {
             this.showAscIcon($nodeSort)
+        } else {
+            this.showDescIcon($nodeSort)
         }
     }
 

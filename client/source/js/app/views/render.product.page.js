@@ -1,4 +1,5 @@
 import { html } from 'code-tag'
+import { parseArrayToHTML } from '../utils/utils.js'
 
 export default function renderProductPage({ res, formattedAttributes, sizes }) {
     return html`
@@ -56,24 +57,8 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
                     </div>` : ''}
             </div>
         </div>
-        <div class="product-module__body">
-            ${res.info.description && res.info.description.reduce((acc, item) => {
-                const { title, text, textList } = item
-                if (title) {
-                    acc += `<h2>${title}</h2>`
-                }
-                if (text) {
-                    acc += `<p>${text}</p>`
-                }
-                if (textList) {
-                    let list = ''
-                    textList.forEach(item => {
-                        list += `<li>${item}</li>`
-                    })
-                    acc += `<ul>${list}</ul>`
-                }
-                return acc
-            }, '')}
+        <div class="product-module__body editor-content">
+            ${parseArrayToHTML(res.info.description)}
         </div>
         <div class="product-module__footer properties properties_full" data-properties-all>
             <h3 class="properties__title">Характеристики</h3>

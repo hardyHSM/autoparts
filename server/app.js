@@ -96,7 +96,7 @@ class Application {
             res.status(200).sendFile(path.join(__client, 'build', 'index.html'))
         })
 
-        this.app.get('/admin/*',
+        this.app.get(['/admin', '/admin/*'],
             authAccessMiddleware,
             adminAccessMiddleware,
             (req, res, next) => {

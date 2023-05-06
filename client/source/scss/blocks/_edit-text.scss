@@ -1,0 +1,36 @@
+@import '@toast-ui/editor/dist/toastui-editor.css';
+
+
+.editor-content {
+    font-size: 15px;
+    font-family: 'Gotham Pro', sans-serif;
+    color: #222;
+    font-weight: 400;
+    h2 {
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 24px;
+        margin: 15px 0px;
+    }
+    > p {
+        color: #222;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 24px;
+    }
+    li {
+        color: #222;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 24px;
+    }
+    ul {
+        list-style-type: disc;
+        padding-left: 15px;
+    }
+    ol {
+        list-style-type: decimal;
+        padding-left: 15px;
+    }
+}
+

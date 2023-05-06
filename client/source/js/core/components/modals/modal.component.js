@@ -54,8 +54,10 @@ export default class ModalComponent {
         }
         if (e.target.closest('[data-okey]')) {
             if (this.okayHandler) {
-                await this.okayHandler()
-                this.remove()
+                const result = await this.okayHandler()
+                if(result) {
+                    this.remove()
+                }
             }
         }
     }
