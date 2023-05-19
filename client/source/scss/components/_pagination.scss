@@ -1,3 +1,8 @@
+.pagination {
+    position: relative;
+    z-index: 20;
+}
+
 .pagination__list {
     display: flex;
     justify-content: center;
@@ -5,7 +10,7 @@
 
 .pagination__item {
     @media screen and (max-width: 640px) {
-        padding: 5px;
+        padding: 2.5px;
     }
 }
 
@@ -22,7 +27,7 @@
         text-decoration: underline;
     }
     @media screen and (max-width: 640px) {
-        padding: 7px 10px;
+        padding: 5.5px 8.5px;
     }
 }
 
