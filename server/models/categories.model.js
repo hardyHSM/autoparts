@@ -13,7 +13,8 @@ const categoriesSchema = new Schema({
         unique: true
     },
     number: {
-        type: Number
+        type: Number,
+        unique: false
     }
 })
 

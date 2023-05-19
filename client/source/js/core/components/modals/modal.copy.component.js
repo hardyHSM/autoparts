@@ -1,6 +1,6 @@
 import { html } from 'code-tag'
 import ModalComponent from './modal.component.js'
-import SelectInputComponent from '../selects.inputs/select.input.component.js'
+import SelectInputComponent from '../selectsinputs/select.input.component.js'
 import productsModel from '../../../app/admin/products/products.model.js'
 
 export default class ModalCopyComponent extends ModalComponent {
@@ -55,13 +55,13 @@ export default class ModalCopyComponent extends ModalComponent {
             key: 'productId',
             query: '[data-copy-select]',
             data: [],
+            dynamicData: async (value) => {
+                this.findedProducts = await productsModel.search(value)
+                return this.findedProducts.list.map(p => {
+                    return { value: p.title, dataset: p._id }
+                })
+            }
         })
-        this.select.onchange = async (value) => {
-            this.findedProducts = await productsModel.search(value)
-            this.select.data = this.findedProducts.list.map(p => {
-                return { value: p.title, dataset: p._id }
-            })
-        }
         this.select.render()
     }
 

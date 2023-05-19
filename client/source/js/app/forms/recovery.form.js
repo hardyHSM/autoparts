@@ -1,5 +1,5 @@
 import FormComponent from '../../core/components/form.component.js'
-import { InputPass } from '../../core/components/selects.inputs/input.component.js'
+import { InputPass } from '../../core/components/selectsinputs/input.component.js'
 import ModalComponent from '../../core/components/modals/modal.component.js'
 
 class RecoveryForm extends FormComponent {

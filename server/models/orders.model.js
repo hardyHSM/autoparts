@@ -25,6 +25,14 @@ const ordersSchema = new Schema({
             type: String,
             required: true
         },
+        email: {
+            type: String,
+            required: false
+        },
+        status: {
+            type: String,
+            default: 'В обработке'
+        },
         delivery: {
             type: String,
             required: true

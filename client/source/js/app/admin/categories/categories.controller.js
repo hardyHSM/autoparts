@@ -6,12 +6,11 @@ import DeleteHelper from '../../../core/providers/delete.provider.js'
 
 class CategoriesController {
     middleware() {
-        return categoriesModel.getAll()
+        return categoriesModel.findAll()
     }
 
     async middlewareEdit() {
-        const id = router.getParam('id')
-        const res = await categoriesModel.getOne(id)
+        const res = await categoriesModel.find()
         if (res.message) {
             router.setPrevState()
         }

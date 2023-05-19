@@ -13,6 +13,21 @@
     }
 }
 
+.section-product__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .page-section__title {
+        margin-bottom: 0;
+        padding-right: 35px;
+    }
+    margin-bottom: 30px;
+    @media screen and (max-width: 960px) {
+        flex-wrap: wrap;
+        gap: 15px 0px;
+    }
+}
+
 .section-product__content {
     @media screen and (max-width: 1600px) {
         flex-wrap: wrap;

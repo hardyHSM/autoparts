@@ -1,5 +1,7 @@
 import userService from '../service/user.service.js'
 import csrf from 'csrf'
+import ProductsModel from '../models/products.model.js'
+import UsersModel from '../models/users.model.js'
 
 class UserController {
     async registration(req, res, next) {
@@ -155,6 +157,47 @@ class UserController {
         try {
             const notifications = await userService.getNotifications(req.user.id)
             res.json(notifications)
+        } catch (e) {
+            next(e)
+        }
+    }
+    async get(req,res,next) {
+        try {
+            let answer
+            if(req.query.id) {
+                answer = await userService.getOne(req.query.id)
+            } else {
+                answer = await userService.find(req.query)
+            }
+            res.json(answer)
+        } catch(e) {
+            next(e)
+        }
+    }
+
+    async change(req, res, next) {
+        try {
+            await userService.change(req.body)
+            res.json({
+                success: 'Пользователь успешно изменён!'
+            })
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const { id } = req.body
+            const result = await UsersModel.findByIdAndDelete(id)
+            if (!result) {
+                return res.json({
+                    success: 'Что-то пошло не так'
+                })
+            }
+            res.json({
+                success: 'Пользователь успешно удален.'
+            })
         } catch (e) {
             next(e)
         }

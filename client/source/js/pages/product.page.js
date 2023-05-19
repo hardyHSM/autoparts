@@ -11,7 +11,8 @@ import CartModule from '../app/modules/cart.module.js'
         cart: new CartModule({ router, auth, apiService }),
         breadcrumbs: new BreadcrumbsComponent('#breadcrumbs'),
         apiService,
-        userNav
+        userNav,
+        auth
     }).init()
     await auth.init()
 

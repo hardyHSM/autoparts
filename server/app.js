@@ -25,6 +25,7 @@ import mongoSanitize from 'express-mongo-sanitize'
 import xssClean from 'xss-clean'
 import subcategoriesRouter from './routes/subcategories.router.js'
 import commonRouter from './routes/common.router.js'
+import userRouter from './routes/users.router.js'
 
 
 config()
@@ -84,7 +85,7 @@ class Application {
         this.app.use('/api/products', productRouter)
         this.app.use('/api/catalog', catalogRouter)
         this.app.use('/api/cart', cartRouter)
-
+        this.app.use('/api/users', userRouter)
         // admin
         this.app.use('/api/categories', categoriesRouter)
         this.app.use('/api/subcategories', subcategoriesRouter)

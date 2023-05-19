@@ -1,17 +1,11 @@
 import { apiService, router } from '../../common.modules.js'
 
 class CategoriesModel {
-    constructor(config) {
+    async find() {
+        return await apiService.useRequest(router.categoriesLinkParams)
     }
-
-    async getAll() {
-        const res = await apiService.useRequest(router.categoriesLink)
-        return res
-    }
-
-    async getOne(id) {
-        const res = await apiService.useRequest(router.getCategoryLink(id))
-        return res
+    async findAll() {
+        return await apiService.useRequest(router.categoriesLink)
     }
 }
 

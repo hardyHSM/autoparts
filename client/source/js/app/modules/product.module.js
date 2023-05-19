@@ -3,6 +3,7 @@ import ButtonComponent from '../../core/components/button.component.js'
 import renderProducts from '../views/render.products.js'
 import scrollToTop, { lazyLoadImages } from '../utils/utils.js'
 import ModuleCore from '../../core/modules/module.core.js'
+import { html } from 'code-tag'
 
 class ProductModule extends ModuleCore {
     constructor(config) {
@@ -52,23 +53,37 @@ class ProductModule extends ModuleCore {
     }
 
     renderProduct(res, sizes) {
-        const formattedAttributes = Object.entries(res.attributes)
-        .sort((prev) => {
-            if (Array.isArray(prev[1])) {
-                return 1
-            } else {
+        const formattedAttributes = Object
+        .entries(res.attributes)
+        .sort((prev, next) => {
+            console.log(prev,next)
+            if(Array.isArray(next[1])) {
                 return -1
+            } else {
+                return next[0] - prev[0]
             }
         })
         this.$node.dataset.productId = res._id
         document.querySelector('[data-product-title]').innerHTML = `Купить ${res.title}`
         document.querySelector('title').innerHTML = res.title
+        if (this.auth?.userData?.role?.toLowerCase() === 'admin') {
+            document.querySelector('[data-product-header]').innerHTML += html`
+                <a class="button button_backwards-accent button_icon"
+                   href="/admin/catalog/products/edit?id=${res._id}">
+                    Редактировать товар
+                    <svg>
+                        <use xlink:href="img/svg/sprite.svg#change"></use>
+                    </svg>
+                </a>
+            `
+        }
+
+
         this.$node.innerHTML = this.renderProductPage({ formattedAttributes, sizes, res })
         if (res.count) {
             this.addButton = new ButtonComponent('[data-add-product]')
         }
     }
-
 
 }
 

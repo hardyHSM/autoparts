@@ -60,6 +60,20 @@ class MailService {
 
         }
     }
+
+    async sendAnswer(email, data) {
+        try {
+            return await this.transporter.sendMail({
+                from: process.env.SMTP_USER,
+                to: email,
+                subject: 'Ответ от администрации сайта autoparts.com',
+                text: '',
+                html: data
+            })
+        } catch (e) {
+
+        }
+    }
 }
 
 const mailService = new MailService()

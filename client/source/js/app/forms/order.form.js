@@ -1,9 +1,10 @@
 import FormComponent from '../../core/components/form.component.js'
-import { InputEmail, InputLastName, InputName, InputTel } from '../../core/components/selects.inputs/input.component.js'
+import { InputEmail, InputLastName, InputName, InputTel } from '../../core/components/selectsinputs/input.component.js'
 import { renderOrderFirstStage, renderOrderSecondStage, renderOrderSuccess } from '../views/render.order.js'
 import ButtonComponent from '../../core/components/button.component.js'
 import ModalComponent from '../../core/components/modals/modal.component.js'
 import scrollToTop, { getTotalPriceWithPromo } from '../utils/utils.js'
+import { pickLocationChange } from '../service/pick.location.js'
 
 class OrderForm extends FormComponent {
     constructor(config) {
@@ -18,9 +19,6 @@ class OrderForm extends FormComponent {
         this.body = {}
         this.$form.innerHTML = renderOrderFirstStage(this.auth)
         this.$nextStageButton = document.querySelector('[data-next-stage]')
-        this.locationModule.onChooseCallback = (result) => {
-            document.querySelector('[data-address]').innerHTML = result
-        }
         this.fieldName = new InputName()
         this.fieldLastName = new InputLastName()
         this.fieldEmail = new InputEmail()
@@ -32,9 +30,8 @@ class OrderForm extends FormComponent {
         this.$nextStageButton.addEventListener('click', (e) => {
             this.validationForm(e, this.renderSecondStage.bind(this))
         })
-        document.querySelector('.pick-location__change').addEventListener('click', (e) => {
-            scrollToTop('#top-element')
-            this.locationModule.showLocationChoose()
+        pickLocationChange((name) => {
+            document.querySelector('[data-address]').innerHTML = name
         })
     }
 
@@ -60,7 +57,7 @@ class OrderForm extends FormComponent {
         const button = new ButtonComponent('[data-checkout]')
         button.setPreloaderState()
 
-        const res = await this.apiService.useRequestStatus(this.router.addOrderLink, {
+        const res = await this.apiService.useRequestStatus(this.router.orderLink, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

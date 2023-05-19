@@ -10,7 +10,10 @@
     transition-property: background-color, color;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    //display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     white-space: nowrap;
     cursor: pointer;
     position: relative;
@@ -116,8 +119,6 @@
 
 .button_wp {
     border: 2px solid #3CA255;
-    padding-top: 15px;
-    padding-bottom: 15px;
     padding-left: 65px;
     color: #3CA255;
     position: relative;

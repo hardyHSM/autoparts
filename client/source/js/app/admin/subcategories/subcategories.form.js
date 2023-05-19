@@ -1,6 +1,6 @@
 import FormComponent from '../../../core/components/form.component.js'
 import ValidationComponent from '../../../core/components/validation.component.js'
-import { InputValidation } from '../../../core/components/selects.inputs/input.component.js'
+import { InputValidation } from '../../../core/components/selectsinputs/input.component.js'
 import ModalComponent from '../../../core/components/modals/modal.component.js'
 
 class SubcategoryForm extends FormComponent {

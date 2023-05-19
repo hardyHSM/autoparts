@@ -1,5 +1,5 @@
 import renderProducts from '../views/render.products.js'
-import SelectComponent from '../../core/components/selects.inputs/select.component.js'
+import SelectComponent from '../../core/components/selectsinputs/select.component.js'
 import changeProductsViewHandler from '../service/view.catalog.js'
 import scrollToTop, { lazyLoadImages } from '../utils/utils.js'
 import PaginationComponent from '../../core/components/pagination.component.js'

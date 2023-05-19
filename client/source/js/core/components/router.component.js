@@ -91,8 +91,21 @@ class RouterComponent {
         return `/api/catalog/list`
     }
 
-    get addOrderLink() {
-        return `/api/order/add`
+
+    get orderLinkParams() {
+        return `/api/order${this.url.search}`
+    }
+
+    get orderLink() {
+        return `/api/order`
+    }
+
+    get ordersCountLink() {
+        return `/api/order/count-orders`
+    }
+
+    get salesCountLink() {
+        return `/api/order/count-sales`
     }
 
     get passRecoveryLink() {
@@ -127,10 +140,13 @@ class RouterComponent {
         return `/api/cart/`
     }
 
+    get productsLinkParams() {
+        return `/api/products${this.url.search}`
+    }
+
     get productsLink() {
         return `/api/products`
     }
-
     get cartProductsLink() {
         return `/api/cart/get-products`
     }
@@ -146,9 +162,16 @@ class RouterComponent {
     get selectionLink() {
         return '/api/selection'
     }
+    get selectionLinkParams() {
+        return `/api/selection${this.url.search}`
+    }
+
+    get feedBackLinkParams() {
+        return `/api/feedback${this.url.search}`
+    }
 
     get feedBackLink() {
-        return '/api/feedback'
+        return `/api/feedback`
     }
 
     get userOrdersLink() {
@@ -175,44 +198,52 @@ class RouterComponent {
         return this.url.pathname.startsWith('/user')
     }
 
+    get categoriesLinkParams() {
+        return `/api/categories${this.url.search}`
+    }
+
     get categoriesLink() {
-        return '/api/categories'
+        return `/api/categories`
+    }
+
+    get subcategoriesLinkParams() {
+        return `/api/subcategories${this.url.search}`
     }
 
     get subcategoriesLink() {
-        return '/api/subcategories'
+        return `/api/subcategories`
     }
 
-    getCategoryLink(id) {
-        return `/api/categories?id=${id}`
-    }
-
-    getSubcategoryLink(id) {
-        return `/api/subcategories?id=${id}`
-    }
-
-    get productsLinkWithParams() {
-        return `/api/products${this.url.search}`
-    }
-
-    getSearchProducts(title) {
-        return `/api/products?title=${title}`
+    productsDescriptionsSearch(value) {
+        return `/api/products_descriptions?title=${value}`
     }
 
     get productsDescriptionsLink() {
-        return '/api/products_descriptions'
+        return `/api/products_descriptions`
     }
-    get productsDescriptionsLinkWithParams() {
+
+    get productsDescriptionsLinkParams() {
         return `/api/products_descriptions${this.url.search}`
     }
+
     get providerLink() {
         return '/api/products_providers'
     }
+
     get stocksLink() {
         return '/api/products_stocks'
     }
+
     get makersLink() {
         return '/api/products_makers'
+    }
+
+    get usersLinkParams() {
+        return `/api/users${this.url.search}`
+    }
+
+    get usersLink() {
+        return `/api/users`
     }
 }
 

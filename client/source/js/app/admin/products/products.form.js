@@ -1,11 +1,12 @@
 import FormComponent from '../../../core/components/form.component.js'
 import ValidationComponent from '../../../core/components/validation.component.js'
-import { InputValidation } from '../../../core/components/selects.inputs/input.component.js'
+import { InputValidation } from '../../../core/components/selectsinputs/input.component.js'
 import ModalComponent from '../../../core/components/modals/modal.component.js'
-import SelectInputComponent from '../../../core/components/selects.inputs/select.input.component.js'
-import InputFileComponent from '../../../core/components/selects.inputs/input.file.component.js'
-import InputCompleteComponent from '../../../core/components/selects.inputs/input.complete.component.js'
+import SelectInputComponent from '../../../core/components/selectsinputs/select.input.component.js'
+import InputFileComponent from '../../../core/components/selectsinputs/input.file.component.js'
+import InputCompleteComponent from '../../../core/components/selectsinputs/input.complete.component.js'
 import scrollToTop from '../../utils/utils.js'
+import descriptionsModel from '../descriptions/descriptions.model.js'
 
 class ProductsForm extends FormComponent {
     constructor(config) {
@@ -81,18 +82,25 @@ class ProductsForm extends FormComponent {
             query: '[data-subcategory-select]',
             data: this.data.subcategories
         })
+
         this.selectDescriptions = new SelectInputComponent({
             title: 'Выбор описания',
             key: 'descriptionId',
             query: '[data-description-select]',
-            data: this.data.descriptions
+            link: '/admin/catalog/products_description/edit?id=',
+            data: [],
+            dynamicData: async (value) => {
+                const data = await descriptionsModel.search(value)
+                return data.list.map(p => {
+                    return { value: p.title, dataset: p._id }
+                })
+            }
         })
 
         this.selectCategories.setTitle(this.data?.product?.category?.name)
-        this.selectDescriptions.setTitle(this.data?.product?.info?.title)
         this.selectCategories.render()
+        this.selectDescriptions.setTitle(this.data?.product?.info?.title)
         this.selectDescriptions.render()
-
         this.selectHandler(this.selectCategories.getValue())
         this.selectCategories.onselect = ({ value }) => {
             this.selectHandler(value)

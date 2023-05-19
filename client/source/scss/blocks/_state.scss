@@ -1,0 +1,47 @@
+.state__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px 25px;
+}
+
+.state__item {
+    width: calc(100% / 4 - 25px);
+    flex-shrink: 0;
+    background-color: rgba(55, 162, 255, 0.64);
+    color: #fff;
+    font-weight: 400;
+}
+
+.state__footer {
+    background-color: rgba(0, 122, 255, 0.43);
+    padding: 15px;
+}
+
+.state__body {
+    padding: 25px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.state__icon {
+    svg {
+        max-width: 45px;
+        max-height: 45px;
+        fill: rgb(224, 226, 227);
+    }
+}
+
+.state__count {
+    font-weight: 400;
+    font-size: 36px;
+}
+
+.state__title {
+    background-color: rgba(89, 133, 195, 0.61);
+    padding: 15px 15px;
+    font-size: 16px;
+    font-weight: 400;
+}

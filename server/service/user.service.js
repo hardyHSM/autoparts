@@ -5,6 +5,10 @@ import UsersModel from '../models/users.model.js'
 import DateService from './date.service.js'
 import tokenService from './token.service.js'
 import mailService from './mail.service.js'
+import productService from './product.service.js'
+import { decodeString, escapeRegExp } from '../utils/utils.js'
+import ProductsModel from '../models/products.model.js'
+import LocationsModel from '../models/locations.model.js'
 
 const dictionary = {
     'firstName': 'имя',
@@ -102,8 +106,8 @@ class UserService {
     }
 
     async changeEmail(user, candidateEmail) {
-        const existingUser = await UsersModel.findOne({email: candidateEmail})
-        if(existingUser) {
+        const existingUser = await UsersModel.findOne({ email: candidateEmail })
+        if (existingUser) {
             throw ApiError.EmailAlreadyExists(candidateEmail)
         }
         user.isActivated = false
@@ -289,6 +293,73 @@ class UserService {
         })
         await user.save()
         return user.notifications
+    }
+
+    async getOne(id) {
+        const user = await UsersModel.findById(id).populate('location')
+        if (!user) {
+            throw ApiError.BadRequest('Пользователь с таким id не найден!')
+        }
+        return user
+    }
+
+    async find(query) {
+        console.log(query)
+        const page = query.page || 1
+        const sortName = query.sort_name || 'createdAt'
+        const sortType = query.sort_type || 1
+        const params = {}
+
+        if (query.firstName) {
+            params.firstName = productService.parseQueryRegexp(escapeRegExp(decodeString(query.firstName.trim())))
+        }
+        if (query.lastName) {
+            params.lastName = productService.parseQueryRegexp(escapeRegExp(decodeString(query.lastName.trim())))
+        }
+        if (query.tel) {
+            params.tel = productService.parseQueryRegexp(escapeRegExp(decodeString(query.tel.trim())))
+        }
+        if (query.email) {
+            params.email = productService.parseQueryRegexp(escapeRegExp(decodeString(query.email.trim())))
+        }
+
+        const sortData = {
+            [sortName]: sortType
+        }
+
+        console.log(params)
+
+        const [list, count] = await Promise.all([
+            UsersModel
+            .find(params)
+            .sort(sortData)
+            .skip((page - 1) * 20)
+            .limit(20)
+            .populate(['location'])
+            .exec(),
+            UsersModel.find().count()
+        ])
+        return {
+            list, count
+        }
+    }
+
+    async change(body) {
+        const { location: locationId, id, ...rest } = body
+        const location = await LocationsModel.findById(locationId)
+        const user = await UsersModel.findById(id)
+        const email = await UsersModel.findOne({ email: body.email })
+        if (email) throw ApiError.EmailAlreadyExists(body.email)
+        if (!location) throw ApiError.BadRequest('Локация не найдена!')
+        if (!user) throw ApiError.BadRequest('Пользователь не найден!')
+
+        for ( const key in body ) {
+            if (key in user) {
+                user[key] = body[key]
+            }
+        }
+        await user.save()
+        return true
     }
 }
 

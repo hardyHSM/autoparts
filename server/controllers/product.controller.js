@@ -61,9 +61,6 @@ class ProductController {
                     [sortName]: sortType
                 }
 
-
-
-
                 const [products, count] = await Promise.all([
                     productService.getProductsByParams(
                         params,
@@ -133,7 +130,7 @@ class ProductController {
                 const [descriptions, count] = await Promise.all([
                     descriptionsModel
                     .find(params)
-                    .limit(req.query.page ? 40 : 0)
+                    .limit(req.query.page ? 40 : 20)
                     .skip(req.query.page ? (page - 1) * 40 : 0)
                     .lean(),
                     descriptionsModel.find(params).count().lean()

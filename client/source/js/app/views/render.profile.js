@@ -1,23 +1,24 @@
 import { getProductsCount, getTotalPrice, parseDate, getTotalPriceWithPromo } from '../utils/utils.js'
 import { html } from 'code-tag'
+import { renderProductsInOrder } from './render.products.order.js'
 
 export function renderProfile(data) {
     return html`
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
-                <button class="tabs-menu__button" data-state="personal" data-type="menu" data-link="/user/profile/personal">
+                <a class="tabs-menu__button" data-state="personal" data-type="menu" href="/user/profile/personal">
                     Персональные данные
-                </button>
+                </a>
             </li>
             <li class="tabs-menu__item">
-                <button class="tabs-menu__button" data-state="password" data-type="menu" data-link="/user/profile/password">
+                <a class="tabs-menu__button" data-state="password" data-type="menu" href="/user/profile/password">
                     Смена пароля
-                </button>
+                </a>
             </li>
             <li class="tabs-menu__item">
-                <button class="tabs-menu__button" data-state="logout" data-type="menu" data-link="/user/profile/logout">
+                <a class="tabs-menu__button" data-state="logout" data-type="menu" href="/user/profile/logout">
                     Выйти
-                </button>
+                </a>
             </li>
         </ul>
         <div class="tabs-pages__data profile" data-menu>
@@ -29,14 +30,14 @@ export function renderPurchases(data) {
     return html`
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
-                <button class="tabs-menu__button" data-type="menu" data-state="cart" data-link="/user/purchases/cart">
+                <a class="tabs-menu__button" data-type="menu" data-state="cart" href="/user/purchases/cart">
                     Моя корзина
-                </button>
+                </a>
             </li>
             <li class="tabs-menu__item">
-                <button class="tabs-menu__button" data-state="orders" data-type="menu" data-link="/user/purchases/orders">
+                <a class="tabs-menu__button" data-state="orders" data-type="menu" href="/user/purchases/orders">
                     Мои заказы
-                </button>
+                </a>
             </li>
         </ul>
         <div class="tabs-pages__data profile" data-menu>
@@ -48,9 +49,9 @@ export function renderNotifications(data) {
     return html`
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
-                <button class="tabs-menu__button" data-type="menu" data-state="messages" data-link="/user/notifications/messages">
+                <a class="tabs-menu__button" data-type="menu" data-state="messages" href="/user/notifications/messages">
                     Мои уведомления
-                </button>
+                </a>
             </li>
         </ul>
         <div class="tabs-pages__data profile" data-menu></div>
@@ -151,60 +152,13 @@ export function renderOrders(data) {
 export function renderOrderFull(data) {
     return html`
         <h2 class="profile__title">Заказ от ${parseDate(data.createdAt)}</h2>
-        <div class="profile__order-products order-products order-products_theme-white">
-            <div class="order-products__list">
-                ${data.products.reduce((acc, { product, count }) => {
-                    acc += html`
-                        <div class="order-products__item">
-                            <div class="order-products__image">
-                                <img src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">
-                            </div>
-                            <div class="order-products__info">
-                                <strong class="order-products__maker">
-                                    ${product.maker}
-                                </strong>
-                                <p class="order-products__title">${product.title}</p>
-                            </div>
-                            <div class="order-products__price">${product.price} ₽</div>
-                            <div class="order-products__count">${count} шт.</div>
-                            <div class="order-products__all">${product.price * count} ₽</div>
-                        </div>
-                    `
-                    return acc
-                }, '')}
-            </div>
-            <div class="order-products__detail">
-                <strong class="order-products__title order-products__key">Сумма</strong>
-                <i class="order-products__value">${getTotalPrice(data.products)} ₽</i>
-            </div>
-            <div class="order-products__detail">
-                <strong class="order-products__title order-products__key">Промо-код</strong>
-                <i class="order-products__value">${data.promo ? '-330 ₽ ' : 'Отсутствует'}</i>
-            </div>
-            <div class="order-products__detail">
-                <strong class="order-products__title order-products__key">Итого</strong>
-                <i class="order-products__value">${data.promo ? getTotalPriceWithPromo(data.products, 330) : getTotalPriceWithPromo(data.products, 0)}
-                    ₽</i>
-            </div>
-            <div class="order-products__detail">
-                <strong class="order-products__title order-products__key">Тип доставки</strong>
-                <i class="order-products__value">${data.delivery ? 'Курьером' : 'Самовывоз'}</i>
-            </div>
-            <div class="order-products__detail">
-                <strong class="order-products__title order-products__key">Способ оплаты</strong>
-                <i class="order-products__value">${data.payment === 'call' ? 'Звонок оператору' : 'При получении'}</i>
-            </div>
-            <div class="order-products__detail">
-                <strong class="order-products__title order-products__key">Локация</strong>
-                <i class="order-products__value">${data.location}</i>
-            </div>
-        </div>
-        <button type="button" class="order-products__button button button_neutral button_icon" data-back data-link="/purchases/orders">
+        ${renderProductsInOrder(data)}
+        <a type="button" class="order-products__button button button_neutral button_icon" data-type="menu" data-state="orders"  href="/user/purchases/orders">
             <span class="button__text">Назад</span>
             <svg class="transform">
                 <use xlink:href="img/svg/sprite.svg#arrow"></use>
             </svg>
-        </button>
+        </a>
     `
 
 }

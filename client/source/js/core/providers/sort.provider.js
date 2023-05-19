@@ -2,6 +2,7 @@ class SortProvider {
     constructor(config) {
         this.$root = document.querySelector(config.root)
         this.sortData = {}
+        this.default = config.default
         this.changeStateHandler = config.changeStateHandler
         this.router = config.router
     }
@@ -22,7 +23,7 @@ class SortProvider {
             }
         } else {
             this.sortData = {
-                key: 'price',
+                key: this.default,
                 type: 1
             }
         }

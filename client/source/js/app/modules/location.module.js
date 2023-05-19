@@ -99,7 +99,6 @@ class LocationModule extends ModuleCore {
 
     showLocationList() {
         this.$pick.classList.add('pick-address_active')
-        this.search()
     }
 
     hideLocationList() {
@@ -185,7 +184,7 @@ class LocationModule extends ModuleCore {
             this.renderCityLabel(value)
             this.state = false
             this.setUserLocation(text, id)
-            this.onChooseCallback(value)
+            this.onChooseCallback(value, id)
         })
     }
 }

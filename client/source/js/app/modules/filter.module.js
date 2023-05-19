@@ -1,4 +1,4 @@
-import MultiSelectComponent from '../../core/components/selects.inputs/multiselect.input.component.js'
+import MultiSelectComponent from '../../core/components/selectsinputs/multiselect.input.component.js'
 import { debounce, sanitalize } from '../utils/utils.js'
 import { html } from 'code-tag'
 

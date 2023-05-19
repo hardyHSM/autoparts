@@ -1,6 +1,6 @@
 import renderCartTable from '../views/render.cart.js'
 import renderCartNotification from '../views/render.notification.cart.js'
-import NumberSelectComponent from '../../core/components/selects.inputs/number.select.component.js'
+import NumberSelectComponent from '../../core/components/selectsinputs/number.select.component.js'
 import { debounce, getTotalPrice, getTotalPriceWithPromo } from '../utils/utils.js'
 import ModalComponent from '../../core/components/modals/modal.component.js'
 import ModuleCore from '../../core/modules/module.core.js'
@@ -66,7 +66,7 @@ class CartModule extends ModuleCore {
             if (!this.selectedToOrder.find(order => order.id === id)) {
                 this.selectedToOrder.push({
                     id,
-                    price: this.cart.products.find(item => item.product._id === id).price,
+                    price: this.cart.products.find(item => item.product._id === id).product.price,
                     count: this.cart.products.find(item => item.product._id === id).count
                 })
             }

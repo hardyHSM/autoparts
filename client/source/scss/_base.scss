@@ -174,3 +174,17 @@ fieldset {
 .transform {
     transform: scale(-1, -1);
 }
+
+.success {
+    background-color: #3ca255;
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.error {
+    background-color: #c33;
+    color: white;
+    padding: 4px;
+    border-radius: 4px;
+}

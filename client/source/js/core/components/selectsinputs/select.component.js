@@ -1,8 +1,10 @@
+
 export default class SelectComponent {
-    constructor({ query, data, onselect }) {
+    constructor({ query, data, onselect, key }) {
         this.onselect = onselect
         this.data = data
         this.selector = query
+        this.key = key
         this.$select = document.querySelector(query)
         this.$header = this.$select.querySelector('.select__header')
         this.$title = this.$select.querySelector('.select__title')
@@ -35,10 +37,15 @@ export default class SelectComponent {
                     element.classList.remove('select__item_current')
                 })
                 element.classList.add('select__item_current')
+                this.data = this.data.map(item => {
+                    item.default = false
+                    return item
+                })
+                const index = this.data.findIndex(item => item.dataset === element.dataset.value)
+                this.data[index].default = true
                 this.setTitle(element.textContent)
                 if (this.onselect) {
                     this.removeError()
-                    this.isSelected = true
                     this.onselect({
                         text: element.value || element.textContent,
                         value: element.dataset.value
@@ -50,14 +57,16 @@ export default class SelectComponent {
     }
 
     render() {
-        let defaultValue = this.data.find(item => item.default === true)?.value || ''
-        this.setTitle(defaultValue)
         this.renderBody(this.data)
         if (!this.isRendered) {
             this.init()
             this.isRendered = true
         } else {
             this.registerHandlers()
+        }
+        let defaultValue = this.data.find(item => item.default === true)?.value || ''
+        if(defaultValue) {
+            this.setTitle(defaultValue)
         }
     }
 
@@ -88,6 +97,34 @@ export default class SelectComponent {
 
     setTitle(value) {
         this.$title.textContent = value
+        this.data = this.data.map(item => {
+            item.default = false
+            return item
+        })
+        const dataItem = this.data.find(item => item.value === value)
+        if(dataItem) {
+            dataItem.default = true
+        }
+        const $node = Array.from(this.$items).find(item => dataItem.dataset === item.dataset.value)
+
+
+
+        this.$items.forEach(element => {
+            element.classList.remove('select__item_current')
+        })
+        $node.classList.add('select__item_current')
+    }
+
+    setDefault(dataset) {
+        this.data = this.data.map(item => {
+            item.default = false
+            return item
+        })
+
+        const index = this.data.findIndex(item => item.dataset === dataset)
+        if(index > - 1) {
+            this.data[index].default = true
+        }
     }
 
     open() {
@@ -100,7 +137,7 @@ export default class SelectComponent {
     }
 
     getValue() {
-        return this.$body.querySelector('.select__item_current')?.dataset?.value
+        return this.data.find(item => item?.default === true)?.dataset
     }
 
     showError(text) {

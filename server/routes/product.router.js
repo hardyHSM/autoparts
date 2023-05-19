@@ -4,6 +4,7 @@ import validationMiddleware from '../middlewares/validation.middleware.js'
 import authAccessMiddleware from '../middlewares/auth.access.middleware.js'
 import adminAccessMiddleware from '../middlewares/admin.middleware.js'
 import { body } from 'express-validator'
+import csrfTokenMiddleware from '../middlewares/csrf.token.middleware.js'
 
 
 const router = new Router()
@@ -11,7 +12,12 @@ const router = new Router()
 
 router.get('/:productId', productController.getFullProduct)
 router.get('', productController.get)
-router.delete('', productController.deleteProduct)
+router.delete('',
+    csrfTokenMiddleware,
+    validationMiddleware,
+    authAccessMiddleware,
+    adminAccessMiddleware,
+    productController.deleteProduct)
 
 router.post('',
     body('title').exists().trim(),
@@ -22,6 +28,7 @@ router.post('',
     body('price').escape().isNumeric().trim(),
     body('count').escape().isNumeric().trim(),
     body('popularity').escape().isNumeric().trim(),
+    csrfTokenMiddleware,
     validationMiddleware,
     authAccessMiddleware,
     adminAccessMiddleware,
@@ -35,6 +42,7 @@ router.put('',
     body('price').escape().isNumeric(),
     body('count').escape().isNumeric(),
     body('popularity').escape().isNumeric(),
+    csrfTokenMiddleware,
     validationMiddleware,
     authAccessMiddleware,
     adminAccessMiddleware,

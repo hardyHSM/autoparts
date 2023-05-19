@@ -32,6 +32,13 @@
     height: 140px;
     position: relative;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    &:hover {
+        text-decoration: none;
+    }
     svg {
         max-width: 45px;
         max-height: 65px;
@@ -75,20 +82,25 @@
 }
 
 .tabs-pages__data {
+    width: 640px;
     flex-grow: 1;
     padding: 25px 20px;
     @media screen and (max-width: 640px) {
         padding: 15px 10px;
+    }
+    @media screen and (max-width: 960px) {
+        width: 100%;
     }
 }
 
 .tabs-menu {
     display: block;
     padding: 25px 20px;
-    min-width: 280px;
+    width: 280px;
+    flex-shrink: 0;
     border-right: 1px solid #ddd;
     @media screen and (max-width: 1280px) {
-        width: 180px;
+        width: 220px;
     }
     @media screen and (max-width: 960px) {
         border-right: 1px solid transparent;
@@ -121,4 +133,10 @@
 .tabs-menu__button_active {
     font-weight: bold;
     border-bottom: 1px solid transparent;
+}
+
+a[data-type='menu'] {
+    &:hover {
+        text-decoration: none;
+    }
 }

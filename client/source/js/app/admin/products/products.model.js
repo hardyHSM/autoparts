@@ -1,12 +1,13 @@
 import { apiService, router } from '../../common.modules.js'
 
 class ProductsModel {
-    async get() {
-        const res = await apiService.useRequest(router.productsLinkWithParams)
+    async find() {
+        const res = await apiService.useRequest(router.productsLinkParams)
         return res
     }
-    async search(value) {
-        const res = await apiService.useRequest(router.getSearchProducts(value))
+
+    async findAll() {
+        const res = await apiService.useRequest(router.productsLink)
         return res
     }
     async getAllProviders() {

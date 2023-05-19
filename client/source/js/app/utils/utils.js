@@ -1,4 +1,11 @@
 import { Editor, HTMLMdNodeConvertorMap } from '@toast-ui/editor'
+import { html } from 'code-tag'
+
+const dictionary = {
+    'original': 'оригинал',
+    'any': 'любая',
+    'substitute': 'заменитель'
+}
 
 export function debounce(callee, timeoutMs) {
     let previousCall = Date.now()
@@ -128,4 +135,30 @@ export function parseArrayToHTML(description) {
         })
         return editor.getHTML()
     }
+}
+
+export function getTemplateMailFeedback(data) {
+    console.log(data)
+    return html`
+        <h2>Добрый день, уважаемый(-ая) ${data.name}</h2>
+        <p>Вы задали вопрос на нашем сайте. Его содержание - ${data.text}</p>
+        <br>
+        <p>[Текст ответа]</p>
+        <br>
+        <p>С уважением, администрация сайта autoparts.com</p>
+    `
+}
+
+export function getTemplateMailSelection(data) {
+    console.log(data)
+    return html`
+        <h2>Добрый день, уважаемый(-ая) ${data.name}</h2>
+        <p>Вы обратились за подбором запчастей к нашим специалистам.
+            Вы запросили деталь - ${data.detail}, тип - ${dictionary[data.partType]}, в количестве ${data.count} шт. ;
+        </p>
+        <br>
+        <p>[Текст ответа]</p>
+        <br>
+        <p>С уважением, администрация сайта autoparts.com</p>
+    `
 }

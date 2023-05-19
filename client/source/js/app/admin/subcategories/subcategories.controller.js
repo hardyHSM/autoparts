@@ -1,23 +1,22 @@
 import subcategoriesModel from './subcategories.model.js'
 import categoriesModel from '../categories/categories.model.js'
 import { apiService, auth, router } from '../../common.modules.js'
-import SelectInputComponent from '../../../core/components/selects.inputs/select.input.component.js'
+import SelectInputComponent from '../../../core/components/selectsinputs/select.input.component.js'
 import SubcategoryForm from './subcategories.form.js'
 import ModalComponent from '../../../core/components/modals/modal.component.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
 
 class SubcategoriesController {
     async middleware() {
-        const res = await subcategoriesModel.getAll()
+        const res = await subcategoriesModel.findAll()
         res.sort((prev, next) => prev.category?.name > next.category?.name ? 1 : -1)
         return res
     }
 
     async middlewareEdit() {
-        const id = router.getParam('id')
         const [subcategory, allCategories] = await Promise.all([
-            subcategoriesModel.getOne(id),
-            categoriesModel.getAll()
+            subcategoriesModel.find(),
+            categoriesModel.findAll()
         ])
 
         if (subcategory.message) {
@@ -30,7 +29,7 @@ class SubcategoriesController {
     }
 
     async middlewareAdd() {
-        return categoriesModel.getAll()
+        return categoriesModel.findAll()
     }
 
     async functionalEdit(_, data, module) {

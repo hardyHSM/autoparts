@@ -10,12 +10,13 @@ import SortProvider from '../../../core/providers/sort.provider.js'
 import FilterProvide from '../../../core/providers/filter.provide.js'
 import descriptionsModel from '../descriptions/descriptions.model.js'
 import ModalCopyComponent from '../../../core/components/modals/modal.copy.component.js'
-import { renderCopyProductsAdmin } from '../render.admin.js'
+import { renderCopyProductsAdmin } from './products.views.js'
 
 class ProductsController {
     constructor() {
         this.functionalAdd = this.functionalAdd.bind(this)
     }
+
     async middleware() {
         try {
             let page = router.getParam('page')
@@ -24,7 +25,7 @@ class ProductsController {
                 router.addParams('page', page)
                 router.redirectUrlState()
             }
-            const products = await productsModel.get()
+            const products = await productsModel.find()
             return {
                 products,
                 page
@@ -39,31 +40,50 @@ class ProductsController {
         if (!id) {
             return
         }
-        const [product, categories, subcategories, descriptions, providers, stocks, makers] = await Promise.all([productsModel.get(), categoriesModel.getAll(), subcategoriesModel.getAll(), descriptionsModel.getAll(), productsModel.getAllProviders(), productsModel.getAllStocks(), productsModel.getAllMakers()])
+        const [product, categories, subcategories, providers, stocks, makers] = await Promise.all(
+            [
+                productsModel.find(),
+                categoriesModel.findAll(),
+                subcategoriesModel.findAll(),
+                productsModel.getAllProviders(),
+                productsModel.getAllStocks(),
+                productsModel.getAllMakers()
+            ])
         if (product.message) {
             router.setPrevState()
         }
         return {
-            product, descriptions: descriptions.list.map(d => {
-                return { value: d.title, dataset: d._id }
-            }), categories: categories.map(c => {
+            product,
+            categories: categories.map(c => {
                 return { value: c.name, dataset: c._id }
-            }), subcategories: subcategories.map(s => {
+            }),
+            subcategories: subcategories.map(s => {
                 return { value: s.name, dataset: s._id, category: s.category._id }
-            }), providers, stocks, makers
+            }),
+            providers,
+            stocks,
+            makers
         }
     }
 
     async middlewareAdd() {
-        const [categories, subcategories, descriptions, providers, stocks, makers] = await Promise.all([categoriesModel.getAll(), subcategoriesModel.getAll(), descriptionsModel.getAll(), productsModel.getAllProviders(), productsModel.getAllStocks(), productsModel.getAllMakers()])
+        const [categories, subcategories, providers, stocks, makers] = await Promise.all(
+            [
+                categoriesModel.findAll(),
+                subcategoriesModel.findAll(),
+                productsModel.getAllProviders(),
+                productsModel.getAllStocks(),
+                productsModel.getAllMakers()])
         return {
-            descriptions: descriptions.list.map(d => {
-                return { value: d.title, dataset: d._id }
-            }), categories: categories.map(c => {
+            categories: categories.map(c => {
                 return { value: c.name, dataset: c._id }
-            }), subcategories: subcategories.map(s => {
+            }),
+            subcategories: subcategories.map(s => {
                 return { value: s.name, dataset: s._id, category: s.category._id }
-            }), providers, stocks, makers
+            }),
+            providers,
+            stocks,
+            makers
         }
     }
 
@@ -80,7 +100,9 @@ class ProductsController {
             currentPage: data.page, count: data.products.count, limit: 20
         })
         new SortProvider({
-            root: '[data-sort-header]', router, changeStateHandler: async (key, type) => {
+            root: '[data-sort-header]',
+            default: 'price',
+            router, changeStateHandler: async (key, type) => {
                 router.addParams('sort_name', key)
                 router.addParams('sort_type', type)
                 router.redirectUrlState()
@@ -107,17 +129,7 @@ class ProductsController {
             apiService,
             data
         }).init()
-        DeleteHelper.delete({
-            selector: '[data-product-delete]',
-            title: 'Удаление продукта',
-            text: 'Вы действительно хотите удалить этот товар?',
-            routerLink: router.productsLink,
-            id: data.product._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/products')
-                module.changeState()
-            }
-        })
+
     }
 
     functionalAdd(_, data, module) {
@@ -133,6 +145,7 @@ class ProductsController {
         }).init()
         this.functionalCopy(data)
     }
+
     functionalCopy(data) {
         document.querySelector('[data-copy-button]').addEventListener('click', () => {
             new ModalCopyComponent({

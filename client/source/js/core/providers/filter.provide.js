@@ -1,8 +1,8 @@
 import { debounce, decodeString, sanitalize } from '../../app/utils/utils.js'
-import { InputValidation } from '../components/selects.inputs/input.component.js'
+import { InputValidation } from '../components/selectsinputs/input.component.js'
 import ValidationComponent from '../components/validation.component.js'
 
-class FilterProvide {
+class FilterProvider {
     constructor(config) {
         this.router = config.router
         this.onChangeState = config.onChangeState || new Function()
@@ -40,12 +40,11 @@ class FilterProvide {
 
     initRoutes() {
         try {
-            const params = {
-                title: decodeString(this.router.getParam('title') || ''),
-                maker: decodeString(this.router.getParam('maker') || ''),
-                count: decodeString(this.router.getParam('count') || ''),
-                popularity: decodeString(this.router.getParam('popularity') || '')
-            }
+            const params = {}
+
+            document.querySelectorAll('[data-filter]').forEach(f => {
+                params[f.dataset.filter] = this.router.getParam(f.dataset.filter) || ''
+            })
             Object.entries(params).forEach(([value, type]) => {
                 if (!value || !type) return
                 document.querySelector(`[data-filter=${value}]`).value = decodeString(type) || ''
@@ -75,4 +74,4 @@ class FilterProvide {
 }
 
 
-export default FilterProvide
+export default FilterProvider

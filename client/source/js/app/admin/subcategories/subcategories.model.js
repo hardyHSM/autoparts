@@ -1,12 +1,12 @@
 import { apiService, router } from '../../common.modules.js'
 
 class SubcategoriesModel {
-    async getAll() {
-        const res = await apiService.useRequest(router.subcategoriesLink)
+    async find() {
+        const res = await apiService.useRequest(router.subcategoriesLinkParams)
         return res
     }
-    async getOne(id) {
-        const res = await apiService.useRequest(router.getSubcategoryLink(id))
+    async findAll() {
+        const res = await apiService.useRequest(router.subcategoriesLink)
         return res
     }
 }

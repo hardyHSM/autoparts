@@ -17,7 +17,7 @@ class DescriptionsController {
                 router.addParams('page', page)
                 router.redirectUrlState()
             }
-            const descriptions = await descriptionsModel.get()
+            const descriptions = await descriptionsModel.find()
             return {
                 descriptions,
                 page
@@ -25,6 +25,10 @@ class DescriptionsController {
         } catch (e) {
             console.error(e)
         }
+    }
+
+    async middlewareEdit() {
+        return await descriptionsModel.find()
     }
 
     functional(_, data, module) {
@@ -50,10 +54,6 @@ class DescriptionsController {
                 scrollToTop('#top-element')
             }
         }).init()
-    }
-    async middlewareEdit() {
-        const descriptions = await descriptionsModel.get()
-        return descriptions
     }
     functionalEdit(_, data, module) {
         const editor = new Editor({

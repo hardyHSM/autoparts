@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 </head>
-<body class="page">
+<body class="page page_admin">
     <div class="page__preloader">
         <div class="preloader"></div>
     </div>
@@ -23,44 +23,44 @@
                     <div class="tabs-pages admin-panel">
                         <ul class="tabs-pages__tabs">
                             <li class="tabs-pages__item">
-                                <button class="tabs-pages__button" data-type="tab" data-state="" data-link="/admin/catalog">
+                                <a class="tabs-pages__button" data-type="tab" data-state="state" href="/admin/state">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#stats" stroke="black"></use>
                                     </svg>
                                     <b class="tabs-pages__title">
                                         Панель состояния
                                     </b>
-                                </button>
+                                </a>
                             </li>
                             <li class="tabs-pages__item">
-                                <button class="tabs-pages__button" data-type="tab" data-state="catalog" data-link="/admin/catalog">
+                                <a class="tabs-pages__button" data-type="tab" data-state="catalog" href="/admin/catalog">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#catalog"></use>
                                     </svg>
                                     <b class="tabs-pages__title">
                                         Каталог
                                     </b>
-                                </button>
+                                </a>
                             </li>
                             <li class="tabs-pages__item">
-                                <button class="tabs-pages__button" data-type="tab" data-state="" data-link="/user/purchases">
+                                <a class="tabs-pages__button" data-type="tab" data-state="sales" href="/admin/sales">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#cart"></use>
                                     </svg>
                                     <b class="tabs-pages__title">
                                         Продажи
                                     </b>
-                                </button>
+                                </a>
                             </li>
                             <li class="tabs-pages__item">
-                                <button class="tabs-pages__button" data-type="tab" data-state="" data-link="/user/notifications">
+                                <a class="tabs-pages__button" data-type="tab" data-state="users" href="/admin/users">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
                                     </svg>
                                     <b class="tabs-pages__title">
                                         Пользователи
                                     </b>
-                                </button>
+                                </a>
                             </li>
                         </ul>
                         <div class="tabs-pages__content" data-tab>

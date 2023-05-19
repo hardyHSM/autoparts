@@ -4,9 +4,17 @@
     gap: 20px;
     background-color: #f0f0f0;
     border-radius: 4px;
+    @media screen and(max-width: 960px) {
+        flex-wrap: wrap;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
 
 .filter-bar__item {
     width: calc(100% / 4);
     flex-grow: 1;
+    @media screen and(max-width: 960px) {
+        width: calc(100% / 2 - 20px)
+    }
 }

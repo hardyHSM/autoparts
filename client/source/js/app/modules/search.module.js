@@ -3,7 +3,7 @@ import { renderSearchComplete } from '../views/render.search.js'
 import renderProducts from '../views/render.products.js'
 import PaginationComponent from '../../core/components/pagination.component.js'
 import changeProductsViewHandler from '../service/view.catalog.js'
-import SelectComponent from '../../core/components/selects.inputs/select.component.js'
+import SelectComponent from '../../core/components/selectsinputs/select.component.js'
 import SidebarComponent from '../../core/components/sidebar.component.js'
 import ModuleCore from '../../core/modules/module.core.js'
 

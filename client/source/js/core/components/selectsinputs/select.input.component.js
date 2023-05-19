@@ -1,21 +1,26 @@
 import SelectComponent from './select.component.js'
 import { debounce } from '../../../app/utils/utils.js'
+import { html } from 'code-tag'
 
 class SelectInputComponent extends SelectComponent {
     constructor(config) {
         super(config)
         this.title = config.title
+        this.link = config.link  || ''
         this.key = config.key
         this.isSelected = false
         this.onselect = new Function()
-        this.onchange = config?.onchange?.bind(this)
+        this.dynamicData = config.dynamicData || null
+        this.$parent = this.$select.closest('.field-block') || this.$select.parentNode
     }
 
-    init() {
-        if(this.$title.value.length) {
+    async init() {
+        await this.parseDynamicData(this.$title.value)
+        if (this.$title.value.length) {
             this.isSelected = true
         }
-        this.$header.addEventListener('click', e => {
+        this.$header.addEventListener('click', async e => {
+            await this.parseDynamicData(this.$title.value)
             this.open()
             this.renderBody(this.data)
             this.registerHandlers()
@@ -25,9 +30,9 @@ class SelectInputComponent extends SelectComponent {
                 this.close()
             }
         })
-        const inputWithDebounce = debounce(this.searchHandler.bind(this), 800)
+        const inputWithDebounce = debounce(this.searchHandler.bind(this), 200)
         this.$title.addEventListener('input', ({ target }) => {
-            if(this.onchange) {
+            if (this.dynamicData) {
                 inputWithDebounce(target)
             } else {
                 this.searchHandler(target)
@@ -41,15 +46,26 @@ class SelectInputComponent extends SelectComponent {
                     text: null
                 })
                 this.setTitle('')
+                // if (this.dynamicData) {
+                //     this.data = []
+                // }
             }
         })
     }
 
     async searchHandler(target) {
-        await this.onchange?.(target.value)
-        let searchData = target.value.length ?
-            this.data.filter(({ value }) => value.match(new RegExp(`${target.value}`, 'gmi'))) :
-            this.data
+        if(this.link) {
+            this.setEditLink(null)
+        }
+        await this.parseDynamicData(target.value)
+        let searchData
+        if (!target.value.length && this.dynamicData) {
+            searchData = []
+        } else {
+            searchData = target.value.length ?
+                this.data.filter(({ value }) => value.match(new RegExp(`${target.value}`, 'gmi'))) :
+                this.data
+        }
         this.isSelected = false
         this.renderBody(searchData)
         this.open()
@@ -57,7 +73,7 @@ class SelectInputComponent extends SelectComponent {
     }
 
     renderBody(data) {
-        if(this.disabled) return
+        if (this.disabled) return
         this.$body.innerHTML = ''
         if (!data.length) {
             this.$body.innerHTML = '<div class="select__notfound">Ничего не найдено...</div>'
@@ -69,6 +85,29 @@ class SelectInputComponent extends SelectComponent {
                 this.$body.innerHTML += `<li class="select__item" data-value="${item.dataset}" title="${item.value}">${item.value}</li>`
             }
         })
+    }
+
+    async parseDynamicData(value) {
+        if (this.dynamicData) {
+            if(value.length) {
+                this.data = await this.dynamicData(value)
+                const index = this.data.findIndex(item => item.value === value)
+                if (index > -1) {
+                    this.data[index].default = true
+                    if(this.link) {
+                        this.setEditLink()
+                    }
+                }
+            } else {
+                this.data = []
+            }
+        }
+    }
+
+    setEditLink(value = true) {
+        this.$parent.querySelector('.field-block__link').innerHTML = value ? html`
+            <a href="${this.link}${this.getValue()}" class="page-link">Редактировать</a>
+        ` : ''
     }
 
     disable() {
@@ -84,14 +123,15 @@ class SelectInputComponent extends SelectComponent {
         this.$select.classList.remove('select_disabled')
     }
 
-    setTitle(value) {
+    setTitle(value = '') {
+        this.isSelected = true
         this.$title.value = value
 
         this.data = this.data.map(item => {
             item.default = false
             return item
         })
-        if(!value) {
+        if (!value) {
             this.isSelected = false
             this.$items?.forEach(element => {
                 element.classList.remove('select__item_current')
@@ -101,9 +141,12 @@ class SelectInputComponent extends SelectComponent {
             this.enable()
         }
         const index = this.data.findIndex(item => item.value === value)
-        console.log(this.data)
-        console.log(value)
-        this.data[index].default = true
+        if (index >= 0) {
+            this.data[index].default = true
+            if(this.link) {
+                this.setEditLink()
+            }
+        }
     }
 }
 
