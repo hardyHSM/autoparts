@@ -5,7 +5,7 @@
     margin-bottom: 25px;
     padding-left: 15px;
     padding-right: 15px;
-    @media screen and (max-width: 960px) {
+    @media screen and (max-width: 1280px) {
         flex-wrap: wrap;
         gap: 15px 0px;
     }
@@ -16,11 +16,11 @@
     font-weight: 700;
     display: flex;
     gap: 0px 15px;
+    padding-right: 25px;
     @media screen and (max-width: 960px) {
         width: 100%;
     }
     @media screen and (max-width: 640px) {
-        flex-wrap: wrap;
         gap: 15px 0px;
     }
 }
