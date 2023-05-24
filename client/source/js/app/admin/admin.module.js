@@ -40,7 +40,7 @@ class AdminModule extends ModuleTabs {
         super(config)
         this.config = {
             root: 'admin',
-            default: 'catalog',
+            default: 'state',
             tabsParams: {
                 'catalog': {
                     render: renderCatalogAdmin,

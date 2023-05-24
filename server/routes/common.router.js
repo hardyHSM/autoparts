@@ -10,24 +10,24 @@ const router = new Router()
 
 
 router.get('/products_stocks',
-    csrfTokenMiddleware,
     authAccessMiddleware,
     adminAccessMiddleware,
+    csrfTokenMiddleware,
     productController.getAllStocks)
 
 
 router.get('/products_descriptions',
-    csrfTokenMiddleware,
     authAccessMiddleware,
     adminAccessMiddleware,
+    csrfTokenMiddleware,
     productController.getAllDescriptions)
 
 
 router.put('/products_descriptions',
     body('title').exists().trim().custom(escapeRegExpValidator),
-    csrfTokenMiddleware,
     authAccessMiddleware,
     adminAccessMiddleware,
+    csrfTokenMiddleware,
     productController.changeProductDescription)
 
 router.delete('/products_descriptions',
