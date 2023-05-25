@@ -107,7 +107,7 @@ class UserService {
 
     async changeEmail(user, candidateEmail) {
         const existingUser = await UsersModel.findOne({ email: candidateEmail })
-        if (existingUser) {
+        if (existingUser && existingUser._id !== user._id ) {
             throw ApiError.EmailAlreadyExists(candidateEmail)
         }
         user.isActivated = false
