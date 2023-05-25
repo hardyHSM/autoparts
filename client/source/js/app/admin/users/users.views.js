@@ -2,7 +2,7 @@ import { html } from 'code-tag'
 import { parseDate } from '../../utils/utils.js'
 
 export const renderUsersContentAdmin = (data) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Пользователи
@@ -61,7 +61,7 @@ export const renderUsersContentAdmin = (data) => {
                     <th class="table__col table__col_ultra-small">Изменить</th>
                 </tr>
                 ${data.users.list.map(user => {
-                    return html`
+                    return `
                         <tr class="table__row">
                             <th class="table__col">${parseDate(user.createdAt)}</th>
                             <th class="table__col">${user.firstName}</th>
@@ -95,7 +95,7 @@ export const renderUsersContentAdmin = (data) => {
 
 export const renderEditUsersAdmin = (data) => {
     console.log(data)
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Редактирование аккаунта пользователя</h2>

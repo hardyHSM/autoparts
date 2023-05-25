@@ -2,7 +2,7 @@ import { html } from 'code-tag'
 import { parseDate } from '../../utils/utils.js'
 
 export const renderStateContentAdmin = (data) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">

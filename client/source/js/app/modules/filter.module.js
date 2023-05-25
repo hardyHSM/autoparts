@@ -140,7 +140,7 @@ class FilterModule {
         this.$filtersList.innerHTML = ''
         let view = ''
         this.currentFilters.forEach(filter => {
-            view += html`
+            view += `
                 <li class="filters__item">
                     <span class="filters__key" data-filter-type="${filter.type}">${filter.label || filter.type}</span>
                     <span class="filters__value" data-filter-value="${filter.value}">${filter.value}</span>
@@ -197,7 +197,7 @@ class FilterModule {
 
     renderHeader() {
         let view = ''
-        view += html`
+        view += `
             <div class="page-filter__block filter-block">
                 <div class="filter-block__header">
                     <b class="filter-block__name">Поиск по наименованию</b>
@@ -228,14 +228,14 @@ class FilterModule {
             return a - b
         })
         let view = ''
-        view += html`
+        view += `
             <div class="page-filter__block filter-block" data-filter="${key}">
                 <div class="filter-block__header">
                     <b class="filter-block__name">${key}</b>
                 </div>
                 <ul class="filter-block__list" data-list="${key}">
                     ${attrs.reduce((acc, attr, index) => {
-                        acc += html`
+                        acc += `
                             <li class="filter-block__item">
                                 <label class="checkbox">
                                     <input class="checkbox__input" type="checkbox" data-checkbox="${attr}"/>
@@ -258,7 +258,7 @@ class FilterModule {
     }
 
     renderSelect({ key, attrs }) {
-        const view = html`
+        const view = `
             <div class="page-filter__block filter-block">
                 <div class="filter-block__header">
                     <b class="filter-block__name">${key}</b>

@@ -1,9 +1,9 @@
-import { html } from 'code-tag'
+
 
 export default function renderCartTable(output, data) {
     data.forEach(item => {
         const { count, product } = item
-        const view = html`
+        const view = `
             <tr class="table__row product-table" data-product data-product-id="${product._id}">
                 <td class="table__col table__col_big">
                     <div class="product-table__header">

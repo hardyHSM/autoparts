@@ -4,25 +4,25 @@ import { renderAdminProductForm } from '../products/products.views.js'
 import { renderProductsInOrder } from '../../views/render.products.order.js'
 
 const statusConfig = {
-    'Отменён': html`
+    'Отменён': `
         <svg>
             <use xlink:href="img/svg/sprite.svg#no" fill="red"></use>
         </svg>
         Отменён
     `,
-    'Сделка завершена': html`
+    'Сделка завершена': `
         <svg>
             <use xlink:href="img/svg/sprite.svg#yes" fill="transparent" stroke="green"></use>
         </svg>
         Сделка завершена
     `,
-    'В процессе': html`
+    'В процессе': `
         <svg>
             <use xlink:href="img/svg/sprite.svg#refresh" fill="#244993"></use>
         </svg>
         В процессе
     `,
-    'В обработке': html`
+    'В обработке': `
         <svg>
             <use xlink:href="img/svg/sprite.svg#question" fill="transparent" stroke="orange" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></use>
         </svg>
@@ -31,7 +31,7 @@ const statusConfig = {
 }
 
 export const renderSalesContentAdmin = ({ orders }) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">
@@ -77,7 +77,7 @@ export const renderSalesContentAdmin = ({ orders }) => {
                     <th class="table__col table__col_ultra-small">Изменить</th>
                 </tr>
                 ${orders.list.map(order => {
-                    return html`
+                    return `
                         <tr class="table__row">
                             <th class="table__col">${parseDate(order.createdAt)}</th>
                             <th class="table__col">${order.firstName}</th>
@@ -108,7 +108,7 @@ export const renderSalesContentAdmin = ({ orders }) => {
 }
 
 export const renderEditSalesAdmin = (order) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Редактирование заказа от ${parseDate(order.createdAt)}</h2>

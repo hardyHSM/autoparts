@@ -257,7 +257,7 @@ class CartModule extends ModuleCore {
 
 
     renderEmptyCart() {
-        const view = html`
+        const view = `
             <tr class="table__row product-table">
                 <td class="table__col table__col_full">Корзина пустая</td>
             </tr>`

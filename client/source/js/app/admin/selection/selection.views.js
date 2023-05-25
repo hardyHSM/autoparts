@@ -8,7 +8,7 @@ const dictionary = {
 }
 
 export const renderSelectionAdmin = (data) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Подбор запчастей
@@ -60,7 +60,7 @@ export const renderSelectionAdmin = (data) => {
                     <th class="table__col table__col_ultra-small">Изменить</th>
                 </tr>
                 ${data.selections.list.map(selection => {
-                    return html`
+                    return `
                         <tr class="table__row">
                             <th class="table__col">${parseDate(selection.createdAt || '') || ''}</th>
                             <th class="table__col">${selection.email}</th>
@@ -95,7 +95,7 @@ export const renderSelectionAdmin = (data) => {
 
 
 export const renderEditSelectionAdmin = (data) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Ответ на подбор запчастей от пользователя.</h2>
@@ -136,7 +136,7 @@ export const renderEditSelectionAdmin = (data) => {
                     ${data.isAnswered ? `<h2>Ваш ответ:</h2><br><hr/>${data.answer}<hr/>` : ''}
                 </div>
                 <div class="form__row form__bottom">
-                    ${!data.isAnswered ? html`
+                    ${!data.isAnswered ? `
                         <button type="submit"
                                 class="button button_success button_sq"
                                 data-submit>

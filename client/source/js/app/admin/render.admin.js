@@ -1,7 +1,7 @@
 import { html } from 'code-tag'
 
 export const renderCatalogAdmin = () => {
-    return html`
+    return `
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
                 <a class="tabs-menu__button" data-state="categories" data-type="menu" href="/admin/catalog/categories">
@@ -29,21 +29,21 @@ export const renderCatalogAdmin = () => {
 }
 
 export const renderSalesAdmin = () => {
-    return html`
+    return `
         <div class="tabs-pages__data" data-menu>
         </div>
     `
 }
 
 export const renderStateAdmin = () => {
-    return html`
+    return `
         <div class="tabs-pages__data" data-menu>
         </div>
     `
 }
 
 export const renderUsersAdmin = () => {
-    return html`
+    return `
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
                 <a class="tabs-menu__button" data-state="users" data-type="menu" href="/admin/users/users">

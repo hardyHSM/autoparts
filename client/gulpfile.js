@@ -16,7 +16,6 @@ import gutil from 'gulp-util'
 import sourcemaps from 'gulp-sourcemaps'
 import gulpif from 'gulp-if'
 import TerserWebpackPlugin from 'terser-webpack-plugin'
-
 //svg
 import svgSprite from 'gulp-svg-sprite'
 import svgmin from 'gulp-svgmin'
@@ -124,6 +123,7 @@ export const js = () => {
                 minimizer: [
                     new TerserWebpackPlugin({
                         extractComments: false,
+                        parallel: true,
                         terserOptions: {
                             warnings: false,
                             ecma: undefined,
@@ -131,7 +131,9 @@ export const js = () => {
                             compress: {},
                             mangle: true,
                             module: false,
-                            output: null,
+                            output: {
+                                comments: false,
+                            },
                             format: null,
                             toplevel: false,
                             nameCache: null,
@@ -140,7 +142,7 @@ export const js = () => {
                             keep_fnames: false,
                             safari10: false
                         }
-                    })
+                    }),
                 ]
             },
             entry: {
@@ -156,7 +158,7 @@ export const js = () => {
                 order: [`${config.source}${config.js}/order.page.js`],
                 profile: [`${config.source}${config.js}/profile.page.js`],
                 search: [`${config.source}${config.js}/search.page.js`],
-                admin: [`${config.source}${config.js}/admin.page.js`],
+                admin: [`${config.source}${config.js}/admin.page.js`]
             },
             output: {
                 filename: '[name].js'
@@ -169,10 +171,10 @@ export const js = () => {
                         use: [
                             {
                                 loader: 'babel-loader',
-                                options: {
-                                    presets: [['@babel/env']],
-                                    plugins: ['@babel/plugin-proposal-class-properties']
-                                }
+                                // options: {
+                                //     presets: [['@babel/env']],
+                                //     plugins: ['@babel/plugin-proposal-class-properties']
+                                // }
                             }
                         ]
                     }
@@ -184,7 +186,6 @@ export const js = () => {
             ]
         })
     )
-    .pipe(terser())
     .pipe(gulp.dest(`${config.public}${config.js}`))
     .pipe(browserSync.reload({ stream: true }))
 }
@@ -237,7 +238,7 @@ export const images = () => {
         `!${config.source}/${config.sprite_svg}/**/*.svg`
     ])
     // .pipe(buffer())
-    .pipe(gulpif(isProduction, imagemin([
+    .pipe(gulpif(false, imagemin([
         imagemin.gifsicle({ interlaced: true }),
         imagemin.mozjpeg({
             quality: 75,

@@ -2,7 +2,7 @@ import { getTotalPrice, getTotalPriceWithPromo } from '../utils/utils.js'
 import { html } from 'code-tag'
 
 export function renderOrderProducts(data) {
-    return html`
+    return `
         <div class="order-products__list">
             ${data.products.reduce((acc, { product, count }) => {
                 acc += `

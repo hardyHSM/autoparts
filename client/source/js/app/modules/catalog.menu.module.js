@@ -29,13 +29,13 @@ class CatalogMenuModule {
         let view = ``
         data.forEach(block => {
             const list = block.children.reduce((acc, curr) => {
-                acc += html`
+                acc += `
                     <li class="catalog-item__point">
                         <a href="/catalog/${block.link}/${curr.link}" class="catalog-item__link">${curr.name}</a>
                     </li> `
                 return acc
             }, '')
-            view += html`
+            view += `
                 <div class="catalog-item">
                     <div class="catalog-item__header">
                         <b class="catalog-item__title">${block.name}</b>

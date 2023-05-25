@@ -33,7 +33,7 @@ const renderSearchBlock = (title, type, data = [], isFull) => {
     let link = ''
 
 
-    return html`
+    return `
         <div class="search-list__item">
             <div class="search-list__header">
                 ${title}
@@ -46,7 +46,7 @@ const renderSearchBlock = (title, type, data = [], isFull) => {
                 } else if (type === 'subCategory') {
                     link = `/catalog/${item.category.link}/${item.link}`
                 }
-                acc += html`
+                acc += `
                     <a href="${link}" class="search-list__body">
                         <span class="search-list__name">${item.name}</span>
                         <span class="search-list__count">(товаров - ${item.count})</span>
@@ -74,14 +74,14 @@ const renderSearchAttributes = (title, data = [], isFull) => {
         } else {
             attr.values.length = 6
         }
-        acc += html`
+        acc += `
             <div class="search-list__item">
                 <div class="search-list__header">
                     ${attr.key}
                 </div>
                 ${attr.values.reduce((a, value) => {
                     const url = `/search/attributes?key=${attr.key}&value=${value.name}`
-                    a += html`
+                    a += `
                         <a href="${url}" class="search-list__body">
                             <span class="search-list__name">${value.name}</span>
                             <span class="search-list__count">(товаров - ${value.count})</span>
@@ -99,7 +99,7 @@ const renderSearchProducts = (title, data = []) => {
         return ''
     }
     data.length = 5
-    return html`
+    return `
         <div class="search-list__item">
             <div class="search-list__header">
                 ${title}

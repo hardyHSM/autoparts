@@ -10,7 +10,7 @@ export default function renderProducts(products, productClass = '') {
             }
         }).filter((_, index) => index <= 2)
 
-        return html`
+        return `
             <article class="page-product ${productClass}">
                 <div class="page-product__header">
                     <img class="page-product__img" data-src="/${product.image || 'img/assets/no_photo.jpg'}" alt="">

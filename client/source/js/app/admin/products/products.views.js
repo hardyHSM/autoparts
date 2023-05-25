@@ -2,7 +2,7 @@ import { html } from 'code-tag'
 
 export const renderProductsAdmin = (data) => {
     const products = data.products.list
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Товары
@@ -82,7 +82,7 @@ export const renderProductsAdmin = (data) => {
                     <th class="table__col table__col_ultra-small">Изменить</th>
                 </tr>
                 ${products.map(product => {
-                    return html`
+                    return `
                         <tr class="table__row">
                             <th class="table__col table__col_image">
                                 <img class="table_product-image" src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">
@@ -118,7 +118,7 @@ export const renderProductsAdmin = (data) => {
 }
 
 export const renderEditProductsAdmin = ({ product }) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Редактирование товара</h2>
@@ -161,7 +161,7 @@ export const renderEditProductsAdmin = ({ product }) => {
 }
 
 export const renderAddProductsAdmin = () => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Добавление товара</h2>
@@ -357,7 +357,7 @@ export const renderAddProductsAdmin = () => {
 }
 
 export const renderCopyProductsAdmin = (product) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Добавление товара</h2>
@@ -394,7 +394,7 @@ export const renderCopyProductsAdmin = (product) => {
 }
 
 export const renderAdminProductForm = (product) => {
-    return html`
+    return `
         <fieldset class="form__row">
             <div class="form__block field-block">
                 <div class="field-block__header">

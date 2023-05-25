@@ -1,7 +1,7 @@
 import { html } from 'code-tag'
 
 export const renderCategoriesAdmin = (categories) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">
@@ -29,7 +29,7 @@ export const renderCategoriesAdmin = (categories) => {
                     <th class="table__col table__col_small" data-cart-all data-enabled="false">Изменить</th>
                 </tr>
                 ${categories.map(category => {
-        return html`
+        return `
                         <tr class="table__row">
                             <th class="table__col">${category.name}</th>
                             <th class="table__col">${category.link}</th>
@@ -54,7 +54,7 @@ export const renderCategoriesAdmin = (categories) => {
 }
 
 export const renderAddCategoryAdmin = () => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Добавление категории</h2>
@@ -112,7 +112,7 @@ export const renderAddCategoryAdmin = () => {
 }
 
 export const renderEditCategoryAdmin = (category) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Изменение категории</h2>

@@ -67,7 +67,7 @@ class ProductModule extends ModuleCore {
         document.querySelector('[data-product-title]').innerHTML = `Купить ${res.title}`
         document.querySelector('title').innerHTML = res.title
         if (this.auth?.userData?.role?.toLowerCase() === 'admin') {
-            document.querySelector('[data-product-header]').innerHTML += html`
+            document.querySelector('[data-product-header]').innerHTML += `
                 <a class="button button_backwards-accent button_icon"
                    href="/admin/catalog/products/edit?id=${res._id}">
                     Редактировать товар

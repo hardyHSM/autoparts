@@ -43,6 +43,7 @@
     "gulp-svgmin": "^4.1.0",
     "gulp-terser": "^2.1.0",
     "gulp-util": "^1.0.0",
+    "html-minimizer-webpack-plugin": "^4.3.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "node-sass": "^8.0.0",
     "postcss": "^8.4.23",

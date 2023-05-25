@@ -2,11 +2,11 @@ import { html } from 'code-tag'
 import { getTotalPrice, getTotalPriceWithPromo } from '../utils/utils.js'
 
 export const renderProductsInOrder = (data) => {
-    return html`
+    return `
         <div class="profile__order-products order-products order-products_theme-white">
             <div class="order-products__list">
                 ${data.products.reduce((acc, { product, count }) => {
-                    acc += html`
+                    acc += `
                         <div class="order-products__item">
                             <div class="order-products__image">
                                 <img src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">

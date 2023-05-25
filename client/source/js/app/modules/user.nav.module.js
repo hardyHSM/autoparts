@@ -23,14 +23,14 @@ class UserNavModule extends ModuleCore {
         if (this.auth.isAuth) {
             this.$cart.dataset.cartCount = getProductsCount(this.auth.userData.cart.list) || ''
             this.$sign.dataset.cartCount = this.auth.userData.unreadMessagesCount || ''
-            this.$sign.innerHTML = !this.router.isProfilePage ? html`
+            this.$sign.innerHTML = !this.router.isProfilePage ? `
                 <a href="/user/profile" class="user-nav__link">
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
                     </svg>
                     <span>${this.auth.userData.firstName}</span>
                 </a>
-            ` : html`
+            ` : `
                 <span class="user-nav__span">
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
@@ -38,7 +38,7 @@ class UserNavModule extends ModuleCore {
                     <span>${this.auth.userData.firstName}</span>
                 </span>
             `
-            this.$sign.innerHTML += html`
+            this.$sign.innerHTML += `
                 <ul class="profile-list">
                     ${this.auth.userData.role.toLowerCase() === 'admin' ? `
                         <li class="profile-list__item">
@@ -63,7 +63,7 @@ class UserNavModule extends ModuleCore {
         } else {
             const cart = JSON.parse(localStorage.getItem('cart'))?.products || []
             this.$cart.dataset.cartCount = getProductsCount(cart) || ''
-            this.$sign.innerHTML = html`
+            this.$sign.innerHTML = `
                 <button class="user-nav__link">
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>

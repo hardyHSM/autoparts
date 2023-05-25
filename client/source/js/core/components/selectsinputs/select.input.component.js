@@ -105,7 +105,7 @@ class SelectInputComponent extends SelectComponent {
     }
 
     setEditLink(value = true) {
-        this.$parent.querySelector('.field-block__link').innerHTML = value ? html`
+        this.$parent.querySelector('.field-block__link').innerHTML = value ? `
             <a href="${this.link}${this.getValue()}" class="page-link">Редактировать</a>
         ` : ''
     }

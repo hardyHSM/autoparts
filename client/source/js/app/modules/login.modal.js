@@ -114,7 +114,7 @@ class ModalLogin extends ModalComponent {
     }
 
     renderError(text) {
-        this.$errors.innerHTML += html`
+        this.$errors.innerHTML += `
             <div class="page-popup__error message message_error">
                 ${text}
             </div>`

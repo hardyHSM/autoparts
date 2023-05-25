@@ -1,7 +1,7 @@
 import { html } from 'code-tag'
 
 export const renderSubcategoriesAdmin = (subcategories) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">
@@ -29,7 +29,7 @@ export const renderSubcategoriesAdmin = (subcategories) => {
                     <th class="table__col table__col_small" data-cart-all data-enabled="false">Изменить</th>
                 </tr>
                 ${subcategories.map(subcategory => {
-        return html`
+        return `
                         <tr class="table__row">
                             <th class="table__col">${subcategory.name}</th>
                             <th class="table__col">${subcategory.link}</th>
@@ -54,7 +54,7 @@ export const renderSubcategoriesAdmin = (subcategories) => {
 }
 
 export const renderEditSubcategoryAdmin = ({ subcategory }) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Изменение подкатегории</h2>
@@ -130,7 +130,7 @@ export const renderEditSubcategoryAdmin = ({ subcategory }) => {
 }
 
 export const renderAddSubcategoryAdmin = () => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Добавление подкатегории</h2>

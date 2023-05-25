@@ -2,7 +2,7 @@ import { html } from 'code-tag'
 import { parseArrayToHTML } from '../utils/utils.js'
 
 export default function renderProductPage({ res, formattedAttributes, sizes }) {
-    return html`
+    return `
         <div class="product-module__header">
             <div class="product-module__pic">
                 <img src="/${res.image || 'img/assets/no_photo.jpg'}" alt="${res.title}">
@@ -18,7 +18,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
                             const key = item[0]
                             const value = item[1]
                             if (!Array.isArray(value)) {
-                                acc += html`
+                                acc += `
                                     <div class="properties__item">
                                         <dt class="properties__key"><span class="properties__text">${key}</span></dt>
                                         <dd class="properties__value">
@@ -26,7 +26,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
                                         </dd>
                                     </div>`
                             } else {
-                                acc += html`
+                                acc += `
                                     <div class="properties__item">
                                         <dt class="properties__key"><span class="properties__text">${key}</span></dt>
                                         <dd class="properties__value">
@@ -41,7 +41,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
                         Все характеристики
                     </button>
                 </div>
-                ${sizes.length ? html`
+                ${sizes.length ? `
                     <div class="product-module__sizes sizes">
                         <strong class="sizes__title">Другие фасовки: </strong>
                         <ul class="sizes__list">
@@ -67,7 +67,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
                     const key = item[0]
                     const value = item[1]
                     if (!Array.isArray(value)) {
-                        acc += html`
+                        acc += `
                             <div class="properties__item">
                                 <dt class="properties__key"><span class="properties__text">${key}</span></dt>
                                 <dd class="properties__value">
@@ -75,7 +75,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
                                 </dd>
                             </div>`
                     } else {
-                        acc += html`
+                        acc += `
                             <div class="properties__item">
                                 <dt class="properties__key"><span class="properties__text">${key}</span></dt>
                                 <dd class="properties__value">

@@ -1,7 +1,7 @@
 import { html } from 'code-tag'
 
 export const renderDescriptionsAdmin = ({ descriptions }) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">
@@ -37,7 +37,7 @@ export const renderDescriptionsAdmin = ({ descriptions }) => {
                     <th class="table__col table__col_small" data-cart-all data-enabled="false">Изменить</th>
                 </tr>
                 ${descriptions.list.map(descr => {
-                    return html`
+                    return `
                         <tr class="table__row">
                             <th class="table__col">${descr.title}</th>
                             <th class="table__col table__col_small table__col_right">
@@ -64,7 +64,7 @@ export const renderDescriptionsAdmin = ({ descriptions }) => {
 }
 
 export const renderEditDescriptionsAdmin = (description) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Редактирование описания продукции</h2>
@@ -112,7 +112,7 @@ export const renderEditDescriptionsAdmin = (description) => {
 }
 
 export const renderAddDescriptionsAdmin = () => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Редактирование описания продукции</h2>

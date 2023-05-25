@@ -16,7 +16,7 @@ export default class ModalComponent {
 
     create() {
         if (this.template === 'default') {
-            this.template = html`
+            this.template = `
                 <button class="page-popup__close" data-close></button>
                 <div class="page-popup__container">
                     <h2 class="page-popup__title">${this.title || ''}</h2>
@@ -27,7 +27,7 @@ export default class ModalComponent {
                 </div>
             `
         } else if (this.template === 'choise') {
-            this.template = html`
+            this.template = `
                 <button class="page-popup__close" data-close></button>
                 <div class="page-popup__container">
                     <h2 class="page-popup__title">${this.title || ''}</h2>

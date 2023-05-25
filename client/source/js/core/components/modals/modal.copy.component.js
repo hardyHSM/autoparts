@@ -11,7 +11,7 @@ export default class ModalCopyComponent extends ModalComponent {
     }
 
     async create() {
-        this.template = html`
+        this.template = `
             <button class="page-popup__close" data-close></button>
             <div class="page-popup__container">
                 <h2 class="page-popup__title">Копирование элемента</h2>

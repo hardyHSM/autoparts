@@ -2,7 +2,7 @@ import { html } from 'code-tag'
 import { parseDate } from '../../utils/utils.js'
 
 export const renderFeedbackAdmin = (data) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Обратная связь
@@ -46,7 +46,7 @@ export const renderFeedbackAdmin = (data) => {
                     <th class="table__col table__col_ultra-small">Изменить</th>
                 </tr>
                 ${data.feedbacks.list.map(feedback => {
-                    return html`
+                    return `
                         <tr class="table__row">
                             <th class="table__col">${parseDate(feedback.createdAt || '') || ''}</th>
                             <th class="table__col">${feedback.name}</th>
@@ -81,7 +81,7 @@ export const renderFeedbackAdmin = (data) => {
 
 
 export const renderEditFeedbackAdmin = (data) => {
-    return html`
+    return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Редактирование вопроса от пользователя.</h2>
@@ -114,7 +114,7 @@ export const renderEditFeedbackAdmin = (data) => {
                     ${data.isAnswered ? `<h2>Ваш ответ:</h2><br><hr/>${data.answer}<hr/>` : ''}
                 </div>
                 <div class="form__row form__bottom">
-                    ${!data.isAnswered ? html`
+                    ${!data.isAnswered ? `
                         <button type="submit"
                                 class="button button_success button_sq"
                                 data-submit>

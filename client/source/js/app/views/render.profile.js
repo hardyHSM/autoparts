@@ -3,7 +3,7 @@ import { html } from 'code-tag'
 import { renderProductsInOrder } from './render.products.order.js'
 
 export function renderProfile(data) {
-    return html`
+    return `
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
                 <a class="tabs-menu__button" data-state="personal" data-type="menu" href="/user/profile/personal">
@@ -27,7 +27,7 @@ export function renderProfile(data) {
 }
 
 export function renderPurchases(data) {
-    return html`
+    return `
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
                 <a class="tabs-menu__button" data-type="menu" data-state="cart" href="/user/purchases/cart">
@@ -46,7 +46,7 @@ export function renderPurchases(data) {
 }
 
 export function renderNotifications(data) {
-    return html`
+    return `
         <ul class="tabs-pages__menu tabs-menu">
             <li class="tabs-menu__item">
                 <a class="tabs-menu__button" data-type="menu" data-state="messages" href="/user/notifications/messages">
@@ -59,7 +59,7 @@ export function renderNotifications(data) {
 }
 
 export function renderCart(data) {
-    return html`
+    return `
         <h2 class="profile__title">Моя корзина</h2>
         <div class="profile-table">
             <div class="profile-table__header">
@@ -101,7 +101,7 @@ export function renderCart(data) {
 
 
 export function renderOrders(data) {
-    return html`
+    return `
         <h2 class="profile__title">Мои заказы</h2>
         <div class="profile-table">
             <div class="profile-table__header">
@@ -119,7 +119,7 @@ export function renderOrders(data) {
                 </span>
             </div>
             ${data.length ? data.reduce((acc, item, index) => {
-                acc += html`
+                acc += `
                     <div class="profile-table__body">
                             <span class="profile-table__column">
                                 ${index}
@@ -140,7 +140,7 @@ export function renderOrders(data) {
                         </button>
                     </div>`
                 return acc
-            }, '') : html`
+            }, '') : `
                 <div class="profile-table__body">
                     <div class="profile-table__empty">Нет заказов</div>
                 </div>`}
@@ -150,7 +150,7 @@ export function renderOrders(data) {
 }
 
 export function renderOrderFull(data) {
-    return html`
+    return `
         <h2 class="profile__title">Заказ от ${parseDate(data.createdAt)}</h2>
         ${renderProductsInOrder(data)}
         <a type="button" class="order-products__button button button_neutral button_icon" data-type="menu" data-state="orders"  href="/user/purchases/orders">
@@ -165,7 +165,7 @@ export function renderOrderFull(data) {
 
 
 export function renderPersonal({ info }) {
-    return html`
+    return `
         <h2 class="profile__title">Персональные данные</h2>
         <form class="profile__form form" data-personal-form>
             <div class="form__row">
@@ -221,7 +221,7 @@ export function renderPersonal({ info }) {
 }
 
 export function renderChangePassword() {
-    return html`
+    return `
         <h2 class="profile__title">Смена пароля</h2>
         <form class="profile__form form" data-password-form>
             <div class="form__row">
@@ -264,7 +264,7 @@ export function renderChangePassword() {
 }
 
 export function renderNotificationsList(data) {
-    return html`
+    return `
         <h2 class="profile__title">Мои уведомления</h2>
         <div class="notifications">
             <div class="notifications__header ">
@@ -279,7 +279,7 @@ export function renderNotificationsList(data) {
         <ul class="notifications__list">
             ${data.reverse().reduce((acc, item) => {
                 if (item.messageType === 'success') {
-                    acc += html`
+                    acc += `
                         <li class="notifications__item message message_sucess message_icon">
                             <div class="notifications__date">
                                 ${parseDate(item.createdTime)}
@@ -292,7 +292,7 @@ export function renderNotificationsList(data) {
                             </svg>
                         </li>`
                 } else {
-                    acc += html`
+                    acc += `
                         <li class="notifications__item message message_accent message_icon">
                             <div class="notifications__date">
                                 ${parseDate(item.createdTime)}

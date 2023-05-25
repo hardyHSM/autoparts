@@ -77,12 +77,12 @@ class PaginationComponent {
 
     createPaginationItem(isLink = true, value, active = false) {
         if (isLink) {
-            return html`
+            return `
                 <li class="pagination__item">
                     <button data-page="${value}" class="pagination__link">${value}</button>
                 </li>`
         } else {
-            return html`
+            return `
                 <li class="pagination__item">
                     <span class="pagination__link ${active && 'pagination__link_active'}">${value}</span>
                 </li>`

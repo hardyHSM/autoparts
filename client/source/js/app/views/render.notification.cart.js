@@ -1,7 +1,7 @@
 import { html } from 'code-tag'
 
 export default function renderCartNotification({ product, count, totalCartPrice }) {
-    const view = html`
+    const view = `
             <div class="cart-notification cart-notification_active" id="notification">
                 <button class="cart-notification__close" data-close>
                     <svg>
