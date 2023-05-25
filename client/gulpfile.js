@@ -237,7 +237,7 @@ export const images = () => {
         `!${config.source}/${config.sprite_svg}/**/*.svg`
     ])
     // .pipe(buffer())
-    .pipe(gulpif(false, imagemin([
+    .pipe(gulpif(isProduction, imagemin([
         imagemin.gifsicle({ interlaced: true }),
         imagemin.mozjpeg({
             quality: 75,
