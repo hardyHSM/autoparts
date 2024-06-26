@@ -12,7 +12,6 @@ router.post('',
     csrfTokenMiddleware,
     body('email').escape().isEmail(),
     body('firstName').escape().exists().matches(/^[А-яa-z ,.'-]+$/).not().matches(/\d/),
-    body('lastName').escape().exists().matches(/^[А-яa-z ,.'-]+$/).not().matches(/\d/),
     body('tel').escape().isLength({ min: 18, max: 18 }),
     validationMiddleware,
     ordersController.addOrder
