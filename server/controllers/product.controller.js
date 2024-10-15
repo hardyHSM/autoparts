@@ -135,7 +135,6 @@ class ProductController {
                     .lean(),
                     descriptionsModel.find(params).count().lean()
                 ])
-                console.log(descriptions, count)
                 res.json({ list: descriptions, count })
             } else {
                 const description = await descriptionsModel.findById(id)

@@ -65,7 +65,6 @@ class SelectionController {
                     [sortName]: sortType
                 }
 
-                console.log(params)
 
                 const [list, count] = await Promise.all([
                     SelectionsModel
