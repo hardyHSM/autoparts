@@ -5,6 +5,7 @@ import CartModule from '../app/modules/cart.module.js'
 
 
 (async () => {
+    await auth.init()
     new ProductModule({
         preloader,
         router,
@@ -14,10 +15,10 @@ import CartModule from '../app/modules/cart.module.js'
         userNav,
         auth
     }).init()
-    await auth.init()
+
 
     if(document.readyState === 'interactive' || document.readyState === 'complete') {
-        renderModules()
+        await renderModules()
     } else {
         document.addEventListener('DOMContentLoaded', renderModules)
     }
@@ -29,15 +30,3 @@ const renderModules = async () => {
 }
 
 // document.addEventListener('DOMContentLoaded', async () => {
-//     new ProductModule({
-//         preloader,
-//         router,
-//         cart: new CartModule({ router, auth, apiService }),
-//         breadcrumbs: new BreadcrumbsComponent('#breadcrumbs'),
-//         apiService,
-//         userNav
-//     }).init()
-//     await auth.init()
-//     userNav.render()
-//     locationModule.init()
-// })
