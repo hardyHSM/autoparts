@@ -138,7 +138,6 @@ export function parseArrayToHTML(description) {
 }
 
 export function getTemplateMailFeedback(data) {
-    console.log(data)
     return `
         <h2>Добрый день, уважаемый(-ая) ${data.name}</h2>
         <p>Вы задали вопрос на нашем сайте. Его содержание - ${data.text}</p>
@@ -150,7 +149,6 @@ export function getTemplateMailFeedback(data) {
 }
 
 export function getTemplateMailSelection(data) {
-    console.log(data)
     return `
         <h2>Добрый день, уважаемый(-ая) ${data.name}</h2>
         <p>Вы обратились за подбором запчастей к нашим специалистам.

@@ -37,7 +37,6 @@ import * as dartSass from 'sass'
 // DATA
 let isProduction = process.env.NODE_ENV === 'production'
 
-console.log(isProduction)
 
 const config = {
     source: './source',

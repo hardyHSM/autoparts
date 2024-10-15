@@ -17,7 +17,7 @@ class AuthController {
             }
             return null
         } catch(e) {
-            console.log('Пользователь не авторизован')
+
         }
     }
 }

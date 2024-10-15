@@ -85,7 +85,6 @@ class UsersForm extends FormComponent {
         body['location'] = document.querySelector('[data-address]').dataset.address
 
 
-        console.log(body)
 
         this.submitComponent.setPreloaderState()
         const res = await this.apiService.useRequest(this.router.usersLink, {

@@ -194,7 +194,6 @@ class CartModule extends ModuleCore {
         })
         document.querySelectorAll('[data-delete]').forEach(button => {
             button.addEventListener('click', async (e) => {
-                console.log('delete product')
                 await this.deleteProduct(button.closest('[data-product]').dataset.productId)
                 button.closest('[data-product]').remove()
                 if (this.$cartNode.childElementCount < 2) {

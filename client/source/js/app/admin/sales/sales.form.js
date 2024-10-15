@@ -111,7 +111,6 @@ class SalesForm extends FormComponent {
             body[key] = value
         })
         this.selectsList.forEach(select => {
-            console.log(select)
             body[select.key] = select.getValue()
         })
 

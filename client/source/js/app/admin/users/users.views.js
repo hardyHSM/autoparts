@@ -94,7 +94,6 @@ export const renderUsersContentAdmin = (data) => {
 }
 
 export const renderEditUsersAdmin = (data) => {
-    console.log(data)
     return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">

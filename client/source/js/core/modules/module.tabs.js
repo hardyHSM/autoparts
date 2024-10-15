@@ -70,7 +70,6 @@ class ModuleTabs extends ModuleCore {
                 this.menuHandler?.functional?.(this.$menu, data, this)
             }
         } catch (err) {
-            console.log(err)
             this.router.setPrevState()
         }
     }

@@ -13,7 +13,6 @@ class InputFileComponent {
     init() {
         this.$input.addEventListener('change', ({ target }) => {
             const file = target.files[0]
-            console.log(file)
             if (!file) return
             if (!this.allowedTypes.includes(file.type)) {
                 new ModalComponent({

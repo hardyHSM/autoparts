@@ -27,7 +27,6 @@ class SelectionForm extends FormComponent {
             body[key] = value
         })
 
-        console.log(body)
 
         this.submitComponent.setPreloaderState()
         const res = await this.apiService.useRequest(this.router.selectionLink, {

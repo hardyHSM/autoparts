@@ -13,7 +13,6 @@ class CatalogMenuModule {
             this.view(data)
             registerHandlers()
         } catch (e) {
-            console.log('catalog error')
             console.log(e)
         }
     }

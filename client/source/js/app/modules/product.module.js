@@ -56,7 +56,6 @@ class ProductModule extends ModuleCore {
         const formattedAttributes = Object
         .entries(res.attributes)
         .sort((prev, next) => {
-            console.log(prev,next)
             if(Array.isArray(next[1])) {
                 return -1
             } else {
