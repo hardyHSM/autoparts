@@ -10,12 +10,12 @@
 .tabs-pages {
     padding-top: 35px;
     padding-bottom: 35px;
+    display: flex;
     @media screen and (max-width: 1280px) {
         display: flex;
         align-items: center;
         padding: 0;
     }
-    display: flex;
     @media screen and (max-width: 1280px) {
         display: block;
     }

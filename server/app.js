@@ -36,6 +36,7 @@ global.__client = path.resolve(__basedir, 'client')
 
 const PORT = process.env.PORT || 5000
 
+//https://autoparts-89lw.onrender.com
 
 class Application {
     app = express()
@@ -51,6 +52,7 @@ class Application {
 
     registerStatic() {
         this.app.use('/assets/', express.static(path.join('assets')))
+        this.app.use('/img/assets/', express.static(path.join('assets')))
         this.app.use('*/fonts/', express.static(path.join(__client, 'build', 'fonts')))
         this.app.use('*/img/', express.static(path.join(__client, 'build', 'img')))
         this.app.use('*/js/', express.static(path.join(__client, 'build', 'js')))

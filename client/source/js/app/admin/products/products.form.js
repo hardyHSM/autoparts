@@ -1,12 +1,13 @@
 import FormComponent from '../../../core/components/form.component.js'
 import ValidationComponent from '../../../core/components/validation.component.js'
 import { InputValidation } from '../../../core/components/selectsinputs/input.component.js'
-import ModalComponent from '../../../core/components/modals/modal.component.js'
 import SelectInputComponent from '../../../core/components/selectsinputs/select.input.component.js'
 import InputFileComponent from '../../../core/components/selectsinputs/input.file.component.js'
 import InputCompleteComponent from '../../../core/components/selectsinputs/input.complete.component.js'
 import scrollToTop from '../../utils/utils.js'
 import descriptionsModel from '../descriptions/descriptions.model.js'
+
+
 
 class ProductsForm extends FormComponent {
     constructor(config) {

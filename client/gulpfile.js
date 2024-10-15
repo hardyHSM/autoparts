@@ -11,11 +11,12 @@ import replace from 'gulp-replace'
 import postcssPresetEnv from 'postcss-preset-env'
 import { deleteAsync } from 'del'
 import buffer from 'vinyl-buffer'
-import imagemin from 'gulp-imagemin'
 import gutil from 'gulp-util'
 import sourcemaps from 'gulp-sourcemaps'
 import gulpif from 'gulp-if'
 import TerserWebpackPlugin from 'terser-webpack-plugin'
+import imagemin from 'gulp-imagemin'
+
 //svg
 import svgSprite from 'gulp-svg-sprite'
 import svgmin from 'gulp-svgmin'
@@ -29,10 +30,9 @@ import DuplicatePackageCheckerPlugin from 'duplicate-package-checker-webpack-plu
 import NodePolyfillPlugin from 'node-polyfill-webpack-plugin'
 
 // CSS
-import gulpSass from 'gulp-sass'
-import nodeSass from 'node-sass'
 
-const sass = gulpSass(nodeSass)
+import gulpSass from 'gulp-sass'
+import * as dartSass from 'sass'
 
 // DATA
 let isProduction = process.env.NODE_ENV === 'production'
@@ -52,8 +52,6 @@ const config = {
 
 const toCopy = [
     `${config.source}/fonts/**/*`,
-    `${config.source}/json/**/*`,
-    `${config.source}/copy/**/*`,
     `${config.source}/**/*.ico`
 ]
 
@@ -132,7 +130,7 @@ export const js = () => {
                             mangle: true,
                             module: false,
                             output: {
-                                comments: false,
+                                comments: false
                             },
                             format: null,
                             toplevel: false,
@@ -142,7 +140,7 @@ export const js = () => {
                             keep_fnames: false,
                             safari10: false
                         }
-                    }),
+                    })
                 ]
             },
             entry: {
@@ -170,7 +168,7 @@ export const js = () => {
                         exclude: /(node_modules)/,
                         use: [
                             {
-                                loader: 'babel-loader',
+                                loader: 'babel-loader'
                                 // options: {
                                 //     presets: [['@babel/env']],
                                 //     plugins: ['@babel/plugin-proposal-class-properties']
@@ -195,13 +193,16 @@ export const clear = () => {
 }
 
 export const copy = () => {
-    return gulp
-    .src(toCopy, {
-        base: config.source
+    return gulp.src(toCopy, {
+        base: config.source,
+        encoding: false
     })
-    .pipe(gulp.dest(config.public))
+    .pipe(gulp.dest(config.public), { buffer: true })
     .pipe(browserSync.reload({ stream: true }))
 }
+
+
+const sass = gulpSass(dartSass)
 
 export const css = () => {
     return gulp
@@ -210,11 +211,8 @@ export const css = () => {
     .pipe(gulpif(!isProduction, sourcemaps.init()))
     .pipe(sassGlob())
     .pipe(sass({
-        errLogToConsole: true,
-        onError: function (err) {
-            return notify().write(err)
-        }
-    }))
+        outputStyle: 'expanded' // Другие опции: 'compressed', 'nested', 'compact'
+    }).on('error', sass.logError))
     .pipe(
         postCss([
             postcssPresetEnv({
@@ -236,9 +234,9 @@ export const images = () => {
     .src([
         `${config.source}${config.assets}/**/*.*`,
         `!${config.source}/${config.sprite_svg}/**/*.svg`
-    ])
+    ], { encoding: false })
     // .pipe(buffer())
-    .pipe(gulpif(false, imagemin([
+    .pipe(gulpif(isProduction, imagemin([
         imagemin.gifsicle({ interlaced: true }),
         imagemin.mozjpeg({
             quality: 75,
@@ -271,7 +269,6 @@ export const server = () => {
 if (!isProduction) {
     gulp.watch(`${config.source}/**/*.html`, { usePolling: true }, gulp.series(html))
     gulp.watch(`${config.source}${config.scss}/**/*.scss`, { usePolling: true }, gulp.series(css))
-    // gulp.watch(`${config.source}${config.js}/**/*.js`, { usePolling: true }, gulp.series(js))
     gulp.watch([`${config.source}${config.assets}/**/*.*`, `!${config.source}${config.assets}/!**!/!*.svg`], { usePolling: true }, gulp.series(images))
     gulp.watch(toCopy, gulp.series(copy))
     gulp.watch(`${config.source}/${config.sprite}/**/*.svg`, { usePolling: true }, gulp.series(spriteSvg))
@@ -280,7 +277,7 @@ if (!isProduction) {
 
 export const build = gulp.series(
     gulp.parallel(clear),
-    gulp.parallel(html, css, js, images, copy, spriteSvg)
+    gulp.parallel(html, css, images, copy, spriteSvg, js)
 )
 
 export const watch = gulp.series(build) // server

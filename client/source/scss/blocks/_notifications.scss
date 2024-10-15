@@ -3,7 +3,7 @@
     background-color: #eee;
     padding: 18px 15px 18px 10px;
     margin-bottom: 15px;
-    @media screen and(max-width: 640px) {
+    @media screen and (max-width: 640px) {
         display: none;
     }
 }
@@ -30,7 +30,7 @@
     &:last-child {
         margin-bottom: 0;
     }
-    @media screen and(max-width: 640px) {
+    @media screen and (max-width: 640px) {
         flex-wrap: wrap;
         padding: 15px 15px 15px 50px;
         justify-content: space-between;
@@ -41,7 +41,7 @@
     width: 200px;
     padding-right: 25px;
     flex-shrink: 0;
-    @media screen and(max-width: 640px) {
+    @media screen and (max-width: 640px) {
         width: 100%;
         padding-right: 25px;
         margin-bottom: 10px;
