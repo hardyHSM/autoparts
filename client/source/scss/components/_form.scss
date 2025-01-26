@@ -31,6 +31,9 @@
 
 .form__block {
     width: 100%;
+    @media screen and (max-width: 640px) {
+        margin-bottom: 15px;
+    }
 }
 
 .form__bottom {

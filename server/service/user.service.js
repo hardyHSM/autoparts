@@ -9,6 +9,7 @@ import productService from './product.service.js'
 import { decodeString, escapeRegExp } from '../utils/utils.js'
 import ProductsModel from '../models/products.model.js'
 import LocationsModel from '../models/locations.model.js'
+import { log } from 'node:util'
 
 const dictionary = {
     'firstName': 'имя',
@@ -304,7 +305,6 @@ class UserService {
     }
 
     async find(query) {
-        console.log(query)
         const page = query.page || 1
         const sortName = query.sort_name || 'createdAt'
         const sortType = query.sort_type || 1
@@ -327,7 +327,6 @@ class UserService {
             [sortName]: sortType
         }
 
-        console.log(params)
 
         const [list, count] = await Promise.all([
             UsersModel
@@ -348,8 +347,10 @@ class UserService {
         const { location: locationId, id, ...rest } = body
         const location = await LocationsModel.findById(locationId)
         const user = await UsersModel.findById(id)
-        const email = await UsersModel.findOne({ email: body.email })
-        if (email) throw ApiError.EmailAlreadyExists(body.email)
+        const emailUser = await UsersModel.findOne({ email: body.email })
+
+
+        if (!user._id.equals(emailUser._id)) throw ApiError.EmailAlreadyExists(body.email)
         if (!location) throw ApiError.BadRequest('Локация не найдена!')
         if (!user) throw ApiError.BadRequest('Пользователь не найден!')
 
