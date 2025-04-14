@@ -80,8 +80,6 @@ class MultiSelectComponent {
         this.selectedList = this.selectedList.filter(item => item !== content)
 
         this.searchController()
-        // this.showSelectedList()
-        // this.renderSelectedList()
         this.open()
         if (handler) this.removeObserver({ type: this.type, value: content })
     }
@@ -90,8 +88,6 @@ class MultiSelectComponent {
         this.selectedList.push(content)
 
         this.searchController()
-        // this.showSelectedList()
-        // this.renderSelectedList()
         if (handler) this.addObserver({ type: this.type, value: content })
     }
 

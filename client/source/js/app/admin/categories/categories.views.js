@@ -1,4 +1,5 @@
 import { html } from 'code-tag'
+import { categoriesConfig } from './categories.model.js'
 
 export const renderCategoriesAdmin = (categories) => {
     return `
@@ -11,8 +12,8 @@ export const renderCategoriesAdmin = (categories) => {
                 <div class="admin-panel__controls">
                     <a class="button button_backwards-accent button_icon"
                        data-type="menu"
-                       data-state="categories/add"
-                       href="/admin/catalog/categories/add">
+                       data-state="${categoriesConfig.states.general}"
+                       href="${categoriesConfig.router.add}">
                         Добавить
                         <svg>
                             <use xlink:href="img/svg/sprite.svg#add"></use>
@@ -21,24 +22,24 @@ export const renderCategoriesAdmin = (categories) => {
                 </div>
             </div>
             <table class="table table_classic">
-                <tbody data-cart-output>
-                <tr class="table__header table__row">
-                    <th class="table__col">Имя категории</th>
+                <tbody>
+                <tr class="table__header table__row" data-sort-header>
+                    <th class="table__col" data-sort="name">Имя категории <svg class="table__sort-icon"><use xlink:href="img/svg/sprite.svg#sort_down"></use></svg></th>
                     <th class="table__col">Ссылка на категорию</th>
-                    <th class="table__col">Приоритет категории</th>
+                    <th class="table__col" data-sort="number">Приоритет категории <svg class="table__sort-icon"><use xlink:href="img/svg/sprite.svg#sort_down"></use></svg></th>
                     <th class="table__col table__col_small" data-cart-all data-enabled="false">Изменить</th>
                 </tr>
                 ${categories.map(category => {
-        return `
+                    return `
                         <tr class="table__row">
                             <th class="table__col">${category.name}</th>
                             <th class="table__col">${category.link}</th>
                             <th class="table__col">${category.number}</th>
                             <th class="table__col table__col_small table__col_right">
                                 <a class="button button_mini button_accent button_icon-only"
-                                   data-state="categories"
+                                   data-state="${categoriesConfig.states.general}"
                                    data-type="menu"
-                                   href="/admin/catalog/categories/edit?id=${category._id}">
+                                   href="${categoriesConfig.router.edit}${category._id}">
                                     Изменить
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#change"></use>
@@ -94,12 +95,19 @@ export const renderAddCategoryAdmin = () => {
                     </div>
                 </fieldset>
                 <div class="form__row form__bottom">
-                    <button type="submit" class="button button_accent button_sq" data-submit>Добавить</button>
+                    <button type="submit"
+                            class="button button_accent button_icon"
+                            data-submit>
+                        Добавить Категорию
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
+                    </button>
                     <a
                             class="button button_neutral button_icon"
-                            data-state="categories"
+                            data-state="back"
                             data-type="menu"
-                            href="/admin/catalog/categories">
+                            href="${categoriesConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>
@@ -116,6 +124,10 @@ export const renderEditCategoryAdmin = (category) => {
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Изменение категории</h2>
+            </div>
+            <div class="admin-panel__message message message_error message_icon">
+                При удалении категории, все подкатегории которые вложены будут удалены. Будьте аккуратны!
+            <svg><use xlink:href="img/svg/sprite.svg#info"></use></svg>
             </div>
             <form method="post" class="form admin-panel__form" data-admin-form>
                 <input type="text" name="id" class="v-hidden" value="${category._id}">
@@ -154,9 +166,12 @@ export const renderEditCategoryAdmin = (category) => {
                 </fieldset>
                 <div class="form__row form__bottom">
                     <button type="submit"
-                            class="button button_success button_sq"
+                            class="button button_success button_icon"
                             data-submit>
                         Изменить категорию
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
                     </button>
                     <button type="button" class="button button_danger button_icon button_mini" data-category-delete>
                         <svg>
@@ -165,9 +180,9 @@ export const renderEditCategoryAdmin = (category) => {
                         Удалить категорию
                     </button>
                     <a class="button button_neutral button_icon"
-                       data-state="categories"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/categories">
+                       href="${categoriesConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>

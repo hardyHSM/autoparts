@@ -1,4 +1,5 @@
 import ModalComponent from '../modals/modal.component.js'
+import { apiService } from '../../../app/common.modules.js'
 
 class InputFileComponent {
     constructor(config) {
@@ -35,6 +36,21 @@ class InputFileComponent {
             this.$image.src = '/img/assets/no_photo.jpg'
             this.file = 'delete'
             this.$input.value = null
+        })
+    }
+
+    async imageToBase64(imageSrc) {
+        const response = await fetch(imageSrc)
+        if (!response.ok) {
+            throw new Error(`Ошибка загрузки изображения: ${response.statusText}`)
+        }
+        const blob = await response.blob()
+
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader()
+            reader.onload = () => resolve(reader.result)
+            reader.onerror = (error) => reject(error)
+            reader.readAsDataURL(blob)
         })
     }
 }

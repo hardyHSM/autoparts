@@ -18,7 +18,7 @@ export default class ApiError extends Error {
     }
 
     static ServerError() {
-        return new ApiError(500, 'Ошибка на стороне сервера')
+        return new ApiError(500, 'Ошибка на стороне сервера.')
     }
 
     static ConflictError(message, errors = []) {
@@ -30,12 +30,17 @@ export default class ApiError extends Error {
     }
 
     static EmailNotFound(message, errors = []) {
-        return new ApiError(551, `Такой почты не существует`)
+        return new ApiError(551, `Такой почты не существует.`)
     }
 
     static EmailAlreadyExists(message, errors = []) {
-        return new ApiError(409, `Пользователь с почтовым адресом ${message} уже существует`, errors)
+        return new ApiError(409, `Пользователь с почтовым адресом ${message} уже существует.`, errors)
     }
+
+    static TelAlreadyExists(message, errors = []) {
+        return new ApiError(408, `Пользователь с таким номером телефона уже существует.`, errors)
+    }
+
     static Error404() {
         return new ApiError(404, `Страница не найдена!`)
     }

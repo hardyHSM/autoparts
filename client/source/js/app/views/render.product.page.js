@@ -9,7 +9,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
             </div>
             <div class="product-module__info">
                 <div class="product-module__row">
-                    <strong class="product-module__price">Цена: <i>${res.price || 'Неизвестно'} ₽</i></strong>
+                    <strong class="product-module__price">Цена: <i>${res.price || 'Неизвестно'}&nbsp;₽</i></strong>
                     ${res.count ? `<button class="button button_accent" data-add-product data-id="${res._id}">Добавить в корзину</button>` : `<button class="button button_accent button_disabled" data-id="${res._id}" disabled>Товара нет на складе</button>`}
                 </div>
                 <div class="properties">
@@ -58,7 +58,7 @@ export default function renderProductPage({ res, formattedAttributes, sizes }) {
             </div>
         </div>
         <div class="product-module__body editor-content">
-            ${parseArrayToHTML(res.info.description)}
+            ${parseArrayToHTML(res.info?.description || [])}
         </div>
         <div class="product-module__footer properties properties_full" data-properties-all>
             <h3 class="properties__title">Характеристики</h3>

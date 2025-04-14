@@ -11,14 +11,14 @@ class SearchController {
                 sort: req.body.sort || 'popularity'
             }
             const sortData = {
-                [params.sort]: 1
+                [params.sort]: params.sort === 'popularity' ? -1 : 1
             }
-
 
             if (!params.text) {
                 return next(ApiError.BadRequest('Некорректный запрос'))
             }
             const result = await productService.getProductsBySearch({
+                req,
                 text: params.text,
                 count: params.count,
                 page: params.page,
@@ -53,6 +53,7 @@ class SearchController {
             if (!params.text) delete query.title
 
             const result = await productService.getProductsSearchQuery({
+                req,
                 sortData,
                 query,
                 page: params.page

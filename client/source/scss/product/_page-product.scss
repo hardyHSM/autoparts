@@ -52,6 +52,12 @@
     }
 }
 
+.page-product__link:hover {
+    text-decoration: none;
+}
+
+
+
 .page-product__header {
     @media screen and (max-width: 640px) {
         text-align: center;
@@ -114,6 +120,9 @@
     margin-bottom: 15px;
     color: #222222;
     font-size: 18px;
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .spec-product__key {
@@ -139,4 +148,3 @@
     margin-top: 25px;
     order: 5;
 }
-

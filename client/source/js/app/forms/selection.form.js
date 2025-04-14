@@ -17,12 +17,12 @@ class SelectionForm extends FormComponent {
                 {
                     value: 'Оригинал',
                     dataset: 'original',
-                    default: true
+                    isSelected: true
                 },
                 {
                     value: 'Заменитель',
                     dataset: 'substitute',
-                    default: false
+                    isSelected: false
                 },
                 {
                     value: 'Любой',

@@ -36,7 +36,11 @@ class RouterComponent {
     }
 
     setPrevState() {
-        history.back()
+        if (window.history.length > 1) {
+            history.back()
+        } else {
+            this.redirectNotFound()
+        }
     }
 
     getParam(key) {
@@ -67,6 +71,10 @@ class RouterComponent {
         window.location.href = path
     }
 
+    redirectToOrder(time) {
+        window.open(`/admin/sales/orders?from=${time}&to=${time}`, '_blank')
+    }
+
     redirectMain() {
         window.location.href = '/'
     }
@@ -77,6 +85,10 @@ class RouterComponent {
 
     redirectNotFound() {
         window.location.href = '/404'
+    }
+
+    get currentPage() {
+        return this.url.pathname.replace(/\//g, '')
     }
 
     get activateLink() {
@@ -147,6 +159,7 @@ class RouterComponent {
     get productsLink() {
         return `/api/products`
     }
+
     get cartProductsLink() {
         return `/api/cart/get-products`
     }
@@ -162,6 +175,7 @@ class RouterComponent {
     get selectionLink() {
         return '/api/selection'
     }
+
     get selectionLinkParams() {
         return `/api/selection${this.url.search}`
     }
@@ -191,7 +205,7 @@ class RouterComponent {
     }
 
     get userNotificationsLink() {
-        return '/api/auth/notifications'
+        return `/api/auth/notifications${this.url.search}`
     }
 
     get isProfilePage() {
@@ -214,12 +228,36 @@ class RouterComponent {
         return `/api/subcategories`
     }
 
-    productsDescriptionsSearch(value) {
+    productsSearch(value) {
+        return `/api/products?title=${value}`
+    }
+
+    productsDescriptionsSearchTitle(value) {
         return `/api/products_descriptions?title=${value}`
+    }
+
+    productsAttributesSearchKey(value) {
+        return `/api/attributes?key=${value}`
+    }
+
+    productsDescriptionsSearchId(id) {
+        return `/api/products_descriptions?id=${id}`
+    }
+
+    get productsAttributesLink() {
+        return `/api/attributes`
     }
 
     get productsDescriptionsLink() {
         return `/api/products_descriptions`
+    }
+
+    get pagesLink() {
+        return `/api/pages`
+    }
+
+    get pageParamsLink() {
+        return `/api/pages${this.url.search}`
     }
 
     get productsDescriptionsLinkParams() {
@@ -244,6 +282,14 @@ class RouterComponent {
 
     get usersLink() {
         return `/api/users`
+    }
+
+    get analyticsLink() {
+        return `/api/analytics`
+    }
+
+    get analyticsRangeLink() {
+        return `/api/analytics${this.url.search}`
     }
 }
 

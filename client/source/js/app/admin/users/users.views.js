@@ -1,5 +1,6 @@
 import { html } from 'code-tag'
 import { parseDate } from '../../utils/utils.js'
+import { usersConfig } from './users.model.js'
 
 export const renderUsersContentAdmin = (data) => {
     return `
@@ -71,9 +72,9 @@ export const renderUsersContentAdmin = (data) => {
                             <th class="table__col table__col_small  ">${user.location?.name || 'Неизвестно'}</th>
                             <th class="table__col table__col_ultra-small">
                                 <a class="button button_mini button_accent button_icon-only"
-                                   data-state="categories"
+                                   data-state="${usersConfig.states.edit}"
                                    data-type="menu"
-                                   href="/admin/users/users/edit?id=${user._id}">
+                                   href="${usersConfig.router.edit}${user._id}">
                                     Изменить
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#change"></use>
@@ -93,7 +94,7 @@ export const renderUsersContentAdmin = (data) => {
     `
 }
 
-export const renderEditUsersAdmin = (data) => {
+export const renderEditUsersAdmin = ({ user: data }) => {
     return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
@@ -140,7 +141,7 @@ export const renderEditUsersAdmin = (data) => {
                 <fieldset class="form__row">
                     <div class="form__block field-block">
                         <div class="field-block__header">
-                            <b class="field-block__title">Активирован</b>
+                            <b class="field-block__title">Активирован</b> (нельзя изменить)
                         </div>
                         <div class="select" data-select-activation>
                             <div class="select__header">
@@ -164,16 +165,47 @@ export const renderEditUsersAdmin = (data) => {
                     </div>
                 </fieldset>
                 <fieldset class="form__row">
-                    <div class="pick-location">
-                        <span class="pick-location__address" data-address="${data.location?._id || '64208ba5c733d0205fd14c35'}">${data.location?.name || 'г. Луганск'}</span>
-                        <button type="button" class="pick-location__change">Выбрать другой пункт</button>
-                    </div>
+                        <div class="pick-location page-address" data-location-admin>
+                            <span class="pick-location__address page-address__current" data-address="${data.location?._id || '64208ba5c733d0205fd14c35'}" >${data.location?.name || 'г. Луганск'}</span>
+                            <button type="button" class="pick-location__change" data-location-change>Выбрать другой пункт</button>
+                            <div class="page-address__drop">
+                                <div class="page-address__row">
+                                    <div class="page-address__left">
+                                        Ваш регион —
+                                    </div>
+                                    <div class="page-address__right">
+                                        <span class="page-address__current-city"></span>
+                                        <div class="page-address__buttons">
+    
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="page-address__pick pick-address">
+                                    <span class="pick-address__title">Выберите регион:</span>
+                                    <div class="pick-address__search entry-input entry-input_search">
+                                        <button class="entry-input__icon">
+                                            <svg>
+                                                <use xlink:href="img/svg/sprite.svg#search"></use>
+                                            </svg>
+                                        </button>
+                                        <div>
+                                            <input type="text" value="test" class="pick-address__input entry-input__field" name="city-search" placeholder="Местоположение">
+                                        </div>
+                                    </div>
+                                    <ul class="pick-address__list">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                 </fieldset>
                 <div class="form__row form__bottom">
                     <button type="submit"
-                            class="button button_success button_sq"
-                            data-submit>
-                        Изменить
+                        class="button button_success button_icon"
+                        data-submit>
+                        Применить изменения
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
                     </button>
                     <button type="button" class="button button_danger button_icon button_mini" data-user-delete>
                         <svg>
@@ -182,9 +214,9 @@ export const renderEditUsersAdmin = (data) => {
                         Удалить аккаунт
                     </button>
                     <a class="button button_neutral button_icon"
-                       data-state="users"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/users/users">
+                       href="${usersConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>

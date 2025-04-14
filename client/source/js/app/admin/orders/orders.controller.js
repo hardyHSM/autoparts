@@ -1,18 +1,21 @@
 import { apiService, auth, router } from '../../common.modules.js'
-import SalesModel from './sales.model.js'
+import OrdersModel, { ordersConfig } from './orders.model.js'
 import SelectComponent from '../../../core/components/selectsinputs/select.component.js'
 import PaginationComponent from '../../../core/components/pagination.component.js'
 import scrollToTop from '../../utils/utils.js'
-import SalesForm from './sales.form.js'
+import OrdersForm from './orders.form.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
 import SortProvider from '../../../core/providers/sort.provider.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import DatePickerComponent from '../../../core/components/date.picker.component.js'
 
-class SalesController {
+class OrdersController {
     async middleware() {
-        const res = await SalesModel.find()
+        const res = await OrdersModel.find()
         return {
             page: router.getParam('page') || 1,
             status: router.getParam('status'),
+            range: DatePickerComponent.getRangeParams(),
             orders: res
         }
     }
@@ -24,7 +27,7 @@ class SalesController {
                 {
                     value: 'Все',
                     dataset: 'all',
-                    default: true
+                    isSelected: true
                 },
                 {
                     value: 'Отменён',
@@ -39,8 +42,8 @@ class SalesController {
                     dataset: 'В процессе'
                 },
                 {
-                    value: 'В обработке',
-                    dataset: 'В обработке'
+                    value: 'Не обработан',
+                    dataset: 'Не обработан'
                 }
             ],
             onselect: async (data) => {
@@ -77,35 +80,61 @@ class SalesController {
                 scrollToTop('#top-element')
             }
         }).init()
+        const range = DatePickerComponent.getRangeParams(data.orders.minDate)
+        new DatePickerComponent({
+            root: '[data-date-select]',
+            singleDate: true,
+            minDate: data.orders.minDate,
+            initState: range,
+            onChange: async (data, picker) => {
+                const parsedData = data.map(item => item.getTime())
+                DatePickerComponent.changeParams(parsedData)
+                router.removeParam('page')
+                router.redirectUrlState()
+                picker.destroy()
+                await module.renderMenuState()
+                scrollToTop('#top-element')
+            }
+        }).init()
     }
 
     async middlewareEdit() {
-        return await SalesModel.find()
+        return await OrdersModel.find()
     }
 
     functionalEdit(_, data, module) {
-        new SalesForm({
-            method: 'PUT',
-            title: 'Изменение заказа',
-            submitSelector: '[data-submit]',
-            form: '[data-admin-form]',
-            router,
-            auth,
-            apiService,
-            data
-        }).init()
+        if (data.status !== 'Сделка завершена') {
+            new OrdersForm({
+                method: 'PUT',
+                title: 'Изменение заказа',
+                submitSelector: '[data-submit]',
+                form: '[data-admin-form]',
+                router,
+                auth,
+                apiService,
+                data
+            }).init()
+        }
+
         DeleteHelper.delete({
             selector: '[data-order-delete]',
             title: 'Удаление заказа',
             text: 'Вы действительно хотите удалить этот заказ?',
             routerLink: router.orderLink,
             id: data._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/sales')
-                module.changeState()
+            closeOnSubmit: false,
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление заказа',
+                    text: res.data.message
+                }).create()
             }
         })
     }
 }
 
-export default new SalesController()
+export default new OrdersController()

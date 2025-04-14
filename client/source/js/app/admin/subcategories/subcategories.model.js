@@ -11,4 +11,18 @@ class SubcategoriesModel {
     }
 }
 
+
+export const subcategoriesConfig = {
+    'router': {
+        general: '/admin/content/subcategories',
+        edit: '/admin/content/subcategories/edit?id=',
+        add: '/admin/content/subcategories/add'
+    },
+    'states': {
+        general: 'subcategories',
+        add: "subcategories/add",
+        edit: "subcategories/edit",
+    }
+}
+
 export default new SubcategoriesModel()

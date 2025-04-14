@@ -12,8 +12,26 @@ class ProductService {
         return await ProductsModel.find(query).countDocuments().lean()
     }
 
+    removeSecretFields(req, data) {
+        if (req?.user?.role === 'ADMIN' || !data) {
+            return data
+        }
+        const parse = (product) => {
+            if (product.count >= 1) {
+                product.count = 1
+            }
+            product.popularity = undefined
+            return product
+        }
+        if (Array.isArray(data)) {
+            return data.map(product => parse(product))
+        } else {
+            return parse(data)
+        }
+    }
+
     async getProductsByParams(query, sortData, page, limit) {
-        return await ProductsModel.find(query).sort(sortData).skip(page).limit(limit).populate(['info', 'category', 'subcategory']).exec()
+        return await ProductsModel.find(query).sort(sortData).skip(page).limit(limit).populate(['info', 'category', 'subcategory'])
     }
 
     async getProductClasses(cat, subcat) {
@@ -75,7 +93,7 @@ class ProductService {
         return productsToLook || []
     }
 
-    async getProductsBySearch({ text, sortData, count, page }) {
+    async getProductsBySearch({ req, text, sortData, count, page }) {
         const [list, productCount, makers, categories, subCategories, attributes] = await Promise.all([
             ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'i') } }).lean().sort(sortData).limit(count).skip((page - 1) * 12),
             ProductsModel.find({ title: { $regex: new RegExp(`${text}`, 'i') } }).lean().count(),
@@ -109,7 +127,7 @@ class ProductService {
 
         return {
             products: {
-                list,
+                list: this.removeSecretFields(req, list),
                 count: productCount
             },
             categories: categoriesWithCount,
@@ -119,13 +137,13 @@ class ProductService {
         }
     }
 
-    async getProductsSearchQuery({ sortData, page, query }) {
+    async getProductsSearchQuery({ req, sortData, page, query }) {
         const [list, count] = await Promise.all([
             ProductsModel.find(query).lean().sort(sortData).limit(12).skip((page - 1) * 12),
             ProductsModel.find(query).lean().count()
         ])
         const products = {
-            list,
+            list: this.removeSecretFields(req, list),
             count
         }
         return products
@@ -155,39 +173,40 @@ class ProductService {
                 $unwind: '$attributes'
             },
             {
-                $match: { 'attributes.v': { $regex: new RegExp(`${searchText}`, 'gi') } }
-            },
-            {
                 $unwind: '$attributes.v'
             },
             {
-                $match: { 'attributes.v': { $regex: new RegExp(`${searchText}`, 'gi') } }
+                $match: {
+                    "attributes.v": {
+                        $regex: searchText,
+                        $options: "i"
+                    }
+                }
             },
             {
                 $group: {
                     _id: {
-                        'key': '$attributes.k',
-                        'value': '$attributes.v'
+                        key: "$attributes.k",
+                        value: "$attributes.v"
                     },
                     count: { $sum: 1 }
                 }
             },
             {
                 $group: {
-                    _id: '$_id.key',
+                    _id: "$_id.key",
                     values: {
                         $push: {
-                            'name': '$_id.value',
-                            count: { $sum: '$count' }
+                            key: "$_id.value",
+                            count: "$count"
                         }
                     }
                 }
             },
             {
                 $project: {
-                    key: '$_id',
-                    values: '$values',
-                    count: 1,
+                    key: "$_id",
+                    values: 1,
                     _id: 0
                 }
             }
@@ -213,8 +232,8 @@ class ProductService {
             SubCategoriesModel.findById(subcategoryId),
             descriptionsModel.findById(descriptionId)
         ])
-        if (!category || !subcategory || !info) {
-            throw ApiError.BadRequest('Проверьте введённые данные!')
+        if (!category || !subcategory || (descriptionId && !info)) {
+            throw ApiError.BadRequest('Укажите верное значение поля категории, подкатегории, и описания продукта')
         }
 
         if (existProduct) {
@@ -247,14 +266,19 @@ class ProductService {
 
     async changeProduct(id, rest) {
         const { categoryId, subcategoryId, descriptionId, image, ...body } = rest
+
+
         const product = await this.getProduct(id)
         if (!product) {
             throw ApiError.BadRequest('Продукция не найдена!')
         }
         const category = await CategoriesModel.findById(categoryId)
         const subcategory = await SubCategoriesModel.findById(subcategoryId)
-        const info = await descriptionsModel.findById(descriptionId)
-        if (!category || !subcategory || !info) {
+        let info = null
+        if (descriptionId) {
+            info = await descriptionsModel.findById(descriptionId)
+        }
+        if (!category || !subcategory || (descriptionId && !info)) {
             throw ApiError.BadRequest('Ошибка при вводе данных!')
         }
         product.category = category
@@ -286,7 +310,7 @@ class ProductService {
     }
 
     parseOrderQueryRegexp(value) {
-        const [_, sign, n] = value.match(/^(\&gt;|\&lt;)+(\d+)/i)
+        const [_, sign, n] = value.replace(/&amp;/g, '&').match(/^(\&gt;|\&lt;)+(\d+)/i)
         if (sign === '&gt;') {
             return {
                 $gt: Number(n)
@@ -303,3 +327,5 @@ class ProductService {
 const productService = new ProductService()
 
 export default productService
+
+

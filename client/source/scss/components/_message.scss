@@ -1,3 +1,9 @@
+.messages-list {
+    gap: 15px 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .message {
     padding: 18px 22px;
     font-family: "Gotham Pro", sans-serif;
@@ -8,7 +14,9 @@
     border-radius: 4px;
     border-style: solid;
     position: relative;
-
+    strong {
+        font-size: 17px;
+    }
     a {
         color: #1C69D4;
     }
@@ -18,6 +26,9 @@
     background: #FFF7F7;
     border-color: #FF4400;
     color: #FF4400;
+    svg {
+        fill: #FF4400;
+    }
 }
 
 .message_accent {
@@ -31,7 +42,7 @@
     }
 }
 
-.message_sucess {
+.message_success {
     border: 1px solid #3CA255;
     color: #3CA255;
     svg {

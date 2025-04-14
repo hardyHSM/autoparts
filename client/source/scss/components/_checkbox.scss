@@ -3,10 +3,24 @@
     display: flex;
     align-items: center;
     user-select: none;
+    max-width: fit-content;
+    gap: 0px 6px;
+}
+
+.checkbox_big {
+    .checkbox__title {
+        font-size: 16px;
+    }
 }
 
 .checkbox__input {
-    display: none;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    left: -9999px;
+    &:focus + .checkbox__view {
+        border-color :#1C69D4;
+    }
     &:checked + .checkbox__view {
         background-color:#1C69D4;
     }
@@ -25,7 +39,6 @@
     margin: 0;
     width: 17px;
     height: 17px;
-    margin-right: 6px;
     border: 1px solid #999999;
     border-radius: 3px;
     position: relative;

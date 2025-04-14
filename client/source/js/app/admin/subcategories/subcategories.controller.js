@@ -1,15 +1,16 @@
-import subcategoriesModel from './subcategories.model.js'
+import subcategoriesModel, { subcategoriesConfig } from './subcategories.model.js'
 import categoriesModel from '../categories/categories.model.js'
 import { apiService, auth, router } from '../../common.modules.js'
 import SelectInputComponent from '../../../core/components/selectsinputs/select.input.component.js'
 import SubcategoryForm from './subcategories.form.js'
 import ModalComponent from '../../../core/components/modals/modal.component.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
+import SortProvider from '../../../core/providers/sort.provider.js'
+import scrollToTop from '../../utils/utils.js'
 
 class SubcategoriesController {
     async middleware() {
-        const res = await subcategoriesModel.findAll()
-        res.sort((prev, next) => prev.category?.name > next.category?.name ? 1 : -1)
+        const res = await subcategoriesModel.find()
         return res
     }
 
@@ -30,6 +31,21 @@ class SubcategoriesController {
 
     async middlewareAdd() {
         return categoriesModel.findAll()
+    }
+
+    functional(_, data, module) {
+        new SortProvider({
+            root: '[data-sort-header]',
+            default: 'category',
+            router,
+            changeStateHandler: async (key, type) => {
+                router.addParams('sort_name', key)
+                router.addParams('sort_type', type)
+                router.redirectUrlState()
+                await module.renderMenuState()
+                scrollToTop('#top-element')
+            }
+        }).init()
     }
 
     async functionalEdit(_, data, module) {
@@ -55,7 +71,11 @@ class SubcategoriesController {
             select,
             router,
             auth,
-            apiService
+            apiService,
+            onSubmit: (res) => {
+                router.redirectUrlState(subcategoriesConfig.router.general)
+                module.changeState()
+            }
         }).init()
         DeleteHelper.delete({
             selector: '[data-subcategory-delete]',
@@ -63,11 +83,20 @@ class SubcategoriesController {
             text: 'Вы действительно хотите удалить эту подкатегорию?',
             routerLink: router.subcategoriesLink,
             id: data.subcategory._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/subcategories')
-                module.changeState()
+            closeOnSubmit: false,
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление подкатегории',
+                    text: res.data.message
+                }).create()
             }
         })
+
+
     }
 
     async functionalAdd(_, data, module) {
@@ -95,8 +124,8 @@ class SubcategoriesController {
             router,
             auth,
             apiService,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/subcategories')
+            onSubmit: () => {
+                router.redirectUrlState(subcategoriesConfig.router.general)
                 module.changeState()
             }
         }).init()

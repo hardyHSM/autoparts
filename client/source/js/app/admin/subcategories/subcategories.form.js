@@ -6,11 +6,9 @@ import ModalComponent from '../../../core/components/modals/modal.component.js'
 class SubcategoryForm extends FormComponent {
     constructor(config) {
         super(config)
-        this.method = config.method
-        this.title = config.title
         this.select = config.select
-        this.onsuccess = config.onsuccess
     }
+
     init() {
         this.name = new InputValidation({
             selector: '[data-name]',
@@ -28,7 +26,6 @@ class SubcategoryForm extends FormComponent {
         this.fieldsList = [this.name, this.link]
 
 
-
         this.$form.addEventListener('submit', (e) => {
             e.preventDefault()
             this.validationForm(e, this.requestTo.bind(this))
@@ -41,13 +38,14 @@ class SubcategoryForm extends FormComponent {
             body[key] = value
         })
 
-        if(!this.select.getValue()) {
+        if (!this.select.getValue()) {
             return this.select.showError('Выберите категорию!')
         } else {
             body[this.select.key] = this.select.getValue()
         }
         this.submitComponent.setPreloaderState()
-        const res = await this.apiService.useRequest(this.router.subcategoriesLink, {
+
+        const res = await this.apiService.useRequestStatus(this.router.subcategoriesLink, {
             method: this.method,
             headers: {
                 'Accept': 'application/json',
@@ -55,20 +53,15 @@ class SubcategoryForm extends FormComponent {
             },
             body: JSON.stringify(body)
         })
+        new ModalComponent({
+            template: 'default',
+            title: this.title,
+            text: res.data.message
+        }).create()
+
         this.submitComponent.setTextState()
-        if(res.success) {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: res.success
-            }).create()
-            this?.onsuccess?.()
-        } else {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: `Что-то пошло не так! ${res.message}`
-            }).create()
+        if(res.status === 200) {
+            if(this.onSubmit) this.onSubmit()
         }
     }
 }

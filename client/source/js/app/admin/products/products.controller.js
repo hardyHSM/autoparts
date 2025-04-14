@@ -3,14 +3,16 @@ import productsModel from './products.model.js'
 import PaginationComponent from '../../../core/components/pagination.component.js'
 import categoriesModel from '../categories/categories.model.js'
 import subcategoriesModel from '../subcategories/subcategories.model.js'
-import ProductsForm from './products.form.js'
+import ProductsForm, { ProductFilterForm } from './products.form.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
 import scrollToTop from '../../utils/utils.js'
 import SortProvider from '../../../core/providers/sort.provider.js'
-import FilterProvide from '../../../core/providers/filter.provide.js'
+import FilterProvider from '../../../core/providers/filter.provider.js'
 import descriptionsModel from '../descriptions/descriptions.model.js'
 import ModalCopyComponent from '../../../core/components/modals/modal.copy.component.js'
 import { renderCopyProductsAdmin } from './products.views.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import DataEditorComponent from '../../../core/components/data.editor.component.js'
 
 class ProductsController {
     constructor() {
@@ -25,9 +27,19 @@ class ProductsController {
                 router.addParams('page', page)
                 router.redirectUrlState()
             }
-            const products = await productsModel.find()
+            const [products, categories, subcategories] = await Promise.all([
+                productsModel.find(),
+                categoriesModel.findAll(),
+                subcategoriesModel.findAll()
+            ])
             return {
                 products,
+                categories: categories.map(c => {
+                    return { value: c.name, dataset: c._id }
+                }),
+                subcategories: subcategories.map(s => {
+                    return { value: s.name, dataset: s._id, category: s.category._id }
+                }),
                 page
             }
         } catch (e) {
@@ -110,15 +122,36 @@ class ProductsController {
                 scrollToTop('#top-element')
             }
         }).init()
-        new FilterProvide({
-            root: '[data-filter-bar]', router, onChangeState: async () => {
+        new FilterProvider({
+            root: '[data-filter-bar]',
+            router,
+            data,
+            onChangeState: async () => {
                 await module.renderMenuState()
                 scrollToTop('#top-element')
+            }
+        }).init()
+
+        new ProductFilterForm({
+            method: 'GET',
+            title: 'Получение фильтров в админке продуктов',
+            form: '[data-filter-form]',
+            router,
+            auth,
+            apiService,
+            data,
+            onSubmit: async () => {
+                await module.renderMenuState()
             }
         }).init()
     }
 
     functionalEdit(_, data, module) {
+        const attributesEditor = new DataEditorComponent({
+            root: '[data-editor-attributes]',
+            data: data.product.attributes
+        })
+
         new ProductsForm({
             method: 'PUT',
             title: 'Изменение товара',
@@ -127,12 +160,35 @@ class ProductsController {
             router,
             auth,
             apiService,
-            data
+            data,
+            attributesEditor
         }).init()
 
+        DeleteHelper.delete({
+            selector: '[data-product-delete]',
+            title: 'Удаление продукта',
+            text: 'Вы действительно хотите удалить это продукт?',
+            routerLink: router.productsLink,
+            id: data.product._id,
+            closeOnSubmit: false,
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление продукта',
+                    text: res.data.message
+                }).create()
+            }
+        })
     }
 
     functionalAdd(_, data, module) {
+        const attributesEditor = new DataEditorComponent({
+            root: '[data-editor-attributes]',
+            data: {}
+        })
         new ProductsForm({
             method: 'POST',
             title: 'Добавление товара',
@@ -141,7 +197,8 @@ class ProductsController {
             router,
             auth,
             apiService,
-            data
+            data,
+            attributesEditor
         }).init()
         this.functionalCopy(data)
     }
@@ -152,15 +209,21 @@ class ProductsController {
                 onSelect: (product) => {
                     data.product = product
                     document.querySelector('.admin-panel__content').innerHTML = renderCopyProductsAdmin(data.product)
+                    const attributesEditor = new DataEditorComponent({
+                        root: '[data-editor-attributes]',
+                        data: data.product.attributes
+                    })
                     new ProductsForm({
                         method: 'POST',
                         title: 'Добавление товара',
                         submitSelector: '[data-submit]',
                         form: '[data-admin-form]',
+                        hasImage: document.querySelector('.field-block__image').src,
                         router,
                         auth,
                         apiService,
-                        data
+                        data,
+                        attributesEditor
                     }).init()
                     this.functionalCopy(data)
                 }

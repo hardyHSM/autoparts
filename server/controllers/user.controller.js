@@ -155,7 +155,7 @@ class UserController {
 
     async getNotifications(req, res, next) {
         try {
-            const notifications = await userService.getNotifications(req.user.id)
+            const notifications = await userService.getNotifications(req)
             res.json(notifications)
         } catch (e) {
             next(e)
@@ -164,7 +164,7 @@ class UserController {
     async get(req,res,next) {
         try {
             let answer
-            if(req.query.id) {
+            if('id' in req.query) {
                 answer = await userService.getOne(req.query.id)
             } else {
                 answer = await userService.find(req.query)
@@ -179,7 +179,7 @@ class UserController {
         try {
             await userService.change(req.body)
             res.json({
-                success: 'Пользователь успешно изменён!'
+                message: 'Пользователь успешно изменён!'
             })
         } catch (e) {
             next(e)
@@ -192,11 +192,11 @@ class UserController {
             const result = await UsersModel.findByIdAndDelete(id)
             if (!result) {
                 return res.json({
-                    success: 'Что-то пошло не так'
+                    message: 'Что-то пошло не так'
                 })
             }
             res.json({
-                success: 'Пользователь успешно удален.'
+                message: 'Пользователь успешно удален.'
             })
         } catch (e) {
             next(e)

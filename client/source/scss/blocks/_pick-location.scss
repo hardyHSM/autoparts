@@ -19,6 +19,9 @@
     font-size: 16px;
     color: #222;
     font-weight: 500;
+    &::after {
+        display: none;
+    }
 }
 
 .pick-location__change {

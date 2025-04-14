@@ -1,6 +1,6 @@
 export default class ValidationComponent {
     static isValidEmail(str) {
-        const regEmail = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/
+        const regEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         return regEmail.test(str)
     }
 
@@ -12,8 +12,15 @@ export default class ValidationComponent {
         return str.length >= 6
     }
 
+    static isValidAddress(str) {
+        return str.length >= 5
+    }
     static isValidName(str) {
         return str.length > 1 && str.match(/^[ЁёА-я ,.'-]+$/) && !str.match(/\s+/)
+    }
+
+    static isOnlyRussianLetters(str) {
+        return str.match(/^[ЁёА-я ,.'-]+$/)
     }
 
     static isEqualPassword(str1, str2) {

@@ -20,8 +20,24 @@ export default class CatalogModule extends ModuleCore {
         this.data = null
     }
 
-    async init() {
-        super.init()
+    async init(func = Promise.resolve) {
+        try {
+            const [filters, data] = await Promise.all([
+                this.apiService.useRequest(this.router.catalogFilter, {
+                    method: "OPTIONS"
+                }),
+                this.apiService.useRequest(this.router.apiLink),
+                func()
+            ])
+
+            super.init(() => {this.start(filters,data)})
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+    async start(filters, products) {
+        super.start()
         try {
             changeProductsViewHandler()
             new SidebarComponent({
@@ -40,24 +56,18 @@ export default class CatalogModule extends ModuleCore {
                     })
                 }
             })
-            const [data] = await Promise.all([
-                this.changeState(),
-                this.renderFilterSidebar()
-            ])
-            this.data = data
+            this.renderFilterSidebar(filters)
+            this.renderCatalogHeader(products)
+            this.renderProducts(products)
             this.preloader.hide()
-            this.renderCatalogHeader(this.data)
         } catch(e) {
             this.router.redirectNotFound()
         }
     }
-    async renderFilterSidebar() {
+    renderFilterSidebar(filterData) {
         this.filter.showPreloader()
-        const data = await this.apiService.useRequest(this.router.catalogFilter, {
-            method: "OPTIONS"
-        })
         this.filter.init({
-            data: data.filtersData,
+            data: filterData,
             changeState: (data) => {
                 this.changeFilterState(data)
             },
@@ -75,7 +85,7 @@ export default class CatalogModule extends ModuleCore {
                 {
                     value: 'По популярности',
                     dataset: 'popularity',
-                    default: true
+                    isSelected: true
                 },
                 {
                     value: 'По наименованию',
@@ -102,11 +112,10 @@ export default class CatalogModule extends ModuleCore {
         this.showPreloader()
         this.pagination.clear()
 
-        const data = await this.apiService.useRequest(this.router.apiLink)
+        const products = await this.apiService.useRequest(this.router.apiLink)
 
-        this.renderProducts(data)
+        this.renderProducts(products)
         this.filter.removePreloader()
-        return data
     }
 
 

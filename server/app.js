@@ -26,28 +26,36 @@ import xssClean from 'xss-clean'
 import subcategoriesRouter from './routes/subcategories.router.js'
 import commonRouter from './routes/common.router.js'
 import userRouter from './routes/users.router.js'
+import pagesRouter from './routes/pages.router.js'
+import ProductsModel from './models/products.model.js'
+import CategoriesModel from './models/categories.model.js'
+import PagesModel from './models/pages.model.js'
+import analyticsRouter from './routes/analytics.router.js'
+import OrdersModel from './models/orders.model.js'
+import { fill, getRandomNumber } from './test.js'
 
 
 config()
 global.__dirname = path.dirname('')
 global.__basedir = path.resolve(__dirname, '..')
 global.__client = path.resolve(__basedir, 'client')
-
+global.__server = path.resolve(__basedir, 'server')
 
 const PORT = process.env.PORT || 5000
 
-//https://autoparts-89lw.onrender.com
 
 class Application {
     app = express()
 
-    start() {
+    async start() {
+
         this.registerMiddlewares()
         this.registerStatic()
         this.registerApiRoutes()
         this.registerStaticPaths()
         this.registerErrors()
         this.startServe()
+
     }
 
     registerStatic() {
@@ -78,8 +86,9 @@ class Application {
     }
 
     registerApiRoutes() {
-        this.app.use('/api/search', searchRouter)
         this.app.use('/api/auth', authRouter)
+        this.app.use('/api/analytics', analyticsRouter)
+        this.app.use('/api/search', searchRouter)
         this.app.use('/api/order', ordersRouter)
         this.app.use('/api/selection', selectionRouter)
         this.app.use('/api/feedback', feedbackRouter)
@@ -88,13 +97,20 @@ class Application {
         this.app.use('/api/catalog', catalogRouter)
         this.app.use('/api/cart', cartRouter)
         this.app.use('/api/users', userRouter)
-        // admin
         this.app.use('/api/categories', categoriesRouter)
         this.app.use('/api/subcategories', subcategoriesRouter)
+        this.app.use('/api/pages', pagesRouter)
         this.app.use('/api', commonRouter)
     }
 
-    registerStaticPaths() {
+    async registerStaticPaths() {
+        const paths = await PagesModel.find()
+
+        paths.forEach(p => {
+            this.app.get(`/${p.link}`, (req, res) => {
+                res.status(200).sendFile(path.join(__server, 'pages', p.content))
+            })
+        })
         this.app.get('/', (req, res) => {
             res.status(200).sendFile(path.join(__client, 'build', 'index.html'))
         })
@@ -130,32 +146,12 @@ class Application {
             res.status(200).sendFile(path.join(__client, 'build', 'pass.recovery.html'))
         })
 
-        this.app.get('/page_delivery', (req, res) => {
-            res.status(200).sendFile(path.join(__client, 'build', 'delivery.html'))
-        })
-
         this.app.get('/cart', (req, res) => {
             res.status(200).sendFile(path.join(__client, 'build', 'cart.html'))
         })
 
         this.app.get('/order', (req, res) => {
             res.status(200).sendFile(path.join(__client, 'build', 'order.html'))
-        })
-
-        this.app.get('/page_payment', (req, res) => {
-            res.status(200).sendFile(path.join(__client, 'build', 'payment.html'))
-        })
-
-        this.app.get('/page_contacts', (req, res) => {
-            res.status(200).sendFile(path.join(__client, 'build', 'contacts.html'))
-        })
-
-        this.app.get('/page_contract_offer', (req, res) => {
-            res.status(200).sendFile(path.join(__client, 'build', 'page.contract.offer.html'))
-        })
-
-        this.app.get('/page_how_buy', (req, res) => {
-            res.status(200).sendFile(path.join(__client, 'build', 'how_buy.html'))
         })
 
         this.app.get(['/user', '/user/:one', '/user/:one/:two'], authAccessMiddleware, (req, res) => {
@@ -168,14 +164,6 @@ class Application {
             } else {
                 res.status(200).sendFile(path.join(__client, 'build', 'reg.html'))
             }
-        })
-
-        this.app.get('/page_selection', (req, res) => {
-            res.status(200).sendFile(path.join(__client, 'build', 'selection.html'))
-        })
-
-        this.app.get('/page_refund_policy', (req, res) => {
-            res.status(200).sendFile(path.join(__client, 'build', 'page.refund.policy.html'))
         })
 
         this.app.use((req, res, next) => {

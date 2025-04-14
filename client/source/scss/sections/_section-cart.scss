@@ -13,24 +13,6 @@
     }
 }
 
-.section-cart__important {
-    padding-left: 30px;
-    max-width: 720px;
-    position: relative;
-    svg {
-        width: 20px;
-        height: 20px;
-        fill: #222222;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    b {
-        display: inline-block;
-        margin-bottom: 5px;
-    }
-}
-
 .section-cart__total {
     display: flex;
     align-items: center;

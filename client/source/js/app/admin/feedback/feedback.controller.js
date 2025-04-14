@@ -1,12 +1,14 @@
 import { apiService, auth, router } from '../../common.modules.js'
-import feedbackModel from './feedback.model.js'
+import feedbackModel, { feedbackConfig } from './feedback.model.js'
 import PaginationComponent from '../../../core/components/pagination.component.js'
 import scrollToTop, { getTemplateMailFeedback, parseArrayToHTML } from '../../utils/utils.js'
 import SortProvider from '../../../core/providers/sort.provider.js'
-import FilterProvider from '../../../core/providers/filter.provide.js'
-import { Editor } from '@toast-ui/editor'
+import FilterProvider from '../../../core/providers/filter.provider.js'
 import FeedbackForm from './feedback.form.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
+import { subcategoriesConfig } from '../subcategories/subcategories.model.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import contentEditor from '../../../core/components/contentEditor.js'
 
 class FeedbackController {
     async middleware() {
@@ -24,7 +26,9 @@ class FeedbackController {
     }
 
     async middlewareEdit() {
-        return await feedbackModel.find()
+        const data = await feedbackModel.find()
+        if(data.message) throw new Error()
+        return data
     }
 
     async functional(_, data, module) {
@@ -59,13 +63,7 @@ class FeedbackController {
     }
     functionalEdit(_, data, module) {
         if(!data.isAnswered) {
-            const editor = new Editor({
-                el: document.querySelector('#editor'),
-                previewStyle: 'vertical',
-                height: '500px'
-            })
-            editor.setHTML(getTemplateMailFeedback(data))
-            document.querySelector('.toastui-editor-contents').className = 'editor-content'
+            contentEditor('#editor', getTemplateMailFeedback(data), 'editor-content')
             new FeedbackForm({
                 method: 'PUT',
                 title: 'Ответ на вопрос от пользователя',
@@ -75,8 +73,8 @@ class FeedbackController {
                 auth,
                 apiService,
                 editor,
-                onsuccess: () => {
-                    router.redirectUrlState('/admin/users/feedback')
+                onSubmit: () => {
+                    router.redirectUrlState(feedbackConfig.router.general)
                     module.changeState()
                 }
             }).init()
@@ -87,9 +85,16 @@ class FeedbackController {
             text: 'Вы действительно хотите удалить этот вопрос?',
             routerLink: router.feedBackLink,
             id: data._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/users/feedback')
-                module.changeState()
+            closeOnSubmit: false,
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление вопроса от пользователя',
+                    text: res.data.message
+                }).create()
             }
         })
     }

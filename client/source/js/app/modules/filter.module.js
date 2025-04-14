@@ -1,4 +1,4 @@
-import MultiSelectComponent from '../../core/components/selectsinputs/multiselect.input.component.js'
+import MultiSelectComponent from '../../core/components/selectsinputs/multiselect.component.js'
 import { debounce, sanitalize } from '../utils/utils.js'
 import { html } from 'code-tag'
 
@@ -234,7 +234,7 @@ class FilterModule {
                     <b class="filter-block__name">${key}</b>
                 </div>
                 <ul class="filter-block__list" data-list="${key}">
-                    ${attrs.reduce((acc, attr, index) => {
+                    ${attrs.reduce((acc, attr) => {
                         acc += `
                             <li class="filter-block__item">
                                 <label class="checkbox">
@@ -263,7 +263,7 @@ class FilterModule {
                 <div class="filter-block__header">
                     <b class="filter-block__name">${key}</b>
                 </div>
-                <div class="select select_multi-input" data-filter="${key}" data-select="${key}">
+                <div class="select select_multi" data-filter="${key}" data-select="${key}">
                     <div class="select__header">
                         <input type="text" class="select__field" placeholder="Введите наименование" data-input/>
                         <span class="select__arrow" data-select-arrow></span>

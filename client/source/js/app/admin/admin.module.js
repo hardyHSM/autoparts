@@ -3,8 +3,8 @@ import categoriesController from './categories/categories.controller.js'
 import subcategoriesController from './subcategories/subcategories.controller.js'
 import productsController from './products/products.controller.js'
 import descriptionsController from './descriptions/descriptions.controller.js'
-import salesController from './sales/sales.controller.js'
-import { renderCatalogAdmin, renderSalesAdmin, renderStateAdmin, renderUsersAdmin } from './render.admin.js'
+import salesController from './orders/orders.controller.js'
+import { renderContentAdmin, renderSalesAdmin, renderStateAdmin, renderUsersAdmin } from './render.admin.js'
 import {
     renderAddCategoryAdmin,
     renderCategoriesAdmin,
@@ -25,7 +25,7 @@ import {
     renderDescriptionsAdmin,
     renderEditDescriptionsAdmin
 } from './descriptions/descriptions.views.js'
-import { renderEditSalesAdmin, renderSalesContentAdmin } from './sales/sales.views.js'
+import { renderEditOrdersAdmin, renderOrdersContentAdmin } from './orders/orders.views.js'
 import usersController from './users/users.controller.js'
 import { renderEditUsersAdmin, renderUsersContentAdmin } from './users/users.views.js'
 import { renderEditFeedbackAdmin, renderFeedbackAdmin } from './feedback/feedback.views.js'
@@ -34,6 +34,27 @@ import selectionController from './selection/selection.controller.js'
 import { renderEditSelectionAdmin, renderSelectionAdmin } from './selection/selection.views.js'
 import { renderStateContentAdmin } from './state/state.views.js'
 import stateController from './state/state.controller.js'
+import {
+    renderAddPagesAdmin,
+    renderEditPagesAdmin,
+    renderPagesAdmin,
+    renderPagesMenu,
+    renderPagesMenuContent
+} from './pages/pages.views.js'
+import pagesController from './pages/pages.controller.js'
+import { categoriesConfig } from './categories/categories.model.js'
+import { subcategoriesConfig } from './subcategories/subcategories.model.js'
+import { productsConfig } from './products/products.model.js'
+import { descriptionsConfig } from './descriptions/descriptions.model.js'
+import { ordersConfig } from './orders/orders.model.js'
+import { usersConfig } from './users/users.model.js'
+import { feedbackConfig } from './feedback/feedback.model.js'
+import { selectionConfig } from './selection/selection.model.js'
+import { stateConfig } from './state/state.model.js'
+import { pagesConfig } from './pages/pages.model.js'
+import { analyticsConfig } from './analytics/analytics.model.js'
+import { renderAnalyticsAdmin } from './analytics/analytics.view.js'
+import analyticsController from './analytics/analytics.controller.js'
 
 class AdminModule extends ModuleTabs {
     constructor(config) {
@@ -42,13 +63,13 @@ class AdminModule extends ModuleTabs {
             root: 'admin',
             default: 'state',
             tabsParams: {
-                'catalog': {
-                    render: renderCatalogAdmin,
+                'content': {
+                    render: renderContentAdmin,
                     default: 'categories'
                 },
                 'sales': {
                     render: renderSalesAdmin,
-                    default: 'sales'
+                    default: 'analytics'
                 },
                 'users': {
                     render: renderUsersAdmin,
@@ -57,108 +78,133 @@ class AdminModule extends ModuleTabs {
                 'state': {
                     render: renderStateAdmin,
                     default: 'state'
+                },
+                'pages': {
+                    render: renderPagesAdmin,
+                    default: 'pages'
                 }
             },
             menuParams: {
-                'categories': {
+                [categoriesConfig.states.general]: {
                     middleware: categoriesController.middleware,
+                    functional: categoriesController.functional,
                     render: renderCategoriesAdmin
                 },
-                'categories/add': {
+                [categoriesConfig.states.add]: {
                     render: renderAddCategoryAdmin,
                     functional: categoriesController.functionalAdd
                 },
-                'categories/edit': {
+                [categoriesConfig.states.edit]: {
                     middleware: categoriesController.middlewareEdit,
                     render: renderEditCategoryAdmin,
                     functional: categoriesController.functionalEdit
                 },
-                'subcategories': {
+                [subcategoriesConfig.states.general]: {
                     middleware: subcategoriesController.middleware,
+                    functional: subcategoriesController.functional,
                     render: renderSubcategoriesAdmin
                 },
-                'subcategories/edit': {
+                [subcategoriesConfig.states.edit]: {
                     middleware: subcategoriesController.middlewareEdit,
                     render: renderEditSubcategoryAdmin,
                     functional: subcategoriesController.functionalEdit
                 },
-                'subcategories/add': {
+                [subcategoriesConfig.states.add]: {
                     middleware: subcategoriesController.middlewareAdd,
                     render: renderAddSubcategoryAdmin,
                     functional: subcategoriesController.functionalAdd
                 },
-                'products': {
+                [productsConfig.states.general]: {
                     middleware: productsController.middleware,
                     render: renderProductsAdmin,
                     functional: productsController.functional
                 },
-                'products/edit': {
+                [productsConfig.states.edit]: {
                     middleware: productsController.middlewareEdit,
                     render: renderEditProductsAdmin,
                     functional: productsController.functionalEdit
                 },
-                'products/add': {
+                [productsConfig.states.add]: {
                     middleware: productsController.middlewareAdd,
                     render: renderAddProductsAdmin,
                     functional: productsController.functionalAdd
                 },
-                'products_description': {
+                [descriptionsConfig.states.general]: {
                     middleware: descriptionsController.middleware,
                     render: renderDescriptionsAdmin,
                     functional: descriptionsController.functional
                 },
-                'products_description/edit': {
+                [descriptionsConfig.states.edit]: {
                     middleware: descriptionsController.middlewareEdit,
                     render: renderEditDescriptionsAdmin,
                     functional: descriptionsController.functionalEdit
                 },
-                'products_description/add': {
+                [descriptionsConfig.states.add]: {
                     render: renderAddDescriptionsAdmin,
                     functional: descriptionsController.functionalAdd
                 },
-                'sales': {
+                [ordersConfig.states.general]: {
                     middleware: salesController.middleware,
-                    render: renderSalesContentAdmin,
+                    render: renderOrdersContentAdmin,
                     functional: salesController.functional
                 },
-                'sales/edit': {
+                [ordersConfig.states.edit]: {
                     middleware: salesController.middlewareEdit,
-                    render: renderEditSalesAdmin,
+                    render: renderEditOrdersAdmin,
                     functional: salesController.functionalEdit
                 },
-                'users': {
+                [usersConfig.states.general]: {
                     middleware: usersController.middleware,
                     render: renderUsersContentAdmin,
                     functional: usersController.functional
                 },
-                'users/edit': {
+                [usersConfig.states.edit]: {
                     middleware: usersController.middlewareEdit,
                     render: renderEditUsersAdmin,
                     functional: usersController.functionalEdit
                 },
-                'feedback': {
+                [feedbackConfig.states.general]: {
                     middleware: feedbackController.middleware,
                     render: renderFeedbackAdmin,
                     functional: feedbackController.functional
                 },
-                'feedback/edit': {
+                [feedbackConfig.states.edit]: {
                     middleware: feedbackController.middlewareEdit,
                     render: renderEditFeedbackAdmin,
                     functional: feedbackController.functionalEdit
                 },
-                'selection': {
+                [selectionConfig.states.general]: {
                     middleware: selectionController.middleware,
                     render: renderSelectionAdmin,
                     functional: selectionController.functional
                 },
-                'selection/edit': {
+                [selectionConfig.states.edit]: {
                     middleware: selectionController.middlewareEdit,
                     render: renderEditSelectionAdmin,
                     functional: selectionController.functionalEdit
                 },
-                'state': {
+                [stateConfig.states.general]: {
                     middleware: stateController.middleware,
-                    render: renderStateContentAdmin,
+                    render: renderStateContentAdmin
+                },
+                [pagesConfig.states.general]: {
+                    middleware: pagesController.middleware,
+                    functional: pagesController.functional,
+                    render: renderPagesMenuContent
+                },
+                [pagesConfig.states.add]: {
+                    functional: pagesController.functionalAdd,
+                    render: renderAddPagesAdmin
+                },
+                [pagesConfig.states.edit]: {
+                    middleware: pagesController.middlewareEdit,
+                    functional: pagesController.functionalEdit,
+                    render: renderEditPagesAdmin
+                },
+                [analyticsConfig.states.general]: {
+                    render: renderAnalyticsAdmin,
+                    middleware: analyticsController.middleware,
+                    functional: analyticsController.functional
                 }
             }
         }

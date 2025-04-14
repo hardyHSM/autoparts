@@ -5,7 +5,7 @@ export function renderOrderProducts(data) {
     return `
         <div class="order-products__list">
             ${data.products.reduce((acc, { product, count }) => {
-                acc += `
+        acc += `
                         <div class="order-products__item">
                             <div class="order-products__info">
                                 <strong class="order-products__maker">
@@ -13,26 +13,26 @@ export function renderOrderProducts(data) {
                                 </strong>
                                 <p class="order-products__title">${product.title}</p>
                             </div>
-                            <div class="order-products__price">${product.price} ₽</div>
+                            <div class="order-products__price">${product.price}&nbsp;₽</div>
                             <div class="order-products__count">${count} шт.</div>
-                            <div class="order-products__all">${product.price * count} ₽</div>
+                            <div class="order-products__all">${product.price * count}&nbsp;₽</div>
                         </div>
                     `
-                return acc
-            }, '')}
+        return acc
+    }, '')}
         </div>
         <div class="order-products__detail">
             <strong class="order-products__title order-products__key">Сумма</strong>
-            <i class="order-products__value">${getTotalPrice(data.products)} ₽</i>
+            <i class="order-products__value">${getTotalPrice(data.products)}&nbsp;₽</i>
         </div>
         <div class="order-products__detail">
             <strong class="order-products__title order-products__key">Промо-код</strong>
-            <i class="order-products__value">${data.promo ? '-330 ₽ ' : 'Отсутствует'}</i>
+            <i class="order-products__value">${data.promo ? '-330&nbsp;₽ ' : 'Отсутствует'}</i>
         </div>
         <div class="order-products__detail">
             <strong class="order-products__title order-products__key">Итого</strong>
             <i class="order-products__value">${data.promo ? getTotalPriceWithPromo(data.products, 330) : getTotalPriceWithPromo(data.products, 0)}
-                ₽</i>
+               &nbsp;₽</i>
         </div>
         <p class="order-products__descr">Информация о цене и наличии товара, а также о стоимости и условиях доставки
             является предварительной и будет уточнена в момент оформления заказа.</p>
@@ -41,8 +41,8 @@ export function renderOrderProducts(data) {
 }
 
 export function renderOrderFirstStage(auth) {
-    const location = auth.isAuth ? (auth?.userData?.location?.name || 'г. Луганск') : (localStorage.getItem('location') || 'г. Луганск')
-    return `
+    const location = auth.isAuth ? (auth?.userData?.location || 'г. Луганск') : (localStorage.getItem('location') || 'г. Луганск')
+    return html`
         <h2 class="order-form__title">Доставка</h2>
         <div class="order-form__delivery">
             <label class="order-form__radio-label radio">
@@ -50,7 +50,7 @@ export function renderOrderFirstStage(auth) {
                 <div class="radio__view">
                     <div class="radio__header">
                         <span class="radio__title">Самовывоз</span>
-                        <span class="radio__right">0 ₽</span>
+                        <span class="radio__right">0&nbsp;₽</span>
                     </div>
                     <p class="radio__descr">
                         Весь заказ будет готов к выдаче, но можно забирать и частями по мере поступления
@@ -62,7 +62,7 @@ export function renderOrderFirstStage(auth) {
                 <div class="radio__view">
                     <div class="radio__header">
                         <span class="radio__title">Курьером</span>
-                        <span class="radio__right">145 ₽</span>
+                        <span class="radio__right">145&nbsp;₽</span>
                     </div>
                     <p class="radio__descr">
                         Курьер доставит весь заказ по удобному вам адресу
@@ -71,8 +71,8 @@ export function renderOrderFirstStage(auth) {
             </label>
         </div>
         <div class="order-form__location pick-location">
-            <span class="pick-location__address" data-address>${location}</span>
-            <button type="button" class="pick-location__change">Выбрать другой пункт</button>
+            <span class="pick-location__address" data-address>${location.name}</span>
+            <button type="button" class="pick-location__change" data-location-order="${location._id}">Выбрать другой пункт</button>
         </div>
         <h2 class="order-form__title">Получатель</h2>
         <div class="form__row">
@@ -82,7 +82,7 @@ export function renderOrderFirstStage(auth) {
                     <span class="field-block__req">(обязательное)</span>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req">
-                    <input type="text" name="firstName"  placeholder="Имя" class="entry-input__field" value="${auth?.userData?.firstName || ''}" data-name/>
+                    <input type="text" name="firstName" placeholder="Имя" class="entry-input__field" value="${auth?.userData?.firstName || ''}" data-name/>
                 </div>
                 <div class="field-block__undertext_error"></div>
             </div>
@@ -93,7 +93,7 @@ export function renderOrderFirstStage(auth) {
                 </div>
                 <div>
                     <div class="entry-input">
-                        <input type="text" name="lastName"  placeholder="Фамилия" class="entry-input__field" value="${auth?.userData?.lastName || ''}" data-lastname/>
+                        <input type="text" name="lastName" placeholder="Фамилия" class="entry-input__field" value="${auth?.userData?.lastName || ''}" data-lastname/>
                     </div>
                 </div>
             </div>
@@ -105,7 +105,7 @@ export function renderOrderFirstStage(auth) {
                     <span class="field-block__req">(обязательно)</span>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req">
-                    <input type="tel" name="tel"  class="entry-input__field" value="${auth?.userData?.tel || ''}" data-tel/>
+                    <input type="tel" name="tel" class="entry-input__field" value="${auth?.userData?.tel || ''}" data-tel/>
                 </div>
                 <div class="field-block__undertext_error"></div>
             </div>
@@ -116,6 +116,18 @@ export function renderOrderFirstStage(auth) {
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req">
                     <input type="email" name="email" autocomplete="none" placeholder="Email" class="entry-input__field" value="${auth?.userData?.email || ''}" data-email/>
+                </div>
+                <div class="field-block__undertext_error"></div>
+            </div>
+        </div>
+        <div class="form__row">
+            <div class="form__item field-block">
+                <div class="field-block__header">
+                    <b class="field-block__title">Адрес</b>
+                    <span class="field-block__req">(обязательно)</span>
+                </div>
+                <div class="entry-input entry-input_icon entry-input_req">
+                    <input type="tel" name="address" class="entry-input__field" value="" data-address-input/>
                 </div>
                 <div class="field-block__undertext_error"></div>
             </div>

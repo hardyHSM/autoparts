@@ -13,7 +13,7 @@ const configData = [
     {
         value: 'Да',
         dataset: 'true',
-        default: true
+        isSelected: true
     },
     {
         value: 'Нет',
@@ -22,13 +22,9 @@ const configData = [
 ]
 
 
-class SalesForm extends FormComponent {
+class OrdersForm extends FormComponent {
     constructor(config) {
         super(config)
-        this.method = config.method
-        this.title = config.title
-        this.data = config.data
-        this.onsuccess = config.onsuccess || new Function()
     }
 
     init() {
@@ -52,37 +48,37 @@ class SalesForm extends FormComponent {
             key: 'status',
             data: [
                 {
-                    value: 'Отменён',
-                    dataset: 'Отменён'
-                },
-                {
                     value: 'Сделка завершена',
                     dataset: 'Сделка завершена'
+                },
+                {
+                    value: 'Отменён',
+                    dataset: 'Отменён'
                 },
                 {
                     value: 'В процессе',
                     dataset: 'В процессе'
                 },
                 {
-                    value: 'В обработке',
-                    dataset: 'В обработке',
-                    default: true
+                    value: 'Не обработан',
+                    dataset: 'Не обработан',
+                    isSelected: true
                 }
             ]
         })
-        this.selectStatus.setDefault(this.data.status)
+        this.selectStatus.setValue(this.data.status)
         this.selectPromo = new SelectComponent({
             key: 'promo',
             query: '[data-select-promo]',
             data: configData
         })
-        this.selectPromo.setDefault(this.data.promo)
+        this.selectPromo.setValue(this.data.promo ? 'true': 'false')
         this.selectDelivery = new SelectComponent({
             key: 'delivery',
             query: '[data-select-delivery]',
             data: configData
         })
-        this.selectDelivery.setDefault(this.data.delivery)
+        this.selectDelivery.setValue(this.data.delivery ? 'true': 'false')
         this.selectPayment = new SelectComponent({
             key: 'payment',
             query: '[data-select-payment]',
@@ -90,7 +86,7 @@ class SalesForm extends FormComponent {
                 {
                     value: 'При получении',
                     dataset: 'getting',
-                    default: true
+                    isSelected: true
                 },
                 {
                     value: 'Звонок оператору',
@@ -98,7 +94,7 @@ class SalesForm extends FormComponent {
                 }
             ]
         })
-        this.selectPayment.setDefault(this.data.payment)
+        this.selectPayment.setValue(this.data.payment)
 
 
         this.selectsList = [this.selectStatus, this.selectPromo, this.selectDelivery, this.selectPayment]
@@ -125,21 +121,13 @@ class SalesForm extends FormComponent {
         })
         this.submitComponent.setTextState()
 
-        if (res.success) {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: `${res.success}`
-            }).create()
-            this.onsuccess()
-        } else {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: `Что-то пошло не так! ${res.message}`
-            }).create()
-        }
+        new ModalComponent({
+            template: 'default',
+            title: this.title,
+            text: res.message
+        }).create()
+        this.onSubmit()
     }
 }
 
-export default SalesForm
+export default OrdersForm

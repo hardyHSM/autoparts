@@ -1,5 +1,6 @@
 .filter-bar {
     display: flex;
+    flex-wrap: wrap;
     padding: 25px;
     gap: 20px;
     background-color: #f0f0f0;
@@ -12,9 +13,12 @@
 }
 
 .filter-bar__item {
-    width: calc(100% / 4);
     flex-grow: 1;
     @media screen and (max-width: 960px) {
-        width: calc(100% / 2 - 20px)
+        width: 100%;
     }
+}
+
+.filter-bar__button {
+    margin-left: auto;
 }

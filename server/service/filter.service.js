@@ -37,7 +37,6 @@ class FilterService {
             }
             return params
         } catch (e) {
-            console.log(e)
             return null
         }
     }

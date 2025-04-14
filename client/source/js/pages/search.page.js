@@ -1,13 +1,20 @@
-import '../app/service/slider.js'
-import { auth, locationModule, preloader, userNav, searchModule} from '../app/common.modules.js'
+import {
+    apiService,
+    router,
+    preloader,
+    sequentLoading
+} from '../app/common.modules.js'
+import SearchModule from '../app/modules/search.module.js'
 
+await sequentLoading()
 
-document.addEventListener('DOMContentLoaded', async () => {
-    await auth.init()
-    userNav.render()
-    locationModule.init()
-    searchModule.initPage()
-})
-
+await new SearchModule(
+    {
+        router,
+        preloader,
+        apiService
+    }
+).initPage()
+preloader.hide()
 
 

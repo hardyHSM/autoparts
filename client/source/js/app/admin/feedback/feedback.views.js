@@ -1,5 +1,6 @@
 import { html } from 'code-tag'
-import { parseDate } from '../../utils/utils.js'
+import { decodeString, parseDate } from '../../utils/utils.js'
+import { feedbackConfig } from './feedback.model.js'
 
 export const renderFeedbackAdmin = (data) => {
     return `
@@ -57,9 +58,9 @@ export const renderFeedbackAdmin = (data) => {
                             </th>
                             <th class="table__col table__col_ultra-small">
                                 <a class="button button_mini button_accent button_icon-only"
-                                   data-state="categories"
+                                   data-state="${feedbackConfig.states.general}"
                                    data-type="menu"
-                                   href="/admin/users/feedback/edit?id=${feedback._id}">
+                                   href="${feedbackConfig.router.edit}${feedback._id}">
                                     Изменить
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#change"></use>
@@ -107,18 +108,19 @@ export const renderEditFeedbackAdmin = (data) => {
                     </div>
                 </div>
                 <input type="text" name="id" class="v-hidden" value="${data._id}">
-                <div id="editor" class="editor">
-
-                </div>
+                ${!data.isAnswered ? '<textarea id="editor" class="editor"></textarea>' : ''}
                 <div>
-                    ${data.isAnswered ? `<h2>Ваш ответ:</h2><br><hr/>${data.answer}<hr/>` : ''}
+                    ${data.isAnswered ? `<h2>Ваш ответ:</h2><br><hr/><div class="editor-content">${data.answer}</div><hr/>` : ''}
                 </div>
                 <div class="form__row form__bottom">
                     ${!data.isAnswered ? `
                         <button type="submit"
-                                class="button button_success button_sq"
-                                data-submit>
+                            class="button button_success button_icon"
+                            data-submit>
                             Ответить
+                            <svg stroke="#fff" class="button__transparent">
+                                <use xlink:href="img/svg/sprite.svg#upload"></use>
+                            </svg>
                         </button>
                     ` : ''}
                     <button type="button" class="button button_danger button_icon button_mini" data-feedback-delete>
@@ -128,9 +130,9 @@ export const renderEditFeedbackAdmin = (data) => {
                         Удалить
                     </button>
                     <a class="button button_neutral button_icon"
-                       data-state="products"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/users/feedback">
+                       href="${feedbackConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>

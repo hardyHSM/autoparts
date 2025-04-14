@@ -19,9 +19,17 @@ class ProductModule extends ModuleCore {
 
     }
 
-    async init() {
+    async init(func = Promise.resolve) {
+        const [productInfo] = await Promise.all([
+            this.apiService.useRequest(this.router.apiLink),
+            func()
+        ])
+        super.init(() => { this.start(productInfo)})
+    }
+
+    async start(res) {
         try {
-            const res = await this.apiService.useRequest(this.router.apiLink)
+            console.log(res)
             this.breadcrumbs.renderPath(res.breadcrumbs)
             this.renderProduct(res.product, res.otherPackingList)
             this.renderSideBar(res.productsToLook)
@@ -68,7 +76,7 @@ class ProductModule extends ModuleCore {
         if (this.auth?.userData?.role?.toLowerCase() === 'admin') {
             document.querySelector('[data-product-header]').innerHTML += `
                 <a class="button button_backwards-accent button_icon"
-                   href="/admin/catalog/products/edit?id=${res._id}">
+                   href="/admin/content/products/edit?id=${res._id}">
                     Редактировать товар
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#change"></use>

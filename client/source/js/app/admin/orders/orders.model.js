@@ -1,6 +1,6 @@
 import { apiService, router } from '../../common.modules.js'
 
-class SalesModel {
+class OrdersModel {
     async find() {
         const res = await apiService.useRequest(router.orderLinkParams)
         return res
@@ -19,4 +19,15 @@ class SalesModel {
     }
 }
 
-export default new SalesModel()
+export const ordersConfig = {
+    'router': {
+        general: '/admin/sales/orders',
+        edit: '/admin/sales/orders/edit?id=',
+    },
+    'states': {
+        general: 'orders',
+        edit: "orders/edit",
+    }
+}
+
+export default new OrdersModel()

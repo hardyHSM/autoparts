@@ -13,9 +13,11 @@ import {
 import { apiService, auth, router, userNav } from '../common.modules.js'
 import PersonalForm from '../forms/personal.form.js'
 import ChangePasswordForm from '../forms/change.password.form.js'
+import PaginationComponent from '../../core/components/pagination.component.js'
+import scrollToTop from '../utils/utils.js'
 
 
-class ProfileTabsModule extends ModuleTabs{
+class ProfileTabsModule extends ModuleTabs {
     constructor(config) {
         super(config)
         this.config = {
@@ -63,7 +65,7 @@ class ProfileTabsModule extends ModuleTabs{
                     }
                 },
                 'logout': {
-                    functional: async () => {
+                    middleware: async () => {
                         await apiService.useRequest(router.logoutLink, {
                             method: 'POST',
                             headers: {
@@ -93,7 +95,7 @@ class ProfileTabsModule extends ModuleTabs{
                                 node.innerHTML = renderOrderFull(order)
                                 node.addEventListener('click', ({ target }) => {
                                     const button = target.closest('[data-back]')
-                                    if(button) {
+                                    if (button) {
                                         this.router.redirectUrlState(button.link)
                                         this.router.init()
                                         this.changeState()
@@ -104,11 +106,26 @@ class ProfileTabsModule extends ModuleTabs{
                     }
                 },
                 'messages': {
-                    middleware: () => {
-                        return apiService.useRequest(router.userNotificationsLink)
+                    middleware: async () => {
+                        const content = await apiService.useRequest(router.userNotificationsLink)
+                        return {
+                            page: router.getParam('page') || 1,
+                            content
+                        }
                     },
                     render: renderNotificationsList,
-                    functional() {
+                    functional(_, data, module) {
+                        const pagination = new PaginationComponent({
+                            query: '#pagination', onChange: async (pageNumber) => {
+                                router.addParams('page', pageNumber)
+                                router.redirectUrlState()
+                                await module.renderMenuState()
+                                scrollToTop('#top-element')
+                            }
+                        })
+                        pagination.render({
+                            currentPage: data.page, count: data.content.count, limit: 20
+                        })
                         userNav.changeState()
                     }
                 }

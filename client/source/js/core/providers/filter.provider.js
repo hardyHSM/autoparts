@@ -1,10 +1,12 @@
 import { debounce, decodeString, sanitalize } from '../../app/utils/utils.js'
 import { InputValidation } from '../components/selectsinputs/input.component.js'
 import ValidationComponent from '../components/validation.component.js'
+import SelectInputComponent from '../components/selectsinputs/select.input.component.js'
 
 class FilterProvider {
     constructor(config) {
         this.router = config.router
+        this.data = config.data
         this.onChangeState = config.onChangeState || new Function()
         this.$root = document.querySelector(config.root)
         this.$fields = this.$root.querySelectorAll('[data-filter]')
@@ -12,8 +14,9 @@ class FilterProvider {
     }
 
     init() {
+        this.inputWithDebounce = debounce(this.searchHandler.bind(this), 800)
         this.initRoutes()
-        const inputWithDebounce = debounce(this.searchHandler.bind(this), 800)
+
         this.$fields.forEach(field => {
             if (field.dataset.filterOrder) {
                 this.inputs.push(new InputValidation({
@@ -26,14 +29,13 @@ class FilterProvider {
                     const inputComponent = this.inputs.find(input => input.$field === target)
                     if (!target.value.length) {
                         inputComponent.removeError()
-                        return
                     }
-                    if (!inputComponent.checkValidation()) {
+                    if (!inputComponent.checkValidation() && target.value.length) {
                         inputComponent.setError()
                         return
                     }
                 }
-                inputWithDebounce(target)
+                this.inputWithDebounce(target)
             })
         })
     }
@@ -41,14 +43,13 @@ class FilterProvider {
     initRoutes() {
         try {
             const params = {}
-
             document.querySelectorAll('[data-filter]').forEach(f => {
                 params[f.dataset.filter] = this.router.getParam(f.dataset.filter) || ''
             })
             Object.entries(params).forEach(([value, type]) => {
                 if (!value || !type) return
-                document.querySelector(`[data-filter=${value}]`).value = decodeString(type) || ''
-                this.setFilterState(type, value)
+                const input = document.querySelector(`[data-filter=${value}]`)
+                input.value = decodeString(type) || ''
             })
         } catch (e) {
             console.error(e)
@@ -64,7 +65,7 @@ class FilterProvider {
     }
 
     setFilterState(value, type) {
-        if (value && value.length) {
+        if (value) {
             this.router.addParams(type, sanitalize((value)))
         } else {
             this.router.removeParam(type)

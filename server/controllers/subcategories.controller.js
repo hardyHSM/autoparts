@@ -6,12 +6,17 @@ class SubcategoriesController {
     async get(req, res, next) {
         try {
             let result
-            if (!req.query.id) {
-                result = await SubcategoriesModel.find().populate('category')
+            if (!('id' in req.query)) {
+                const sortName = req.query.sort_name || 'number'
+                const sortType = req.query.sort_type || 1
+                const sortData = {
+                    [sortName]: sortType
+                }
+                result = await SubcategoriesModel.find().sort(sortData).populate('category')
             } else {
                 result = await SubcategoriesModel.findById(req.query.id).populate('category')
                 if (!result) {
-                    next(ApiError.BadRequest('Такой категории не существует!'))
+                    next(ApiError.BadRequest('Такой подкатегории не существует!'))
                 }
             }
 
@@ -31,12 +36,19 @@ class SubcategoriesController {
                 return next(ApiError.BadRequest('Такой категории или подкатегории не существует!'))
             }
 
+            const existSubcategoryLink = await SubcategoriesModel.findOne({ link })
+
+            if (existSubcategoryLink && (existSubcategoryLink.id !== subcategory.id)) {
+                return next(ApiError.BadRequest('Подкатегория с такой ссылкой уже существует!'))
+            }
+
+
             subcategory.name = name
             subcategory.link = link
             subcategory.category = category
             await subcategory.save()
             res.json({
-                success: 'Категория успешно изменена!'
+                message: 'Подкатегория успешно изменена!'
             })
         } catch (e) {
             next(e)
@@ -48,7 +60,7 @@ class SubcategoriesController {
             const { name, link, categoryId } = req.body
             const category = await CategoriesModel.findById(categoryId)
             if (!category) {
-                return next(ApiError.BadRequest('Такой категории не существует!'))
+                return next(ApiError.BadRequest('Такой подкатегории не существует!'))
             }
 
             await SubcategoriesModel.create({
@@ -57,7 +69,7 @@ class SubcategoriesController {
                 category
             })
             res.json({
-                success: 'Подкатегория успешно добавлена!'
+                message: 'Подкатегория успешно добавлена!'
             })
         } catch (e) {
             next(e)
@@ -67,16 +79,11 @@ class SubcategoriesController {
         try {
             const { id } = req.body
             const result = await SubcategoriesModel.findByIdAndDelete(id)
-            if (!result) {
-                return res.json({
-                    success: 'Что-то пошло не так'
-                })
-            }
             res.json({
-                success: 'Подкатегория успешно удалена.'
+                message: 'Подкатегория успешно удалена.'
             })
         } catch (e) {
-            next(e)
+            next(ApiError.BadRequest('Что-то пошло не так. Подкатегории с таким идентификатором не существует.'))
         }
     }
 }

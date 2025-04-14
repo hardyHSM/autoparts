@@ -15,9 +15,14 @@ const ordersSchema = new Schema({
         },
         promo: {
             type: Boolean,
-            default: false,
+            default: false
         },
         location: {
+            type: Schema.Types.ObjectId,
+            ref: 'Location',
+            required: true,
+        },
+        address: {
             type: String,
             required: true
         },
@@ -31,10 +36,10 @@ const ordersSchema = new Schema({
         },
         status: {
             type: String,
-            default: 'В обработке'
+            default: 'Не обработан'
         },
         delivery: {
-            type: String,
+            type: Boolean,
             required: true
         },
         payment: {
@@ -54,7 +59,10 @@ const ordersSchema = new Schema({
                     ref: 'Product'
                 }
             }
-        ]
+        ],
+        closeTime: {
+            type: Date,
+        }
     },
     {
         timestamps: true

@@ -7,7 +7,15 @@ class ModuleCore {
         this.userNav = userNav
         this.$node = document.querySelector(selector)
     }
-    init() {
+
+    init(fnc) {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fnc.bind(this))
+        } else {
+            fnc()
+        }
+    }
+    start() {
         window.addEventListener('popstate', () => {
             this.router.reload()
         })

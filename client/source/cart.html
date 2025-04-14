@@ -6,6 +6,7 @@
     <meta name="description" content="Автозапчасти.ru"/>
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="js/pages/cart.js" defer></script>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="page">
@@ -49,7 +50,7 @@
                             </table>
                         </div>
                         <div class="section-cart__bottom">
-                            <div class="section-cart__important">
+                            <div class="important">
                                 Рекомендуем оформлять заказы как можно быстрее: даже если вы будете заказывать товары по одному - это никак не отразится на бесплатной доставке, но зато вас никто не опередит и цена не успеет измениться.
                                 <svg>
                                     <use xlink:href="img/svg/sprite.svg#info"></use>
@@ -57,7 +58,7 @@
                             </div>
                             <div class="section-cart__total">
                                 <span class="section-cart__total-text">Выбрано на сумму: </span>
-                                <span class="section-cart__total-price" data-total-price>0 ₽</span>
+                                <span class="section-cart__total-price" data-total-price>0&nbsp;₽</span>
                             </div>
                         </div>
                         <div class="section-cart__arrange arrange">
@@ -74,12 +75,12 @@
                                 </div>
                                 <div class="promo__right">
                                     <div class="promo__text">Скидка</div>
-                                    <b class="promo__money">-330 ₽</b>
+                                    <b class="promo__money">-330&nbsp;₽</b>
                                 </div>
                             </div>
                             <div class="arrange__total">
                                 <span class="arrange__text"> Итого </span>
-                                <b class="arrange__price" data-total-discount>0 ₽</b>
+                                <b class="arrange__price" data-total-discount>0&nbsp;₽</b>
                             </div>
                             <button class="arrange__button button button_accent" data-cart-submit>Оформить выбранное</button>
                         </div>
@@ -89,6 +90,5 @@
         </main>
         @@include('./html/footer.html')
     </div>
-    <script src="js/pages/cart.js" ></script>
 </body>
 </html>

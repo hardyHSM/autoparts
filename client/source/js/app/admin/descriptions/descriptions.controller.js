@@ -1,34 +1,34 @@
 import { apiService, auth, router } from '../../common.modules.js'
-import descriptionsModel from './descriptions.model.js'
+import descriptionsModel, { descriptionsConfig } from './descriptions.model.js'
 import PaginationComponent from '../../../core/components/pagination.component.js'
 import scrollToTop from '../../utils/utils.js'
-import FilterProvide from '../../../core/providers/filter.provide.js'
-import { Editor } from '@toast-ui/editor'
+import FilterProvide from '../../../core/providers/filter.provider.js'
 import { parseArrayToHTML } from '../../utils/utils.js'
 import DescriptionsForm from './descriptions.form.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
+import { productsConfig } from '../products/products.model.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import contentEditor from '../../../core/components/contentEditor.js'
 
 class DescriptionsController {
     async middleware() {
-        try {
-            let page = router.getParam('page')
-            if (!page) {
-                page = 1
-                router.addParams('page', page)
-                router.redirectUrlState()
-            }
-            const descriptions = await descriptionsModel.find()
-            return {
-                descriptions,
-                page
-            }
-        } catch (e) {
-            console.error(e)
+        let page = router.getParam('page')
+        if (!page) {
+            page = 1
+            router.addParams('page', page)
+            router.redirectUrlState()
+        }
+        const descriptions = await descriptionsModel.find()
+        return {
+            descriptions,
+            page
         }
     }
 
     async middlewareEdit() {
-        return await descriptionsModel.find()
+        const data = await descriptionsModel.find()
+        if(data.message) throw new Error()
+        return data
     }
 
     functional(_, data, module) {
@@ -55,14 +55,9 @@ class DescriptionsController {
             }
         }).init()
     }
+
     functionalEdit(_, data, module) {
-        const editor = new Editor({
-            el: document.querySelector('#editor'),
-            previewStyle: 'vertical',
-            height: '500px'
-        })
-        editor.setHTML(parseArrayToHTML(data.description))
-        document.querySelector('.toastui-editor-contents').className = 'editor-content'
+        contentEditor('#editor', parseArrayToHTML(data.description), 'editor-content')
         new DescriptionsForm({
             method: 'PUT',
             title: 'Изменение описания товара',
@@ -72,9 +67,8 @@ class DescriptionsController {
             auth,
             apiService,
             editor,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/products_description')
-                module.changeState()
+            onSubmit: () => {
+
             }
         }).init()
         DeleteHelper.delete({
@@ -82,20 +76,23 @@ class DescriptionsController {
             title: 'Удаление описания товара',
             text: 'Вы действительно хотите удалить описание этого товара??',
             routerLink: router.productsDescriptionsLink,
+            closeOnSubmit: false,
             id: data._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/products_description')
-                module.changeState()
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление описания продукта',
+                    text: res.data.message
+                }).create()
             }
         })
     }
+
     functionalAdd(_, data, module) {
-        const editor = new Editor({
-            el: document.querySelector('#editor'),
-            previewStyle: 'vertical',
-            height: '500px'
-        })
-        document.querySelector('.toastui-editor-contents').className = 'editor-content'
+        contentEditor('#editor', '', 'editor-content')
         new DescriptionsForm({
             method: 'POST',
             title: 'Добавления описания товара',
@@ -105,8 +102,8 @@ class DescriptionsController {
             auth,
             apiService,
             editor,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/products_description')
+            onSubmit: () => {
+                router.redirectUrlState(descriptionsConfig.router.general)
                 module.changeState()
             }
         }).init()

@@ -16,7 +16,9 @@ export default function renderProducts(products, productClass = '') {
                     <img class="page-product__img" data-src="/${product.image || 'img/assets/no_photo.jpg'}" alt="">
                 </div>
                 <div class="page-product__content">
-                    <b class="page-product__title">${product.title}</b>
+                    <a href="/products/${product._id}" class="page-product__link">
+                        <b class="page-product__title">${product.title}</b>
+                    </a>
                     <ul class="page-product__spec spec-product">
                         ${formattedAttributes.map(item => {
                             const key = item[0]

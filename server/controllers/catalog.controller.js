@@ -4,6 +4,7 @@ import ProductsModel from '../models/products.model.js'
 import productService from '../service/product.service.js'
 import filterService from '../service/filter.service.js'
 
+
 class CatalogController {
 
     async getList(req, res, next) {
@@ -12,8 +13,8 @@ class CatalogController {
                 CategoriesModel.find(),
                 SubCategoriesModel.find().populate('category')
             ])
-
-            res.set('Cache-Control', 'public, max-age=259200').json({
+            // .set('Cache-Control', 'public, max-age=259200')
+            res.json({
                 categories: categoriesArr,
                 subCategories: subCategoriesArr
             })
@@ -35,9 +36,7 @@ class CatalogController {
 
             const products = await ProductsModel.find(productClass, { maker: 1, attributes: 1 }).lean()
             const filtersData = await filterService.parseProductsToFilters(products)
-            res.json({
-                filtersData
-            })
+            res.json(filtersData)
         } catch (e) {
             next(e)
         }
@@ -50,7 +49,7 @@ class CatalogController {
             const filterData = filterService.parseFilterQuery(restQueries)
 
             const sortData = {
-                [sort]: 1
+                [sort]: sort === 'popularity' ? -1 : 1
             }
 
             const { categoryData, subCategoryData } = await productService.getProductClasses(category, subcategory)
@@ -77,7 +76,7 @@ class CatalogController {
 
             res.json({
                 path: catalogBreadcrumbs,
-                products: productsWithParams,
+                products: productService.removeSecretFields(req,productsWithParams),
                 count: countDocuments,
                 currentPage: page
             })

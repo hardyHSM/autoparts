@@ -11,6 +11,8 @@ const router = new Router()
 router.post('',
     csrfTokenMiddleware,
     body('email').escape().isEmail(),
+    body('address').escape().isLength({ min: 5, max: 128 }),
+    body('lastName').escape(),
     body('firstName').escape().exists().matches(/^[А-яa-z ,.'-]+$/).not().matches(/\d/),
     body('tel').escape().isLength({ min: 18, max: 18 }),
     validationMiddleware,
@@ -20,13 +22,12 @@ router.post('',
 router.put('',
     body('email').escape().isEmail(),
     body('firstName').escape().exists().matches(/^[А-яa-z ,.'-]+$/).not().matches(/\d/),
-    body('lastName').escape().exists().matches(/^[А-яa-z ,.'-]+$/).not().matches(/\d/),
     body('tel').escape().isLength({ min: 18, max: 18 }),
     body('delivery').escape().isBoolean(),
     body('promo').escape().isBoolean(),
     body('payment').escape().isIn(['getting','call']),
     body('status').escape().isIn(
-        ['Отменён','Сделка завершена','В процессе','В обработке','all']
+        ['Отменён','Сделка завершена','В процессе','Не обработан','all']
     ),
     csrfTokenMiddleware,
     authAccessMiddleware,

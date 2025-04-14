@@ -5,46 +5,64 @@ class LocationModule extends ModuleCore {
         super(config)
         this.state = true
         this.locationList = null
-        this.onChooseCallback = () => {}
-        this.$cityDrop = document.querySelector('.page-address__drop')
-        this.$addressCurrent = document.querySelector('.page-address__current')
-        this.$cityCurrent = document.querySelector('.page-address__current-city')
-        this.$pick = document.querySelector('.pick-address')
-        this.$searchInput = document.querySelector('.pick-address__input')
-        this.$pickList = document.querySelector('.pick-address__list')
-        this.$buttonPlace = document.querySelector('.page-address__buttons')
+        this.onChoose = config.onChoose || new Function
+        this.root = config.root
         this.defaultValue = 'г. Луганск'
+        this.defaultDataset = null
     }
 
-    async init() {
+    async loadData() {
         try {
-            this.initAuthData()
             this.locationList = await this.apiService.useRequest(this.router.locationsLink)
-            this.registerInitHandlers()
         } catch (e) {
-            console.log(e.message)
+            console.error(e.message)
         }
+    }
+    init() {
+        super.init(() => {
+            this.start()
+        })
+    }
+
+    start() {
+        this.defaultDataset = this.locationList.find(location => location.name === this.defaultValue)._id
+        this.$root = document.querySelector(this.root)
+        this.$cityDrop = this.$root.querySelector('.page-address__drop')
+        this.$handler = this.$root.querySelector('[data-location-change]')
+        this.$addressCurrent = this.$root.querySelector('.page-address__current')
+        this.$cityCurrent = this.$root.querySelector('.page-address__current-city')
+        this.$pick = this.$root.querySelector('.pick-address')
+        this.$searchInput = this.$root.querySelector('.pick-address__input')
+        this.$pickList = this.$root.querySelector('.pick-address__list')
+        this.$buttonPlace = this.$root.querySelector('.page-address__buttons')
+        this.initAuthData()
+        this.registerInitHandlers()
     }
 
     registerInitHandlers() {
-        this.$addressCurrent.addEventListener('click', () => {
+        this.$handler.addEventListener('click', () => {
             this.showLocationChoose()
-            document.addEventListener('mousedown', e => {
-                if (this.state && !e.target.closest('.page-address')) {
-                    this.removeDrop()
-                    this.hideLocationList()
-                }
-            })
+        })
+        document.addEventListener('mousedown', e => {
+            if (this.state && !e.target.closest('.page-address')) {
+                this.removeDrop()
+                this.hideLocationList()
+            }
         })
     }
 
     initAuthData() {
-        let name = this.auth.isAuth ?
-            this.auth.userData?.location?.name :
-            localStorage.getItem('location')
+        if(this.auth) {
+            let name = this.auth.isAuth ?
+                this.auth.userData?.location?.name :
+                localStorage.getItem('location')
+            this.setLocationDisplay(name)
+        }
+    }
 
-        this.renderCityLabel(name || this.defaultValue)
-        this.renderCurrentCity(name || this.defaultValue)
+    setLocationDisplay(text) {
+        this.renderCityLabel(text || this.defaultValue)
+        this.renderCurrentCity(text || this.defaultValue)
     }
 
     async setUserLocation(text, id) {
@@ -82,16 +100,17 @@ class LocationModule extends ModuleCore {
     }
 
     showSelectionButtons() {
-        this.$buttonPlace.innerHTML = '<button class=\'page-address__yes button button_mini button_backwards-accent button_fat\'>да</button><button class=\'page-address__no button button_mini  button_backwards-negative button_fat\'>нет</button>'
+        this.$buttonPlace.innerHTML = '<button type="button" class=\'page-address__yes button button_mini button_backwards-accent button_fat\'>да</button><button type="button" class=\'page-address__no button button_mini  button_backwards-negative button_fat\'>нет</button>'
         this.$cityButtonYes = document.querySelector('.page-address__yes')
         this.$cityButtonNo = document.querySelector('.page-address__no')
     }
 
     showLocationChoose() {
         this.showDrop()
-        this.$buttonPlace.innerHTML = '<button class=\'page-address__change button button_mini button_backwards-neutral button_fat\'>Изменить</button>'
+        this.$buttonPlace.innerHTML = '<button type="button" class=\'page-address__change button button_mini button_backwards-neutral button_fat\'>Изменить</button>'
 
         document.querySelector('.page-address__change').addEventListener('click', e => {
+            e.preventDefault()
             this.$pick.classList.add('pick-address_active')
             this.searchLocation()
         })
@@ -150,7 +169,7 @@ class LocationModule extends ModuleCore {
             this.$pickList.innerHTML += `<li class="pick-address__item pick-address__item_notfound">Ничего не найдено</li>`
         } else {
             foundItems.forEach(item => {
-                this.$pickList.innerHTML += `<li class="pick-address__item" data-id="${item.id}">${item.text}</li>`
+                this.$pickList.innerHTML += `<li class="pick-address__item" data-id="${item.id}" tabindex="0">${item.text}</li>`
             })
             this.registerHandlersForPickItems()
         }
@@ -172,19 +191,18 @@ class LocationModule extends ModuleCore {
         this.showSelectionButtons()
 
         this.$cityButtonNo.addEventListener('click', e => {
-            this.renderCurrentCity(this.defaultValue)
-            this.renderCityLabel(this.defaultValue)
+            this.setLocationDisplay()
             this.showLocationList()
-            this.setUserLocation(null, null)
-            this.onChooseCallback(this.defaultValue)
+            if(this.auth) this.setUserLocation(this.defaultValue, this.defaultDataset)
+            this.onChoose(this.defaultValue, this.defaultDataset)
         })
         this.$cityButtonYes.addEventListener('click', e => {
             const value = this.$cityCurrent.textContent.replace('?', '').trim()
             this.removeDrop()
             this.renderCityLabel(value)
             this.state = false
-            this.setUserLocation(text, id)
-            this.onChooseCallback(value, id)
+            if(this.auth) this.setUserLocation(text, id)
+            this.onChoose(value, id)
         })
     }
 }

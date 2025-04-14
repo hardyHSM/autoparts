@@ -38,7 +38,7 @@ const productsSchema = new Schema({
     },
     popularity: {
         type: Number,
-        required: false,
+        required: true,
         index: true,
         default: 0
     },

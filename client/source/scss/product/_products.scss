@@ -14,12 +14,11 @@
 }
 
 .products__item {
+    border: 1px solid transparent;
     &:hover {
         border: 1px solid #DDDDDD;
-        transform: scale(1.1);
-        @media screen and (max-width: 640px) {
-            border: none;
-            transform: scale(1);
+        @media screen and (max-width: 960px) {
+            border: 1px solid transparent;
         }
     }
 }

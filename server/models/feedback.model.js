@@ -1,6 +1,11 @@
 import { Schema, model } from 'mongoose'
 
 const feedbackSchema = new Schema({
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            index: true
+        },
         email: {
             type: String,
             required: true
@@ -17,7 +22,7 @@ const feedbackSchema = new Schema({
         }
     },
     {
-        timestamps: { createdAt: 'createdAt', updatedAt: false }
+        timestamps: { createdAt: 'createdAt', updatedAt: true }
     }
 )
 

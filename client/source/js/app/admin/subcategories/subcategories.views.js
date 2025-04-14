@@ -1,4 +1,5 @@
 import { html } from 'code-tag'
+import { subcategoriesConfig } from './subcategories.model.js'
 
 export const renderSubcategoriesAdmin = (subcategories) => {
     return `
@@ -11,8 +12,8 @@ export const renderSubcategoriesAdmin = (subcategories) => {
                 <div class="admin-panel__controls">
                     <a class="button button_backwards-accent button_icon"
                        data-type="menu"
-                       data-state="subcategories/add"
-                       href="/admin/catalog/subcategories/add">
+                       data-state="${subcategoriesConfig.states.add}"
+                       href="${subcategoriesConfig.router.add}">
                         Добавить
                         <svg>
                             <use xlink:href="img/svg/sprite.svg#add"></use>
@@ -21,11 +22,11 @@ export const renderSubcategoriesAdmin = (subcategories) => {
                 </div>
             </div>
             <table class="table table_classic">
-                <tbody data-cart-output>
-                <tr class="table__header table__row">
-                    <th class="table__col">Имя подкатегории</th>
+                <tbody>
+                <tr class="table__header table__row" data-sort-header>
+                    <th class="table__col" data-sort="name">Имя подкатегории <svg class="table__sort-icon"><use xlink:href="img/svg/sprite.svg#sort_down"></use></svg></th>
                     <th class="table__col">Ссылка на подкатегорию</th>
-                    <th class="table__col">Категория</th>
+                    <th class="table__col" data-sort="category">Категория<svg class="table__sort-icon"><use xlink:href="img/svg/sprite.svg#sort_down"></use></svg></th>
                     <th class="table__col table__col_small" data-cart-all data-enabled="false">Изменить</th>
                 </tr>
                 ${subcategories.map(subcategory => {
@@ -36,9 +37,9 @@ export const renderSubcategoriesAdmin = (subcategories) => {
                             <th class="table__col">${subcategory.category?.name || 'Категория отсутствует'}</th>
                             <th class="table__col table__col_small table__col_right">
                                 <a class="button button_mini button_accent button_icon-only"
-                                   data-state="subcategories"
+                                   data-state="${subcategoriesConfig.states.general}"
                                    data-type="menu"
-                                   href="/admin/catalog/subcategories/edit?id=${subcategory._id}">
+                                   href="${subcategoriesConfig.router.edit}${subcategory._id}">
                                     Изменить
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#change"></use>
@@ -103,9 +104,12 @@ export const renderEditSubcategoryAdmin = ({ subcategory }) => {
                 </fieldset>
                 <div class="form__row form__bottom">
                     <button type="submit"
-                            class="button button_success button_sq"
+                            class="button button_success button_icon"
                             data-submit>
-                        Изменить подкатегорию
+                        Изменить категорию
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
                     </button>
                     <button type="button" class="button button_danger button_icon button_mini" data-subcategory-delete>
                         <svg>
@@ -115,9 +119,9 @@ export const renderEditSubcategoryAdmin = ({ subcategory }) => {
                     </button>
                     <a type="button"
                        class="button button_neutral button_icon"
-                       data-state="subcategories"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/subcategories">
+                       href="${subcategoriesConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>
@@ -177,11 +181,18 @@ export const renderAddSubcategoryAdmin = () => {
                     </div>
                 </fieldset>
                 <div class="form__row form__bottom">
-                    <button type="submit" class="button button_accent button_sq" data-submit>Добавить</button>
+                     <button type="submit"
+                            class="button button_accent button_icon"
+                            data-submit>
+                        Добавить подкатегорию
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
+                    </button>
                     <a class="button button_neutral button_icon"
-                       data-state="subcategories"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/subcategories">
+                       href="${subcategoriesConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>

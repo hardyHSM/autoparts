@@ -87,7 +87,7 @@ export function renderCart(data) {
                     ${getProductsCount(data.cart.list)}
                 </span>
                 <span class="profile-table__column">
-                    ${data.total} ₽
+                    ${data.total}&nbsp;₽
                 </span>
                 <a href="/cart" class="profile-table__link">
                     <svg>
@@ -119,7 +119,7 @@ export function renderOrders(data) {
                 </span>
             </div>
             ${data.length ? data.reduce((acc, item, index) => {
-                acc += `
+        acc += `
                     <div class="profile-table__body">
                             <span class="profile-table__column">
                                 ${index}
@@ -131,7 +131,7 @@ export function renderOrders(data) {
                                 ${getProductsCount(item.products)}
                             </span>
                         <span class="profile-table__column">
-                                ${item.total} ₽
+                                ${item.total}&nbsp;₽
                             </span>
                         <button data-param="/user/purchases/orders?id=${item._id}" data-id="${item._id}" class="profile-table__link">
                             <svg>
@@ -139,8 +139,8 @@ export function renderOrders(data) {
                             </svg>
                         </button>
                     </div>`
-                return acc
-            }, '') : `
+        return acc
+    }, '') : `
                 <div class="profile-table__body">
                     <div class="profile-table__empty">Нет заказов</div>
                 </div>`}
@@ -263,7 +263,8 @@ export function renderChangePassword() {
     `
 }
 
-export function renderNotificationsList(data) {
+export function renderNotificationsList({ content }) {
+    const { data } = content
     return `
         <h2 class="profile__title">Мои уведомления</h2>
         <div class="notifications">
@@ -275,12 +276,11 @@ export function renderNotificationsList(data) {
                     Сообщение
                 </span>
             </div>
-        </div>
         <ul class="notifications__list">
-            ${data.reverse().reduce((acc, item) => {
-                if (item.messageType === 'success') {
-                    acc += `
-                        <li class="notifications__item message message_sucess message_icon">
+            ${data.reduce((acc, item) => {
+        if (item.messageType === 'success') {
+            acc += `
+                        <li class="notifications__item message message_success message_icon">
                             <div class="notifications__date">
                                 ${parseDate(item.createdTime)}
                             </div>
@@ -291,8 +291,8 @@ export function renderNotificationsList(data) {
                                 <use xlink:href="img/svg/sprite.svg#success"></use>
                             </svg>
                         </li>`
-                } else {
-                    acc += `
+        } else {
+            acc += `
                         <li class="notifications__item message message_accent message_icon">
                             <div class="notifications__date">
                                 ${parseDate(item.createdTime)}
@@ -304,9 +304,14 @@ export function renderNotificationsList(data) {
                                 <use xlink:href="img/svg/sprite.svg#info"></use>
                             </svg>
                         </li>`
-                }
-                return acc
-            }, '')}
+        }
+        return acc
+    }, '')}
         </ul>
-        </div>`
+        <div class="pagination notifications__pagination" id="pagination">
+                <ul class="pagination__list">
+                </ul>
+        </div>
+        </div>
+        `
 }

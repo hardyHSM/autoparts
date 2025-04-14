@@ -6,6 +6,21 @@
     background-color: #fff;
 }
 
+.entry-input_small {
+    line-height: 16px;
+    .entry-input__field {
+        padding: 10px;
+        text-align: center;
+        box-shadow: none;
+    }
+}
+
+.entry-input_centered {
+    .entry-input__field {
+        text-align: center;
+    }
+}
+
 .entry-input_search {
     .entry-input__icon {
         position: absolute;
@@ -63,17 +78,24 @@
         color: #999999;
     }
     &:focus {
-        outline: none;
-        border: 1px solid #999999;
+        outline: 1px solid #848484;
     }
     &:disabled {
         opacity: 0.5;
+    }
+    @media screen and (max-width: 640px) {
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 13px;
     }
 }
 
 .entry-input_icon {
     .entry-input__field {
         padding-right: 35px;
+        @media screen and (max-width: 640px) {
+            padding-right: 25px;
+        }
     }
 
     &:after {
@@ -89,6 +111,24 @@
         background-position: center center;
     }
 }
+
+.entry-input_date {
+    &:after {
+        background-image: url("../img/svg/date.svg");
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        @media screen and (max-width: 640px) {
+            width: 17px;
+            height: 17px;
+        }
+    }
+
+    &:focus .entry-input__field {
+        border: 1px solid red;
+    }
+}
+
 
 .entry-input_req {
     &:after {
@@ -195,11 +235,17 @@
     }
 }
 
+.entry-input__item_current {
+    font-weight: 700;
+    background: #f1f1f1;
+}
+
+
 .entry-input_active {
     .entry-input__field {
         border-bottom-color: transparent;
         border-radius: 4px 4px 0px 0px;
-        //box-shadow: none;
+        outline: none;
     }
     .entry-input__complete {
         display: block;

@@ -46,6 +46,10 @@
     visibility: hidden;
     opacity: 0;
     transition: all .2s linear;
+    pointer-events: all;
+    @media screen and (max-width: 640px) {
+        width: 310px;
+    }
 }
 
 
@@ -56,6 +60,7 @@
 .page-address__drop_active {
     visibility: visible;
     opacity: 1;
+    pointer-events: auto;
 }
 
 .page-address__left {
@@ -97,6 +102,7 @@
 
 .pick-address_active {
     display: block;
+    pointer-events: auto;
 }
 
 .pick-address__title {

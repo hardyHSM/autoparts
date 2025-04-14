@@ -6,7 +6,12 @@ export default class FormComponent {
         this.apiService = config.apiService
         this.preloader = config.preloader
         this.router = config.router
+        this.method = config.method
+        this.title = config.title
+        this.data = config.data
         this.$form = document.querySelector(config.form)
+        this.row = config.row
+        this.onSubmit = config.onSubmit || new Function()
         this.submitComponent = config.submitSelector ? new ButtonComponent(config.submitSelector) : null
         this.fieldsList = []
     }

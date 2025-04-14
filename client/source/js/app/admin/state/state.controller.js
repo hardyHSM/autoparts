@@ -2,7 +2,7 @@ import CategoriesModel from '../categories/categories.model.js'
 import SubcategoriesModel from '../subcategories/subcategories.model.js'
 import UsersModel from '../users/users.model.js'
 import ProductsModel from '../products/products.model.js'
-import SalesModel from '../sales/sales.model.js'
+import SalesModel from '../orders/orders.model.js'
 
 class StateController {
     async middleware() {

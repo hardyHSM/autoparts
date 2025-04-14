@@ -17,15 +17,15 @@ export default function renderCartNotification({ product, count, totalCartPrice 
                         <b class="cart-notification__title">${product.title}</b>
     
                         <div class="cart-notification__summa">
-                            <span class="cart-notification__product-price">${product.price} ₽</span>
+                            <span class="cart-notification__product-price">${product.price}&nbsp;₽</span>
                             <span class="cart-notification__add">x</span>
                             <span class="cart-notification__product-count">${count} ед.</span>
                             <span class="cart-notification__equal-sign">=</span>
-                            <span class="cart-notification__equal">${product.price * count} ₽</span>
+                            <span class="cart-notification__equal">${product.price * count}&nbsp;₽</span>
                         </div>
                         <div class="cart-notification__row">
                             <span>Всего в корзине:</span>
-                            <div class="cart-notification__summa-all">${totalCartPrice} ₽</div>
+                            <div class="cart-notification__summa-all">${totalCartPrice}&nbsp;₽</div>
                         </div>
                         <a href="/cart" class="cart-notification__button-cart button button_backwards-accent">Перейти в корзину</a>
                     </div>

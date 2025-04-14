@@ -1,4 +1,7 @@
 import { html } from 'code-tag'
+import { descriptionsConfig } from './descriptions.model.js'
+
+
 
 export const renderDescriptionsAdmin = ({ descriptions }) => {
     return `
@@ -11,8 +14,8 @@ export const renderDescriptionsAdmin = ({ descriptions }) => {
                 <div class="admin-panel__controls">
                     <a class="button button_backwards-accent button_icon"
                        data-type="menu"
-                       data-state="products_description/add"
-                       href="/admin/catalog/products_description/add">
+                       data-state="${descriptionsConfig.states.add}"
+                       href="${descriptionsConfig.router.add}">
                         Добавить
                         <svg>
                             <use xlink:href="img/svg/sprite.svg#add"></use>
@@ -31,7 +34,7 @@ export const renderDescriptionsAdmin = ({ descriptions }) => {
                 </div>
             </div>
             <table class="admin-panel__table table table_classic">
-                <tbody data-cart-output>
+                <tbody>
                 <tr class="table__header table__row">
                     <th class="table__col">Имя общего товара</th>
                     <th class="table__col table__col_small" data-cart-all data-enabled="false">Изменить</th>
@@ -42,9 +45,9 @@ export const renderDescriptionsAdmin = ({ descriptions }) => {
                             <th class="table__col">${descr.title}</th>
                             <th class="table__col table__col_small table__col_right">
                                 <a class="button button_mini button_accent button_icon-only"
-                                   data-state="categories"
+                                   data-state="${descriptionsConfig.states.edit}"
                                    data-type="menu"
-                                   href="/admin/catalog/products_description/edit?id=${descr._id}">
+                                   href="${descriptionsConfig.router.edit}${descr._id}">
                                     Изменить
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#change"></use>
@@ -81,14 +84,17 @@ export const renderEditDescriptionsAdmin = (description) => {
                         </div>
                     </div>
                 </fieldset>
-                <div id="editor" class="editor">
+                <textarea id="editor" class="editor">
 
-                </div>
+                </textarea>
                 <div class="form__row form__bottom">
                     <button type="submit"
-                            class="button button_success button_sq"
+                            class="button button_success button_icon"
                             data-submit>
                         Изменить описание
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
                     </button>
                     <button type="button" class="button button_danger button_icon button_mini" data-description-delete>
                         <svg>
@@ -97,9 +103,9 @@ export const renderEditDescriptionsAdmin = (description) => {
                         Удалить описание
                     </button>
                     <a class="button button_neutral button_icon"
-                       data-state="products"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/products_description">
+                       href="${descriptionsConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>
@@ -115,7 +121,7 @@ export const renderAddDescriptionsAdmin = () => {
     return `
         <div class="admin-panel__content">
             <div class="admin-panel__header">
-                <h2 class="admin-panel__title">Редактирование описания продукции</h2>
+                <h2 class="admin-panel__title">Добавление описания продукции</h2>
             </div>
             <form method="post" class="form admin-panel__form" data-admin-form>
                 <input type="text" name="id" class="v-hidden" placeholder="Наименование товара">
@@ -129,15 +135,22 @@ export const renderAddDescriptionsAdmin = () => {
                         </div>
                     </div>
                 </fieldset>
-                <div id="editor" class="editor">
+                <textarea id="editor" class="editor">
 
-                </div>
+                </textarea>
                 <div class="form__row form__bottom">
-                    <button type="submit" class="button button_accent button_sq" data-submit>Добавить</button>
+                    <button type="submit"
+                            class="button button_accent button_icon"
+                            data-submit>
+                        Добавить описание
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
+                    </button>
                     <a class="button button_neutral button_icon"
-                       data-state="products_description"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/products_description">
+                       href="${descriptionsConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>

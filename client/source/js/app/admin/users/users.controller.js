@@ -1,12 +1,15 @@
 import { apiService, auth, router } from '../../common.modules.js'
-import usersModel from './users.model.js'
+import usersModel, { usersConfig } from './users.model.js'
 import PaginationComponent from '../../../core/components/pagination.component.js'
 import scrollToTop from '../../utils/utils.js'
 import SortProvider from '../../../core/providers/sort.provider.js'
-import FilterProvide from '../../../core/providers/filter.provide.js'
+import FilterProvide from '../../../core/providers/filter.provider.js'
 import { pickLocationChange } from '../../service/pick.location.js'
 import UsersForm from './users.form.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
+import { ordersConfig } from '../orders/orders.model.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import LocationModule from '../../modules/location.module.js'
 
 class UsersController {
     async middleware() {
@@ -24,7 +27,19 @@ class UsersController {
     }
 
     async middlewareEdit() {
-        return await usersModel.find()
+        const locationModule = new LocationModule({
+            root: '[data-location-admin]',
+            router,
+            apiService,
+            onChoose: (value,id) => {
+                document.querySelector('[data-address]').setAttribute('data-address', id)
+            }
+        })
+        await locationModule.loadData()
+        return {
+            user: await usersModel.find(),
+            locationModule: locationModule
+        }
     }
 
     async functional(_, data, module) {
@@ -59,19 +74,20 @@ class UsersController {
     }
 
     functionalEdit(_, data, module) {
-        pickLocationChange((name,id) => {
-            document.querySelector('.pick-location__address').innerHTML = name
-            document.querySelector('.pick-location__address').dataset.address = id
-        })
+        const { user, locationModule } = data
+
+        locationModule.init()
+        locationModule.setLocationDisplay(user.location.name, user.location.id)
+
         new UsersForm({
             method: 'PUT',
-            title: 'Измение аккаунта пользователя',
+            title: 'Изменение аккаунта пользователя',
             submitSelector: '[data-submit]',
             form: '[data-admin-form]',
             router,
             auth,
             apiService,
-            data
+            data: user
         }).init()
 
         DeleteHelper.delete({
@@ -79,10 +95,17 @@ class UsersController {
             title: 'Удаление пользователя',
             text: 'Вы действительно хотите удалить аккаунт этого пользователя?',
             routerLink: router.usersLink,
-            id: data._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/users/users')
-                module.changeState()
+            id: user._id,
+            closeOnSubmit: false,
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление аккаунта пользователя!',
+                    text: res.data.message
+                }).create()
             }
         })
     }

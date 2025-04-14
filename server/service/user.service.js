@@ -22,9 +22,13 @@ const dictionary = {
 class UserService {
     async registration(body) {
         const { firstName, lastName, email, password, repassword, tel } = body
-        const candidate = await UsersModel.findOne({ email })
-        if (candidate) {
+        const candidateEmail = await UsersModel.findOne({ email })
+        const candidateTel = await UsersModel.findOne({ tel })
+        if (candidateEmail) {
             throw ApiError.EmailAlreadyExists(email)
+        }
+        if (candidateTel) {
+            throw ApiError.TelAlreadyExists(email)
         }
         if (password !== repassword) {
             throw ApiError.BadRequest('Пароли не совпадают')
@@ -255,7 +259,10 @@ class UserService {
 
     async info(token) {
         const userData = tokenService.validateRefreshToken(token)
-        const user = await UsersModel.findById(userData.id).populate('location')
+        const user = await UsersModel
+                    .findById(userData.id)
+                    .select('firstName lastName email location tel isActivated cart role notifications')
+                    .populate('location')
 
         return {
             id: user._id,
@@ -282,18 +289,33 @@ class UserService {
 
     async getOrders(id) {
         let user = await UsersModel.findById(id).populate('orders')
-        user = await user.populate('orders.products.product')
+        user = await user.populate(['orders.products.product', 'orders.location'])
         return user.orders
     }
 
-    async getNotifications(id) {
-        const user = await UsersModel.findById(id).populate('notifications')
-        user.notifications = user.notifications.map(message => {
-            message.isChecked = true
-            return message
+    async getNotifications(req) {
+        const page = req.query.page || 1
+        const user = await UsersModel.findById(req.user.id).populate('notifications')
+
+
+        const sortedArr = [...user.notifications].sort((a,b) => new Date(b.createdTime) - new Date(a.createdTime))
+        const filteredArr = sortedArr.slice((page - 1) * 20, ((page - 1) * 20) + 20)
+
+        const data = {
+            count: user.notifications.length,
+            data: filteredArr
+        }
+
+        user.notifications.map(notification => {
+            const foundItem = filteredArr.find(item => item._id.equals(notification._id));
+            if(foundItem) {
+                notification.isChecked = true
+            }
+            return notification
         })
+
         await user.save()
-        return user.notifications
+        return data
     }
 
     async getOne(id) {
@@ -345,12 +367,16 @@ class UserService {
 
     async change(body) {
         const { location: locationId, id, ...rest } = body
+
+
         const location = await LocationsModel.findById(locationId)
         const user = await UsersModel.findById(id)
         const emailUser = await UsersModel.findOne({ email: body.email })
+        const telUser = await UsersModel.findOne({ tel: body.tel })
 
 
-        if (!user._id.equals(emailUser._id)) throw ApiError.EmailAlreadyExists(body.email)
+        if (telUser && (!user._id.equals(telUser._id))) throw ApiError.TelAlreadyExists(body.tel)
+        if (!user._id.equals(emailUser?._id)) throw ApiError.EmailAlreadyExists(body.email)
         if (!location) throw ApiError.BadRequest('Локация не найдена!')
         if (!user) throw ApiError.BadRequest('Пользователь не найден!')
 

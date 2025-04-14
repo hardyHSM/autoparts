@@ -43,6 +43,7 @@
     "gulp-svgmin": "^4.1.0",
     "gulp-terser": "^2.1.0",
     "gulp-util": "^1.0.0",
+    "html-loader": "^5.1.0",
     "html-minimizer-webpack-plugin": "^4.3.0",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "postcss": "^8.4.23",
@@ -57,11 +58,14 @@
     "webpack-stream": "^7.0.0"
   },
   "dependencies": {
-    "@toast-ui/editor": "^3.2.2",
+    "air-datepicker": "^3.5.3",
     "code-tag": "^1.1.0",
     "csurf": "^1.11.0",
     "gifsicle": "^7.0.1",
+    "highcharts": "^12.1.2",
     "imask": "^6.6.1",
-    "swiper": "^9.2.4"
+    "sortablejs": "^1.15.6",
+    "swiper": "^9.2.4",
+    "tinymce": "^7.6.1"
   }
 }

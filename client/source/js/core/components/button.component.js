@@ -1,11 +1,13 @@
 class ButtonComponent {
-    constructor(query) {
-        this.$node = document.querySelector(query)
+    constructor(button) {
+        this.$node = button instanceof HTMLElement ? button : document.querySelector(button)
         this.text = this.$node.textContent.trim()
+        this.style = this.$node.style.transition
     }
 
     setPreloaderState(type = 'white') {
         this.$node.classList.add('buton_hidden-text')
+        this.$node.style.transition = ''
         if (type === 'white') {
             this.$node.innerHTML += '<div class="loader loader_white"></div>'
         } else {
@@ -15,6 +17,7 @@ class ButtonComponent {
     }
 
     setTextState(text = this.text) {
+        this.$node.style.transition = this.style
         this.$node.querySelector('.loader').remove()
         this.$node.classList.remove('buton_hidden-text')
         this.$node.disabled = false

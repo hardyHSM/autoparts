@@ -5,6 +5,10 @@
     <title>Управление сайтом - Автозапчасти</title>
     <meta name="description" content="Автозапчасти.ru"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://cdn.tiny.cloud/1/3vd39xmo224b4jyn8frpql5os98xczbv8tv7mz8anih56vio/tinymce/7/tinymce.min.js" referrerpolicy="origin" defer></script>
+    <script src="js/pages/admin.js" defer></script>
+
+
     <link rel="stylesheet" href="css/main.css">
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 </head>
@@ -33,12 +37,12 @@
                                 </a>
                             </li>
                             <li class="tabs-pages__item">
-                                <a class="tabs-pages__button" data-type="tab" data-state="catalog" href="/admin/catalog">
+                                <a class="tabs-pages__button" data-type="tab" data-state="content" href="/admin/content">
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#catalog"></use>
                                     </svg>
                                     <b class="tabs-pages__title">
-                                        Каталог
+                                        Контент сайта
                                     </b>
                                 </a>
                             </li>
@@ -72,6 +76,5 @@
         </main>
         @@include('./html/footer.html')
     </div>
-    <script src="js/pages/admin.js"></script>
 </body>
 </html>

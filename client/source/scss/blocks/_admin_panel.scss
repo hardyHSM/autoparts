@@ -15,6 +15,16 @@
     }
 }
 
+.admin-panel__message {
+    padding: 20px 20px 20px 50px;
+    margin-bottom: 20px;
+}
+
+.admin-panel__header_underlined {
+    padding-bottom: 35px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
 .admin-panel__title {
     font-size: 32px;
     font-weight: 700;
@@ -25,9 +35,25 @@
         width: 100%;
     }
     @media screen and (max-width: 640px) {
+        font-size: 24px;
         display: block;
         margin-top: 10px;
+        padding-right: 0;
     }
+}
+
+.admin-panel__content {
+    .filter-bar {
+        margin-bottom: 20px;
+        align-items: flex-end;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.admin-panel__messages {
+    margin-bottom: 25px;
 }
 
 .admin-panel__count {
@@ -46,22 +72,29 @@
 }
 
 .admin-panel__form {
-    //max-width: 600px;
     .form__row {
         flex-wrap: nowrap;
         gap: 0px 15px;
+        @media screen and (max-width: 640px) {
+            flex-wrap: wrap;
+        }
+    }
+    .form__bottom {
+        margin-top: 35px;
+        gap: 15px;
+        flex-wrap: wrap;
     }
     .field-block {
         flex-grow: 1;
     }
     .form__bottom {
         @media screen and (max-width: 960px) {
-            gap: 15px 0px;
+            gap: 15px;
             flex-wrap: wrap;
             margin-top: 15px;
-        }
-        .button {
-            width: 100%;
+            .button {
+                flex-grow: 1;
+            }
         }
     }
 }
@@ -74,4 +107,8 @@
     tbody {
         min-width: 1200px;
     }
+}
+
+.form__editor {
+    margin-top: 25px;
 }

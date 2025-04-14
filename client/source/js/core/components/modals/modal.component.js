@@ -1,7 +1,7 @@
 import { html } from 'code-tag'
 
 export default class ModalComponent {
-    constructor({ selector, overlay, title, text, template, closeHandler, okayHandler }) {
+    constructor({ selector, overlay, title, text, template, closeHandler, submitHandler, closeOnSubmit }) {
         this.$modal = document.querySelector(selector || '.page-popup')
         this.$overlay = document.querySelector(overlay || '.page-overlay')
         this.template = template
@@ -9,9 +9,10 @@ export default class ModalComponent {
         this.bindedClose = this.destroy.bind(this)
         this.handlerChecker = this.handlerChecker.bind(this)
         this.closeHandler = closeHandler
-        this.okayHandler = okayHandler
+        this.submitHandler = submitHandler
         this.title = title
         this.text = text
+        this.closeOnSubmit = closeOnSubmit || true
     }
 
     create() {
@@ -26,7 +27,7 @@ export default class ModalComponent {
                     </button>
                 </div>
             `
-        } else if (this.template === 'choise') {
+        } else if (this.template === 'choose') {
             this.template = `
                 <button class="page-popup__close" data-close></button>
                 <div class="page-popup__container">
@@ -53,9 +54,9 @@ export default class ModalComponent {
             this.remove()
         }
         if (e.target.closest('[data-okey]')) {
-            if (this.okayHandler) {
-                const result = await this.okayHandler()
-                if(result) {
+            if (this.submitHandler) {
+                const result = await this.submitHandler(this.$modal.querySelector('[data-okey]'))
+                if(result && this.closeOnSubmit) {
                     this.remove()
                 }
             }

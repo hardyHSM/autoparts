@@ -47,12 +47,13 @@ class ModuleTabs extends ModuleCore {
                 this.menuHandler = this.config.menuParams[menuData]
             }
         } catch (e) {
+            console.error(e)
             this.router.redirectNotFound()
         }
     }
 
     renderTabState() {
-        this.$tab.innerHTML = this.tabHandler?.render?.() || ''
+        this.$tab.innerHTML = this.tabHandler?.render?.(this.$tab) || ''
         this.registerActiveButton('tab', this.tabState, 'tabs-pages__button_active')
     }
 
@@ -64,12 +65,13 @@ class ModuleTabs extends ModuleCore {
             this.isLoading = true
             const data = await this.menuHandler?.middleware?.() || this.auth
             this.isLoading = false
-            if(this.menuHandler?.render) {
-                this.$menu.innerHTML = this.menuHandler?.render?.(data)
+            if (this.menuHandler?.render) {
+                this.$menu.innerHTML = this.menuHandler?.render?.(data, this.$menu)
                 scrollToTop('#top-element', 'auto')
                 this.menuHandler?.functional?.(this.$menu, data, this)
             }
         } catch (err) {
+            console.error(err)
             this.router.setPrevState()
         }
     }
@@ -78,14 +80,24 @@ class ModuleTabs extends ModuleCore {
         this.$root.addEventListener('click', (e) => {
             const { target } = e
             const $button = target.closest('a[data-type]')
+            if ($button) {
+                e.preventDefault()
+            }
             if (!$button || $button.dataset.active === 'true' || this.isLoading) return
-            e.preventDefault()
+
             const state = $button.dataset.state
             const link = $button.href
             const type = $button.dataset.type
             const activeClass = type === 'tab' ? 'tabs-pages__button_active' : 'tabs-menu__button_active'
             this.registerActiveButton(type, state, activeClass)
-            this.router.redirectUrlState(link)
+            if (state === 'back') {
+                this.router.setPrevState()
+                return
+            } else if (state === 'none') {
+                return
+            } else {
+                this.router.redirectUrlState(link)
+            }
             this.changeState()
         })
     }
@@ -103,7 +115,7 @@ class ModuleTabs extends ModuleCore {
     }
 
     showPreloader() {
-        if(this.$menu) {
+        if (this.$menu) {
             this.$menu.innerHTML = '<div class="preloader"></div>'
         }
     }

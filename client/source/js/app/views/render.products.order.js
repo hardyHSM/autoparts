@@ -4,10 +4,10 @@ import { getTotalPrice, getTotalPriceWithPromo } from '../utils/utils.js'
 export const renderProductsInOrder = (data) => {
     return `
         <div class="profile__order-products order-products order-products_theme-white">
-            <div class="order-products__list">
+            <ul class="order-products__list">
                 ${data.products.reduce((acc, { product, count }) => {
-                    acc += `
-                        <div class="order-products__item">
+        acc += `
+                        <li class="order-products__item">
                             <div class="order-products__image">
                                 <img src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">
                             </div>
@@ -17,26 +17,26 @@ export const renderProductsInOrder = (data) => {
                                 </strong>
                                 <p class="order-products__title">${product.title}</p>
                             </div>
-                            <div class="order-products__price">${product.price} ₽</div>
+                            <div class="order-products__price">${product.price}&nbsp;₽</div>
                             <div class="order-products__count">${count} шт.</div>
-                            <div class="order-products__all">${product.price * count} ₽</div>
-                        </div>
+                            <div class="order-products__all">${product.price * count}&nbsp;₽</div>
+                        </li>
                     `
-                    return acc
-                }, '')}
-            </div>
+        return acc
+    }, '')}
+            </ul>
             <div class="order-products__detail">
                 <strong class="order-products__title order-products__key">Сумма</strong>
-                <i class="order-products__value">${getTotalPrice(data.products)} ₽</i>
+                <i class="order-products__value">${getTotalPrice(data.products)}&nbsp;₽</i>
             </div>
             <div class="order-products__detail">
                 <strong class="order-products__title order-products__key">Промо-код</strong>
-                <i class="order-products__value">${data.promo ? '-330 ₽ ' : 'Отсутствует'}</i>
+                <i class="order-products__value">${data.promo ? '-330&nbsp;₽ ' : 'Отсутствует'}</i>
             </div>
             <div class="order-products__detail">
                 <strong class="order-products__title order-products__key">Итого</strong>
                 <i class="order-products__value">${data.promo ? getTotalPriceWithPromo(data.products, 330) : getTotalPriceWithPromo(data.products, 0)}
-                    ₽</i>
+                   &nbsp;₽</i>
             </div>
             <div class="order-products__detail">
                 <strong class="order-products__title order-products__key">Тип доставки</strong>
@@ -48,7 +48,15 @@ export const renderProductsInOrder = (data) => {
             </div>
             <div class="order-products__detail">
                 <strong class="order-products__title order-products__key">Локация</strong>
-                <i class="order-products__value">${data.location}</i>
+                <i class="order-products__value">${data.location.name}</i>
+            </div>
+             <div class="order-products__detail">
+                <strong class="order-products__title order-products__key">Адресс</strong>
+                <i class="order-products__value">${data.address}</i>
+            </div>
+            <div class="order-products__detail">
+                <strong class="order-products__title order-products__key">Cтатус</strong>
+                <i class="order-products__value">${data.status}</i>
             </div>
         </div>
     `

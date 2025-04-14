@@ -25,10 +25,6 @@ const configData = [
 class UsersForm extends FormComponent {
     constructor(config) {
         super(config)
-        this.method = config.method
-        this.title = config.title
-        this.data = config.data
-        this.onsuccess = config.onsuccess || new Function()
     }
 
     init() {
@@ -59,7 +55,7 @@ class UsersForm extends FormComponent {
                 {
                     value: 'Пользователь',
                     dataset: 'USER'
-                },
+                }
             ]
         })
         this.selectActivation = new SelectComponent({
@@ -67,8 +63,8 @@ class UsersForm extends FormComponent {
             key: 'activation',
             data: configData
         })
-        this.selectActivation.setDefault(this.data.isActivated.toString())
-        this.selectRole.setDefault(this.data.role)
+        this.selectActivation.setValue(this.data.isActivated.toString())
+        this.selectRole.setValue(this.data.role)
 
         this.selectsList = [this.selectRole, this.selectActivation]
         this.selectsList.forEach(select => select.render())
@@ -82,12 +78,10 @@ class UsersForm extends FormComponent {
         this.selectsList.forEach(select => {
             body[select.key] = select.getValue()
         })
-        body['location'] = document.querySelector('[data-address]').dataset.address
-
-
+                body['location'] = document.querySelector('[data-address]').dataset.address
 
         this.submitComponent.setPreloaderState()
-        const res = await this.apiService.useRequest(this.router.usersLink, {
+        const res = await this.apiService.useRequestStatus(this.router.usersLink, {
             method: this.method,
             headers: {
                 'Accept': 'application/json',
@@ -97,18 +91,18 @@ class UsersForm extends FormComponent {
         })
         this.submitComponent.setTextState()
 
-        if (res.success) {
+        if (res.status === 200) {
             new ModalComponent({
                 template: 'default',
                 title: this.title,
-                text: `${res.success}`
+                text: res.data.message
             }).create()
-            this.onsuccess()
+            this.onSubmit()
         } else {
             new ModalComponent({
                 template: 'default',
-                title: this.title,
-                text: `Что-то пошло не так! ${res.message}`
+                title: 'Ошибка',
+                text: res.data.message
             }).create()
         }
     }

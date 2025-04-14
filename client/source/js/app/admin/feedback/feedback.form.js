@@ -4,11 +4,7 @@ import ModalComponent from '../../../core/components/modals/modal.component.js'
 class FeedbackForm extends FormComponent {
     constructor(config) {
         super(config)
-        this.method = config.method
-        this.title = config.title
-        this.data = config.data
         this.editor = config.editor
-        this.onsuccess = config.onsuccess || new Function()
     }
 
     init() {
@@ -20,7 +16,7 @@ class FeedbackForm extends FormComponent {
 
     async requestTo() {
         const body = {
-            answer: this.editor.getHTML()
+            answer: tinymce.get('editor').getContent({format: 'raw'})
         }
 
         new FormData(this.$form).forEach((value, key) => {
@@ -29,7 +25,7 @@ class FeedbackForm extends FormComponent {
 
 
         this.submitComponent.setPreloaderState()
-        const res = await this.apiService.useRequest(this.router.feedBackLink, {
+        const res = await this.apiService.useRequestStatus(this.router.feedBackLink, {
             method: this.method,
             headers: {
                 'Accept': 'application/json',
@@ -39,19 +35,14 @@ class FeedbackForm extends FormComponent {
         })
         this.submitComponent.setTextState()
 
-        if (res.success) {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: `${res.success}`
-            }).create()
-            this.onsuccess()
-        } else {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: `Что-то пошло не так! ${res.message}`
-            }).create()
+        new ModalComponent({
+            template: 'default',
+            title: this.title,
+            text: res.data.message
+        }).create()
+
+        if (res.status === 200) {
+            if (this.onSubmit) this.onSubmit()
         }
     }
 }

@@ -127,13 +127,13 @@ class CartModule extends ModuleCore {
 
     renderTotalTitle() {
         const summ = getTotalPrice(this.selectedToOrder)
-        this.$totalPrice.innerHTML = `${summ} ₽`
+        this.$totalPrice.innerHTML = `${summ}&nbsp;₽`
     }
 
     renderTotalDiscountTitle() {
         let promo = this.isUsedPromo() ? PROMO : 0
         let summ = getTotalPriceWithPromo(this.selectedToOrder, promo)
-        this.$priceWithDiscount.innerHTML = `${summ} ₽`
+        this.$priceWithDiscount.innerHTML = `${summ}&nbsp;₽`
     }
 
     async initStorageCart() {
@@ -183,7 +183,7 @@ class CartModule extends ModuleCore {
                     const $productNode = node.closest('[data-product]')
                     const productId = $productNode.dataset.productId
                     const productPrice = this.cart.products.find(item => item.product._id === productId).product.price
-                    $productNode.querySelector('[data-summa]').innerHTML = `${+productPrice * value} ₽`
+                    $productNode.querySelector('[data-summa]').innerHTML = `${+productPrice * value}&nbsp;₽`
                     this.productCountIsChanged({
                         id: productId,
                         value

@@ -1,12 +1,14 @@
-import categoriesModel from './categories.model.js'
+import categoriesModel, { categoriesConfig } from './categories.model.js'
 import { apiService, auth, router } from '../../common.modules.js'
 import CategoryForm from './categories.form.js'
 import ModalComponent from '../../../core/components/modals/modal.component.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
+import SortProvider from '../../../core/providers/sort.provider.js'
+import scrollToTop from '../../utils/utils.js'
 
 class CategoriesController {
-    middleware() {
-        return categoriesModel.findAll()
+    async middleware() {
+        return await categoriesModel.find()
     }
 
     async middlewareEdit() {
@@ -15,6 +17,21 @@ class CategoriesController {
             router.setPrevState()
         }
         return res
+    }
+
+    functional(_, data, module) {
+        new SortProvider({
+            root: '[data-sort-header]',
+            default: 'number',
+            router,
+            changeStateHandler: async (key, type) => {
+                router.addParams('sort_name', key)
+                router.addParams('sort_type', type)
+                router.redirectUrlState()
+                await module.renderMenuState()
+                scrollToTop('#top-element')
+            }
+        }).init()
     }
 
     functionalAdd(_, data, module) {
@@ -26,8 +43,8 @@ class CategoriesController {
             router,
             auth,
             apiService,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/categories')
+            onSubmit: () => {
+                router.redirectUrlState(categoriesConfig.router.general)
                 module.changeState()
             }
         }).init()
@@ -41,7 +58,11 @@ class CategoriesController {
             form: '[data-admin-form]',
             router,
             auth,
-            apiService
+            apiService,
+            onSubmit: (res) => {
+                router.redirectUrlState(categoriesConfig.router.general)
+                module.changeState()
+            }
         }).init()
         DeleteHelper.delete({
             selector: '[data-category-delete]',
@@ -49,13 +70,22 @@ class CategoriesController {
             text: 'Вы действительно хотите удалить эту категорию?',
             routerLink: router.categoriesLink,
             id: data._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/catalog/categories')
-                module.changeState()
+            closeOnSubmit: false,
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление категории',
+                    text: res.data.message
+                }).create()
             }
         })
     }
 }
 
+const categoriesController = new CategoriesController()
 
-export default new CategoriesController()
+
+export default categoriesController

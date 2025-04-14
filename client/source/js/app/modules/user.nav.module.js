@@ -5,9 +5,17 @@ import { html } from 'code-tag'
 class UserNavModule extends ModuleCore {
     constructor(config) {
         super(config)
-        this.$sign = document.querySelector('.user-nav__item_sign')
-        this.$cart = document.querySelector('.user-nav__item_cart')
+        this.$sign = document.querySelector('[data-user-sign]')
+        this.$cart = document.querySelector('[data-user-cart]')
         this.modalLogin = config.modalLogin
+    }
+
+    init() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', this.render.bind(this));
+        } else {
+            this.render()
+        }
     }
 
     async changeState() {
@@ -22,21 +30,20 @@ class UserNavModule extends ModuleCore {
     render() {
         if (this.auth.isAuth) {
             this.$cart.dataset.cartCount = getProductsCount(this.auth.userData.cart.list) || ''
-            this.$sign.dataset.cartCount = this.auth.userData.unreadMessagesCount || ''
             this.$sign.innerHTML = !this.router.isProfilePage ? `
-                <a href="/user/profile" class="user-nav__link">
+                <a href="/user/profile" class="user-nav__link user-nav__link_sign" data-user-count="${this.auth.userData.unreadMessagesCount || ''}">
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
                     </svg>
-                    <span>${this.auth.userData.firstName}</span>
+                    <span class="user-nav__span">${this.auth.userData.firstName}</span>
                 </a>
             ` : `
-                <span class="user-nav__span">
+                <div class="user-nav__link user-nav__link_sign" data-user-sign>
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
                     </svg>
-                    <span>${this.auth.userData.firstName}</span>
-                </span>
+                    <span class="user-nav__span">${this.auth.userData.firstName}</span>
+                </div>
             `
             this.$sign.innerHTML += `
                 <ul class="profile-list">
@@ -64,11 +71,11 @@ class UserNavModule extends ModuleCore {
             const cart = JSON.parse(localStorage.getItem('cart'))?.products || []
             this.$cart.dataset.cartCount = getProductsCount(cart) || ''
             this.$sign.innerHTML = `
-                <button class="user-nav__link">
+                <button class="user-nav__link user-nav__link_sign">
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#sign-in"></use>
                     </svg>
-                    <span>Войти</span>
+                    <span class="user-nav__span">Войти</span>
                 </button>
             `
             this.registerLoginModal()
@@ -76,7 +83,7 @@ class UserNavModule extends ModuleCore {
     }
 
     registerLoginModal() {
-        const $sign_button = document.querySelector('.user-nav__item_sign')
+        const $sign_button = document.querySelector('[data-user-sign]')
 
         $sign_button.addEventListener('click', () => {
             this.modalLogin.create()
@@ -88,9 +95,11 @@ class UserNavModule extends ModuleCore {
         document.querySelector('[data-logout]').addEventListener('click', async () => {
             try {
                 await this.apiService.useRequest(this.router.logoutLink, {
-                    method: 'POST', headers: {
+                    method: 'POST',
+                    headers: {
                         'Accept': 'application/json', 'Content-Type': 'application/json'
-                    }, body: JSON.stringify({})
+                    },
+                    body: JSON.stringify({})
                 })
                 this.router.redirectMain()
             } catch (e) {

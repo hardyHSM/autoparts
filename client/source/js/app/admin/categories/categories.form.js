@@ -6,9 +6,6 @@ import ModalComponent from '../../../core/components/modals/modal.component.js'
 class CategoryForm extends FormComponent {
     constructor(config) {
         super(config)
-        this.method = config.method
-        this.title = config.title
-        this.onsuccess = config.onsuccess
     }
     init() {
         this.name = new InputValidation({
@@ -31,7 +28,6 @@ class CategoryForm extends FormComponent {
         })
 
         this.fieldsList = [this.name, this.link, this.number]
-
         this.$form.addEventListener('submit', (e) => {
             e.preventDefault()
             this.validationForm(e, this.requestTo.bind(this))
@@ -44,7 +40,7 @@ class CategoryForm extends FormComponent {
         new FormData(this.$form).forEach((value, key) => {
             body[key] = value
         })
-        const res = await this.apiService.useRequest(this.router.categoriesLink, {
+        const res = await this.apiService.useRequestStatus(this.router.categoriesLink, {
             method: this.method,
             headers: {
                 'Accept': 'application/json',
@@ -52,20 +48,15 @@ class CategoryForm extends FormComponent {
             },
             body: JSON.stringify(body)
         })
+        new ModalComponent({
+            template: 'default',
+            title: this.title,
+            text: res.data.message
+        }).create()
+
         this.submitComponent.setTextState()
-        if(res.success) {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: res.success
-            }).create()
-            if(this.onsuccess) this.onsuccess()
-        } else {
-            new ModalComponent({
-                template: 'default',
-                title: this.title,
-                text: `Что-то пошло не так! ${res.message}`
-            }).create()
+        if(res.status === 200) {
+            if(this.onSubmit) this.onSubmit()
         }
     }
 }

@@ -7,26 +7,16 @@
     }
 }
 
-.user-nav__item {
+.user-nav__link {
     position: relative;
     padding-left: 30px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
+    display: block;
     svg {
         position: absolute;
         left: 0;
         top: 50%;
         transform: translateY(-50%);
-    }
-    &::before {
-        content: "";
-        width: 100%;
-        position: absolute;
-        display: block;
-        height: 25px;
-        opacity: 0;
-        top: 100%;
     }
     @media screen and (max-width: 640px) {
         padding: 0;
@@ -43,40 +33,33 @@
     }
 }
 
-.user-nav__link {
-    font-size: 14px;
-    line-height: 14px;
-    display: inline-block;
-    cursor: pointer;
-    vertical-align: middle;
-    &:hover {
-        text-decoration: underline;
+.user-nav__item {
+    position: relative;
+    &::before {
+        content: "";
+        width: 100%;
+        position: absolute;
+        display: block;
+        height: 25px;
+        opacity: 0;
+        top: 100%;
     }
-    @media screen and (max-width: 640px) {
-        display: inline;
-        span {
-            display: none;
-        }
+}
+
+.user-nav__empty {
+    font-weight: bold;
+    cursor: auto;
+    &:hover {
+        text-decoration: none;
     }
 }
 
 .user-nav__span {
-    font-size: 14px;
-    line-height: 14px;
-    display: inline-block;
-    vertical-align: middle;
-    span {
-        font-weight: bold;
-    }
     @media screen and (max-width: 640px) {
-        display: inline;
-        span {
-            display: none;
-        }
+        display: none;
     }
 }
-
-.user-nav__item_sign {
+.user-nav__link_sign {
     position: relative;
     svg {
         display: block;
@@ -88,7 +71,7 @@
         height: 18px;
     }
     &::after {
-        content: attr(data-cart-count);
+        content: attr(data-user-count);
         position: absolute;
         z-index: 5;
         font-weight: bold;
@@ -102,7 +85,8 @@
     }
 }
 
-.user-nav__item_cart {
+.user-nav__link_cart {
+    position: relative;
     svg {
         display: inline-block;
         width: 24px;

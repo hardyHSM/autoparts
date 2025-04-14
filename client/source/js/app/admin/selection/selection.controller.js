@@ -1,12 +1,14 @@
 import { apiService, auth, router } from '../../common.modules.js'
 import PaginationComponent from '../../../core/components/pagination.component.js'
-import scrollToTop, { getTemplateMailSelection, parseArrayToHTML } from '../../utils/utils.js'
+import scrollToTop, { getTemplateMailFeedback, getTemplateMailSelection, parseArrayToHTML } from '../../utils/utils.js'
 import SortProvider from '../../../core/providers/sort.provider.js'
-import FilterProvider from '../../../core/providers/filter.provide.js'
-import { Editor } from '@toast-ui/editor'
+import FilterProvider from '../../../core/providers/filter.provider.js'
 import SelectionForm from './selection.form.js'
 import DeleteHelper from '../../../core/providers/delete.provider.js'
-import selectionModel from './selection.model.js'
+import selectionModel, { selectionConfig } from './selection.model.js'
+import { categoriesConfig } from '../categories/categories.model.js'
+import ModalComponent from '../../../core/components/modals/modal.component.js'
+import contentEditor from '../../../core/components/contentEditor.js'
 
 class SelectionController {
     async middleware() {
@@ -24,7 +26,9 @@ class SelectionController {
     }
 
     async middlewareEdit() {
-        return await selectionModel.find()
+        const data = await selectionModel.find()
+        if(data.message) throw new Error()
+        return data
     }
 
     async functional(_, data, module) {
@@ -59,13 +63,7 @@ class SelectionController {
     }
     functionalEdit(_, data, module) {
         if(!data.isAnswered) {
-            const editor = new Editor({
-                el: document.querySelector('#editor'),
-                previewStyle: 'vertical',
-                height: '500px'
-            })
-            editor.setHTML(getTemplateMailSelection(data))
-            document.querySelector('.toastui-editor-contents').className = 'editor-content'
+            contentEditor('#editor', getTemplateMailSelection(data), 'editor-content')
             new SelectionForm({
                 method: 'PUT',
                 title: 'Ответ на подбор запчастей',
@@ -74,9 +72,8 @@ class SelectionController {
                 router,
                 auth,
                 apiService,
-                editor,
-                onsuccess: () => {
-                    router.redirectUrlState('/admin/users/selection')
+                onSubmit: () => {
+                    router.redirectUrlState(selectionConfig.router.general)
                     module.changeState()
                 }
             }).init()
@@ -87,9 +84,16 @@ class SelectionController {
             text: 'Вы действительно хотите удалить этот подбор запчастей?',
             routerLink: router.selectionLink,
             id: data._id,
-            onsuccess: () => {
-                router.redirectUrlState('/admin/users/selection')
-                module.changeState()
+            closeOnSubmit: false,
+            onSubmit: (res) => {
+                if (res.status === 200) {
+                    router.setPrevState()
+                }
+                new ModalComponent({
+                    template: 'default',
+                    title: 'Удаление подбора запчастей',
+                    text: res.data.message
+                }).create()
             }
         })
     }

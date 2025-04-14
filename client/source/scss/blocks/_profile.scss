@@ -11,4 +11,7 @@
 
 .profile__order-products {
     padding: 0px 15px;
+    @media screen and (max-width: 640px) {
+        padding: 0 10px;
+    }
 }

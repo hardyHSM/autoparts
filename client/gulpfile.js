@@ -17,6 +17,7 @@ import gulpif from 'gulp-if'
 import TerserWebpackPlugin from 'terser-webpack-plugin'
 import imagemin from 'gulp-imagemin'
 
+
 //svg
 import svgSprite from 'gulp-svg-sprite'
 import svgmin from 'gulp-svgmin'
@@ -115,6 +116,9 @@ export const js = () => {
             mode: isProduction ? 'production' : 'development',
             devtool: isProduction ? false : 'eval-cheap-module-source-map',
             watch: !isProduction,
+            experiments: {
+                topLevelAwait: true
+            },
             optimization: {
                 minimize: true,
                 minimizer: [
@@ -174,6 +178,10 @@ export const js = () => {
                                 // }
                             }
                         ]
+                    },
+                    {
+                        test: /\.html$/i,
+                        loader: 'html-loader',
                     }
                 ]
             },

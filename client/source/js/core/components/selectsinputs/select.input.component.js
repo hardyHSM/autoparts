@@ -1,151 +1,201 @@
 import SelectComponent from './select.component.js'
 import { debounce } from '../../../app/utils/utils.js'
-import { html } from 'code-tag'
 
 class SelectInputComponent extends SelectComponent {
     constructor(config) {
         super(config)
         this.title = config.title
-        this.link = config.link  || ''
+        this.link = config.link || ''
         this.key = config.key
+        this.req = config.req ?? true
         this.isSelected = false
-        this.onselect = new Function()
-        this.dynamicData = config.dynamicData || null
+        this.dynamicData = config.dynamicData || { state: null }
+        this.filteredData = this.data
         this.$parent = this.$select.closest('.field-block') || this.$select.parentNode
+        this.$select.setAttribute('tabindex', -1)
+    }
+
+    bindMethods() {
+        super.bindMethods();
+        [
+            'searchHandler',
+            'filterData',
+            'openHandler',
+            'onselect',
+            'moveFocus',
+            'blurState',
+            'parseDynamicData'
+        ].forEach(fn => this[fn] = this[fn].bind(this))
+    }
+
+    blurState() {
+        if (this.link) {
+            this.setEditLink()
+        }
+        if (!this.isSelected) {
+            this.onselect({ value: null, text: null }, this.$field)
+            this.setTitle('')
+        } else {
+            this.onselect({ value: this.getValue(), text: this.getTitle() }, this.$field)
+        }
+        this.close()
+    }
+
+    setData(data) {
+        this.data = data
+        this.filteredData = data
     }
 
     async init() {
-        await this.parseDynamicData(this.$title.value)
-        if (this.$title.value.length) {
+        this.bindMethods()
+        this.$field.addEventListener('focus', this.focusState)
+        this.$field.addEventListener('blur', (e) => {
+            if(e.relatedTarget !== this.$select) {
+                this.blurState()
+            }
+        })
+        this.$field.addEventListener('click', this.openHandler)
+        if(!this.dynamicData.state) {
+            this.$field.addEventListener('input', this.searchHandler)
+        } else {
+            await this.parseDynamicData(this.$field.value)
+            this.setSelected(this.$field.value)
+            if(this.link) this.setEditLink()
+            this.$field.addEventListener('input', debounce(this.searchHandler.bind(this), 200))
+        }
+        if (this.$field.value.length) {
             this.isSelected = true
         }
-        this.$header.addEventListener('click', async e => {
-            await this.parseDynamicData(this.$title.value)
-            this.open()
-            this.renderBody(this.data)
-            this.registerHandlers()
-        })
-        document.body.addEventListener('click', e => {
-            if (!e.target.closest(this.selector)) {
-                this.close()
-            }
-        })
-        const inputWithDebounce = debounce(this.searchHandler.bind(this), 200)
-        this.$title.addEventListener('input', ({ target }) => {
-            if (this.dynamicData) {
-                inputWithDebounce(target)
-            } else {
-                this.searchHandler(target)
-            }
-
-        })
-        this.$title.addEventListener('blur', () => {
-            if (!this.isSelected) {
-                this.onselect({
-                    value: null,
-                    text: null
-                })
-                this.setTitle('')
-                // if (this.dynamicData) {
-                //     this.data = []
-                // }
-            }
-        })
     }
 
-    async searchHandler(target) {
-        if(this.link) {
-            this.setEditLink(null)
+    open() {
+        if (!this.disabled) this.$select.classList.add('select_active')
+    }
+
+    moveFocus(direction) {
+        if(!this.filteredData.length) return
+        const currentIndex = this.filteredData.findIndex(item => item.value === this.focusedValue)
+        let newIndex = currentIndex + direction
+
+        if(newIndex >= this.filteredData.length) {
+            newIndex = 0
         }
-        await this.parseDynamicData(target.value)
-        let searchData
-        if (!target.value.length && this.dynamicData) {
-            searchData = []
-        } else {
-            searchData = target.value.length ?
-                this.data.filter(({ value }) => value.match(new RegExp(`${target.value}`, 'gmi'))) :
-                this.data
+        if (newIndex >= 0) {
+            this.changeState(this.filteredData[newIndex].dataset)
+            this.$items[newIndex].scrollIntoView({
+                block: 'nearest',
+                behavior: 'smooth'
+            });
         }
-        this.isSelected = false
-        this.renderBody(searchData)
+    }
+
+    changeState(value, data = this.filteredData) {
+        this.data.forEach(d => {
+            d.isSelected = d.dataset === value
+        })
+        const selectedItem = this.data.find(item => item.isSelected)
+        this.setTitle(selectedItem.value)
+        this.renderBody(data)
+    }
+
+    filterData(field) {
+        this.filteredData = field.value.length ?
+            this.data.filter(({ value }) => value.match(new RegExp(`${field.value}`, 'gmi'))) :
+            this.data
+
+
+        this.renderBody(this.filteredData)
         this.open()
-        this.registerHandlers()
     }
 
-    renderBody(data) {
+    openHandler() {
+        this.filterData(this.$field)
+    }
+
+    async searchHandler({ target = this.$field }) {
+        this.isSelected = false
+        if(this.dynamicData.state) {
+            await this.parseDynamicData(this.$field.value)
+            this.filterData(target)
+        } else {
+            this.filterData(target)
+        }
+    }
+
+    renderBody(data = this.data) {
         if (this.disabled) return
         this.$body.innerHTML = ''
         if (!data.length) {
             this.$body.innerHTML = '<div class="select__notfound">Ничего не найдено...</div>'
         }
         data.map(item => {
-            if (item.default) {
-                this.$body.innerHTML += `<li class="select__item select__item_current" data-value="${item.dataset}" title="${item.value}"d>${item.value}</li>`
+            if (item.isSelected) {
+                this.$body.innerHTML += `<li class="select__item select__item_current" data-value="${item.dataset}" title="${item.value}">${item.value}</li>`
             } else {
                 this.$body.innerHTML += `<li class="select__item" data-value="${item.dataset}" title="${item.value}">${item.value}</li>`
             }
         })
+        this.registerHandlers()
     }
 
     async parseDynamicData(value) {
-        if (this.dynamicData) {
-            if(value.length) {
-                this.data = await this.dynamicData(value)
-                const index = this.data.findIndex(item => item.value === value)
-                if (index > -1) {
-                    this.data[index].default = true
-                    if(this.link) {
-                        this.setEditLink()
-                    }
-                }
-            } else {
-                this.data = []
-            }
+        if(value === '') {
+            this.setData([])
+            return
         }
+        const res = await this.dynamicData.func(value)
+        this.setData(res)
     }
 
-    setEditLink(value = true) {
-        this.$parent.querySelector('.field-block__link').innerHTML = value ? `
+    setEditLink() {
+        this.$parent.querySelector('.field-block__link').innerHTML = this.getValue() ? `
             <a href="${this.link}${this.getValue()}" class="page-link">Редактировать</a>
         ` : ''
     }
 
     disable() {
         this.setTitle('')
-        this.$title.disabled = true
+        this.$field.disabled = true
         this.disabled = true
         this.$select.classList.add('select_disabled')
     }
 
     enable() {
-        this.$title.disabled = false
+        this.$field.disabled = false
         this.disabled = false
         this.$select.classList.remove('select_disabled')
     }
 
-    setTitle(value = '') {
-        this.isSelected = true
-        this.$title.value = value
+    setFieldValue(value = '') {
+        this.$field.value = value
+    }
 
+    setUnSelected() {
         this.data = this.data.map(item => {
-            item.default = false
+            item.isSelected = false
             return item
         })
-        if (!value) {
-            this.isSelected = false
-            this.$items?.forEach(element => {
-                element.classList.remove('select__item_current')
-            })
-            return
-        } else {
-            this.enable()
+        this.isSelected = false
+    }
+
+    setSelected(value) {
+        this.data.forEach(d => d.isSelected = d.value === value)
+        const selected = this.data.find(d => d.isSelected === true)
+        if(selected) {
+            this.isSelected = true
         }
-        const index = this.data.findIndex(item => item.value === value)
-        if (index >= 0) {
-            this.data[index].default = true
-            if(this.link) {
-                this.setEditLink()
-            }
+    }
+
+    setTitle(value = '') {
+        this.setFieldValue(value)
+        if (!value) {
+            this.setUnSelected()
+            return
+        }
+        this.setSelected(value)
+        this.focusedValue = value
+        if (this.link) {
+            this.setEditLink()
         }
     }
 }

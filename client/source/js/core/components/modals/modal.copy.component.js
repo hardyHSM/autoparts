@@ -55,11 +55,14 @@ export default class ModalCopyComponent extends ModalComponent {
             key: 'productId',
             query: '[data-copy-select]',
             data: [],
-            dynamicData: async (value) => {
-                this.findedProducts = await productsModel.search(value)
-                return this.findedProducts.list.map(p => {
-                    return { value: p.title, dataset: p._id }
-                })
+            dynamicData: {
+                state: true,
+                func: async (value) => {
+                    this.findedProducts = await productsModel.search(value)
+                    return this.findedProducts.list.map(p => {
+                        return { value: p.title, dataset: p._id }
+                    })
+                }
             }
         })
         this.select.render()

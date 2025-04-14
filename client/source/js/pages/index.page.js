@@ -1,13 +1,16 @@
 import '../app/service/slider.js'
-import { auth, locationModule, preloader, userNav } from '../app/common.modules.js'
+import { preloader, sequentLoading } from '../app/common.modules.js'
 
 
-document.addEventListener('DOMContentLoaded', async () => {
-    await auth.init()
-    userNav.render()
-    locationModule.init()
+
+await sequentLoading()
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', async () => {
+        preloader.hide()
+    })
+} else {
     preloader.hide()
-})
-
+}
 
 

@@ -1,13 +1,9 @@
-import { validationResult } from 'express-validator'
 import ApiError from '../service/error.service.js'
 import SelectionsModel from '../models/selection.model.js'
 import UsersModel from '../models/users.model.js'
-import FeedbackModel from '../models/feedback.model.js'
 import productService from '../service/product.service.js'
 import { decodeString, escapeRegExp } from '../utils/utils.js'
-import feedbackModel from '../models/feedback.model.js'
 import mailService from '../service/mail.service.js'
-import FeedBackModel from '../models/feedback.model.js'
 
 const dictionary = {
     'original': 'оригинал',
@@ -21,17 +17,19 @@ class SelectionController {
             const selection = await SelectionsModel.create(req.body)
             if(req.user) {
                 const user = await UsersModel.findById(req.user.id)
+                selection.user = user
                 user.selections.push(selection)
                 user.notifications.push({
                     messageType: 'info',
                     message: `Вы оставили заявку на подбор запчасти. Vin - ${selection.vin}, название запчасти - ${selection.detail}, тип запчасти - ${dictionary[selection.partType]}, количество - ${selection.count}.`,
                     createdTime: new Date()
                 })
+                await selection.save()
                 await user.save()
             }
 
             res.json({
-                message: 'Запрос выполнен, ожидайте!'
+                message: 'Запрос выполнен, ожидайте! На вашу почту придет ответ от администрации сайта.'
             })
         } catch (e) {
             next(e)
@@ -91,10 +89,10 @@ class SelectionController {
             }
             selection.answer = answer
             selection.isAnswered = true
-            mailService.sendAnswer(selection.email, answer)
+            await mailService.sendAnswer(selection.email, answer)
             await selection.save()
             res.json({
-                success: 'Вы успешно ответили на подбор запчастей!'
+                message: 'Вы успешно ответили на подбор запчастей!'
             })
         } catch (e) {
             next(e)
@@ -103,14 +101,17 @@ class SelectionController {
     async delete(req, res, next) {
         try {
             const { id } = req.body
-            const result = await SelectionsModel.findByIdAndDelete(id)
-            if(!result) {
-                return res.json({
-                    success: 'Что-то пошло не так'
-                })
-            }
+            const selection = await SelectionsModel.findById(id)
+
+            await UsersModel.findByIdAndUpdate(
+                selection.user,
+                { $pull: { selections: id } },
+                { new: true }
+            );
+            await selection.deleteOne()
+
             res.json({
-                success: 'Вопрос успешно удален'
+                message: 'Вопрос успешно удален'
             })
         } catch (e) {
             next(e)

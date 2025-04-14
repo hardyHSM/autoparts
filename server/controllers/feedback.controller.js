@@ -9,6 +9,7 @@ import OrdersModel from '../models/orders.model.js'
 import FeedbackModel from '../models/feedback.model.js'
 import mailService from '../service/mail.service.js'
 import CategoriesModel from '../models/categories.model.js'
+import usersModel from '../models/users.model.js'
 
 class FeedBackController {
     async addMessage(req, res, next) {
@@ -16,26 +17,30 @@ class FeedBackController {
             const feedback = await FeedBackModel.create(req.body)
             if (req.user) {
                 const user = await UsersModel.findById(req.user.id)
+                feedback.user = user
                 user.feedbacks.push(feedback)
                 user.notifications.push({
                     messageType: 'info',
                     message: `Вы оставили вопрос. Его содержание: ${feedback.text}`,
                     createdTime: new Date()
                 })
+                await feedback.save()
                 await user.save()
             }
+
 
             res.json({
                 message: 'Мы получили ваше письмо, в скором времени мы вам ответим на него!'
             })
         } catch (e) {
+            console.log(e)
             next(e)
         }
     }
 
     async get(req, res, next) {
         try {
-            if (req.query.id) {
+            if (('id' in req.query)) {
                 const feedback = await FeedbackModel.findById(req.query.id)
                 res.json(feedback)
             } else {
@@ -84,7 +89,7 @@ class FeedBackController {
             mailService.sendAnswer(feedback.email, answer)
             await feedback.save()
             res.json({
-                success: 'Вы успешно ответили на обратную связь!'
+                message: 'Вы успешно ответили на обратную связь!'
             })
         } catch (e) {
             next(e)
@@ -93,14 +98,16 @@ class FeedBackController {
     async delete(req, res, next) {
         try {
             const { id } = req.body
-            const result = await FeedBackModel.findByIdAndDelete(id)
-            if(!result) {
-                return res.json({
-                    success: 'Что-то пошло не так'
-                })
-            }
+            const feedback = await FeedBackModel.findById(id)
+
+            const result = await UsersModel.findByIdAndUpdate(
+                feedback.user,
+                { $pull: { feedbacks: id } },
+                { new: true }
+            );
+            await feedback.deleteOne()
             res.json({
-                success: 'Вопрос успешно удален'
+                message: 'Вопрос успешно удален'
             })
         } catch (e) {
             next(e)

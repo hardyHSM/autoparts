@@ -1,10 +1,17 @@
 import FormComponent from '../../core/components/form.component.js'
-import { InputEmail, InputLastName, InputName, InputTel } from '../../core/components/selectsinputs/input.component.js'
+import {
+    InputEmail,
+    InputLastName,
+    InputName,
+    InputTel,
+    InputText, InputValidation
+} from '../../core/components/selectsinputs/input.component.js'
 import { renderOrderFirstStage, renderOrderSecondStage, renderOrderSuccess } from '../views/render.order.js'
 import ButtonComponent from '../../core/components/button.component.js'
 import ModalComponent from '../../core/components/modals/modal.component.js'
 import scrollToTop, { getTotalPriceWithPromo } from '../utils/utils.js'
 import { pickLocationChange } from '../service/pick.location.js'
+import ValidationComponent from '../../core/components/validation.component.js'
 
 class OrderForm extends FormComponent {
     constructor(config) {
@@ -24,14 +31,20 @@ class OrderForm extends FormComponent {
         this.fieldEmail = new InputEmail()
         this.fieldTel = new InputTel()
 
+        this.fieldAddress = new InputValidation({
+            selector: '[data-address-input]',
+            req: true,
+            validationFunc: ValidationComponent.isValidAddress
+        })
 
-        this.fieldsList = [this.fieldName, this.fieldLastName, this.fieldEmail, this.fieldTel]
+        this.fieldsList = [this.fieldName, this.fieldLastName, this.fieldEmail, this.fieldTel, this.fieldAddress]
 
         this.$nextStageButton.addEventListener('click', (e) => {
             this.validationForm(e, this.renderSecondStage.bind(this))
         })
-        pickLocationChange((name) => {
+        pickLocationChange((name, id) => {
             document.querySelector('[data-address]').innerHTML = name
+            document.querySelector('[data-location-order]').dataset.locationOrder = id
         })
     }
 
@@ -39,7 +52,7 @@ class OrderForm extends FormComponent {
         new FormData(this.$form).forEach((value, key) => {
             this.body[key] = value
         })
-        this.body.location = document.querySelector('[data-address]').textContent
+        this.body.location = document.querySelector('[data-location-order]').dataset.locationOrder
         this.$form.innerHTML = renderOrderSecondStage()
         document.querySelector('[data-checkout]').addEventListener('click', (e) => {
             new FormData(this.$form).forEach((value, key) => {

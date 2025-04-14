@@ -1,23 +1,28 @@
-import { html } from 'code-tag'
+import ModuleCore from '../../core/modules/module.core.js'
 
-class CatalogMenuModule {
+class CatalogMenuModule extends ModuleCore {
     constructor(config) {
-        this.router = config.router
-        this.apiService = config.apiService
-        this.$node = document.querySelector(config.selector)
+        super(config)
+        this.selector = config.selector
     }
-
     async init() {
         try {
-            const data = await this.apiService.useRequest(this.router.catalogLink)
-            this.view(data)
-            registerHandlers()
-        } catch (e) {
+            this.data = await this.apiService.useRequest(this.router.catalogLink)
+            super.init(() => {
+                this.start()
+            })
+        } catch(e) {
             console.log(e)
         }
     }
 
-    view({ categories, subCategories }) {
+    start() {
+        this.$node = document.querySelector(this.selector)
+        this.render(this.data)
+        registerHandlers()
+    }
+
+    render({ categories, subCategories }) {
         const data = categories.map(cat => {
             return {
                 ...cat,
@@ -37,7 +42,7 @@ class CatalogMenuModule {
             view += `
                 <div class="catalog-item">
                     <div class="catalog-item__header">
-                        <b class="catalog-item__title">${block.name}</b>
+                        <button type="button" class="catalog-item__title">${block.name}</button>
                         <a href="/catalog/${block.link}"
                            class="catalog-item__link-all button button_mini button_backwards-accent">все
                             <svg>

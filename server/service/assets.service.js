@@ -1,6 +1,9 @@
 import sharp from 'sharp'
 import path from 'path'
 import { v4 } from 'uuid'
+import fs from 'fs/promises'
+import { JSDOM } from 'jsdom'
+
 
 class AssetsService {
     createImage(blob) {
@@ -12,12 +15,25 @@ class AssetsService {
         return sharp(data)
         .png({ palette: true, compressionLevel: 7 })
         .ensureAlpha()
+        .flatten({ background: '#ffffff' })
         .jpeg({ mozjpeg: true, quality: 75 })
         .webp({ lossless: true, quality: 60, alphaQuality: 80, force: false })
         .toFile(path.join(__basedir, 'server', 'assets', picName))
         .then(() => {
             return `assets/${picName}`
         })
+    }
+
+    async getFile(filePath) {
+        return await fs.readFile(filePath, 'utf-8')
+    }
+
+    async createFile(filePath, content) {
+        return await fs.writeFile(filePath, content, 'utf-8');
+    }
+
+    convertToDOM(html) {
+        return new JSDOM(html)
     }
 }
 

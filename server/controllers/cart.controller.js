@@ -1,4 +1,5 @@
 import cartService from '../service/cart.service.js'
+import productService from '../service/product.service.js'
 
 class CartController {
     async getUserCart(req, res, next) {
@@ -33,7 +34,6 @@ class CartController {
             const cart = req.body?.products
 
             const products = await cartService.getProductsByIDs(cart)
-
             res.json({
                 products
             })

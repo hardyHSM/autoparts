@@ -1,4 +1,9 @@
 import { html } from 'code-tag'
+import { productsConfig } from './products.model.js'
+import { descriptionsConfig } from '../descriptions/descriptions.model.js'
+
+
+
 
 export const renderProductsAdmin = (data) => {
     const products = data.products.list
@@ -11,8 +16,8 @@ export const renderProductsAdmin = (data) => {
                 <div class="admin-panel__controls">
                     <a class="button button_backwards-accent button_icon"
                        data-type="menu"
-                       data-state="products/add"
-                       href="/admin/catalog/products/add">
+                       data-state="${productsConfig.router.state}"
+                       href="${productsConfig.router.add}">
                         Добавить
                         <svg>
                             <use xlink:href="img/svg/sprite.svg#add"></use>
@@ -54,8 +59,58 @@ export const renderProductsAdmin = (data) => {
                     </div>
                 </div>
             </div>
+            <form class="filter-bar" data-filter-form>
+                <div class="filter-bar__item field-block">
+                    <div class="field-block__header">
+                        <b class="field-block__title">Категория</b>
+                    </div>
+                    <div class="select select_input" data-category-select>
+                        <div class="select__header">
+                            <div class="entry-input">
+                                <input type="text" name="category" class="entry-input__field select__field select__title" placeholder="Выберите категорию" autocomplete="off">
+                            </div>
+                        </div>
+                        <ul class="select__body"></ul>
+                    </div>
+                </div>
+                <div class="filter-bar__item field-block">
+                    <div class="field-block__header">
+                        <b class="field-block__title">Подкатегория</b>
+                    </div>
+                    <div class="select select_input" data-subcategory-select>
+                        <div class="select__header">
+                            <div class="entry-input">
+                                <input type="text" name="subcategory" class="entry-input__field select__field select__title" placeholder="Выберите подкатегорию" autocomplete="off"> 
+                            </div>
+                        </div>
+                        <ul class="select__body"></ul>
+                    </div>
+                </div>
+                <div class="filter-bar__item field-block">
+                    <div class="field-block__header">
+                        <b class="field-block__title">Описание товара</b>
+                    </div>
+                    <div class="select select_input" data-description-select>
+                        <div class="select__header">
+                            <div class="entry-input">
+                                <input type="text" class="entry-input__field select__field select__title" placeholder="Выберите описание">
+                            </div>
+                        </div>
+                        <ul class="select__body">
+                        </ul>
+                    </div>
+                </div>
+                <button type="submit"
+                            class="filter-bar__button button button_accent button_icon button_mini"
+                            data-submit>
+                        Отфильтровать
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
+                    </button>
+            </form>
             <table class="admin-panel__table table table_classic table_product">
-                <tbody data-cart-output>
+                <tbody>
                 <tr class="table__header table__row" data-sort-header>
                     <th class="table__col">Изображение</th>
                     <th class="table__col table__col_big" data-sort="title">Название
@@ -82,23 +137,23 @@ export const renderProductsAdmin = (data) => {
                     <th class="table__col table__col_ultra-small">Изменить</th>
                 </tr>
                 ${products.map(product => {
-                    return `
+        return `
                         <tr class="table__row">
                             <th class="table__col table__col_image">
                                 <img class="table_product-image" src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">
                             </th>
                             <th class="table__col table__col_big">${product.title}</th>
                             <th class="table__col table__col_small">${product.maker}</th>
-                            <th class="table__col table__col_ultra-small">${product.price} ₽</th>
+                            <th class="table__col table__col_ultra-small">${product.price}&nbsp;₽</th>
                             <th class="table__col table__col_small">${product.provider}</th>
                             <th class="table__col table__col_small">${product.stock}</th>
                             <th class="table__col table__col_small">${product.count}</th>
-                            <th class="table__col table__col_small">${product.popularity || 'Неизвестно'}</th>
+                            <th class="table__col table__col_small">${product.popularity || 0}</th>
                             <th class="table__col table__col_ultra-small table__col_right">
                                 <a class="button button_mini button_accent button_icon-only"
-                                   data-state="categories"
+                                   data-state="${productsConfig.states.general}"
                                    data-type="menu"
-                                   href="/admin/catalog/products/edit?id=${product._id}">
+                                   href="${productsConfig.router.edit}${product._id}">
                                     Изменить
                                     <svg>
                                         <use xlink:href="img/svg/sprite.svg#change"></use>
@@ -107,7 +162,7 @@ export const renderProductsAdmin = (data) => {
                             </th>
                         </tr>
                     `
-                }).join('')}
+            }).join('')}
                 </tbody>
             </table>
             <div class="pagination" id="pagination">
@@ -122,7 +177,7 @@ export const renderEditProductsAdmin = ({ product }) => {
         <div class="admin-panel__content">
             <div class="admin-panel__header">
                 <h2 class="admin-panel__title">Редактирование товара</h2>
-                <a href="/products/${product._id}" class="button button_backwards-accent button_icon">
+                <a href="${productsConfig.router.page}${product._id}" class="button button_backwards-accent button_icon">
                     Посмотреть на страницу товара
                     <svg>
                         <use xlink:href="img/svg/sprite.svg#arrow"></use>
@@ -135,20 +190,23 @@ export const renderEditProductsAdmin = ({ product }) => {
                 ${renderAdminProductForm(product)}
                 <div class="form__row form__bottom">
                     <button type="submit"
-                            class="button button_success button_sq"
+                            class="button button_success button_icon button_wide"
                             data-submit>
                         Изменить товар
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
                     </button>
-                    <button type="button" class="button button_danger button_icon button_mini" data-product-delete>
+                    <button type="button" class="button button_danger button_icon" data-product-delete>
                         <svg>
                             <use xlink:href="img/svg/sprite.svg#trash"></use>
                         </svg>
                         Удалить товар
                     </button>
                     <a class="button button_neutral button_icon"
-                       data-state="products"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/products">
+                       href="${productsConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>
@@ -175,176 +233,20 @@ export const renderAddProductsAdmin = () => {
                 </div>
             </div>
             <form method="post" class="form admin-panel__form" data-admin-form>
-                <fieldset class="form__row">
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Имя товара</b>
-                        </div>
-                        <div class="entry-input entry-input_icon entry-input_req">
-                            <input type="text" name="title" class="entry-input__field" data-name/>
-                        </div>
-                    </div>
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Производитель</b>
-                        </div>
-                        <div class="entry-input entry-input_icon entry-input_req entry-input_complete">
-                            <input type="text" name="maker" class="entry-input__field" autocomplete="off" data-maker/>
-                            <ul class="entry-input__complete">
-                            </ul>
-                        </div>
-                        <div class="field-block__undertext">Введите новое значение или выберите существующее.</div>
-                    </div>
-                </fieldset>
-                <fieldset class="form__row">
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Категория товара</b>
-                        </div>
-                        <div class="select select_input" data-category-select>
-                            <div class="select__header">
-                                <div class="entry-input">
-                                    <input type="text" class="entry-input__field select__field select__title" placeholder="Выберите категорию">
-                                </div>
-                            </div>
-                            <ul class="select__body">
-                            </ul>
-                        </div>
-                        <div class="field-block__undertext">Выберите существующее значение.</div>
-                        <div class="field-block__undertext_error"></div>
-                    </div>
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Подкатегория товара</b>
-                        </div>
-                        <div class="select select_input" data-subcategory-select>
-                            <div class="select__header">
-                                <div class="entry-input">
-                                    <input type="text" class="entry-input__field select__field select__title" placeholder="Выберите подкатегорию">
-                                </div>
-                            </div>
-                            <ul class="select__body">
-                            </ul>
-                        </div>
-                        <div class="field-block__undertext">Выберите существующее значение.</div>
-                        <div class="field-block__undertext_error"></div>
-                    </div>
-                </fieldset>
-                <fieldset class="form__row">
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Выберите какое описание у продукта</b>
-                            <div class="field-block__link"></div>
-                        </div>
-                        <div class="select select_input" data-description-select>
-                            <div class="select__header">
-                                <div class="entry-input">
-                                    <input type="text" class="entry-input__field select__field select__title" placeholder="Выберите описание">
-                                </div>
-                            </div>
-                            <ul class="select__body">
-                            </ul>
-                        </div>
-                        <div class="field-block__undertext_error"></div>
-                        <div class="field-block__undertext">Выберите существующее значение.</div>
-                    </div>
-                </fieldset>
-                <fieldset class="form__row">
-                    <legend class="v-hidden">Количество</legend>
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Количество</b>
-                        </div>
-                        <div class="entry-input entry-input_icon entry-input_req">
-                            <input type="text" name="count" class="entry-input__field" value="0" data-count/>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="form__row">
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Цена</b>
-                        </div>
-                        <div class="entry-input entry-input_icon entry-input_req">
-                            <input type="text" name="price" class="entry-input__field" data-price/>
-                        </div>
-                    </div>
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Количество приобретений</b>
-                        </div>
-                        <div class="entry-input entry-input_icon entry-input_req">
-                            <input type="text" name="popularity" class="entry-input__field" value="0" data-popularity/>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="form__row">
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Поставщик</b>
-                        </div>
-                        <div class="entry-input entry-input_icon entry-input_req entry-input_complete">
-                            <input type="text" name="provider" class="entry-input__field" autocomplete="off" data-provider/>
-                            <ul class="entry-input__complete">
-                            </ul>
-                        </div>
-                        <div class="field-block__undertext">Введите новое значение или выберите существующее.</div>
-                    </div>
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Склад</b>
-                        </div>
-                        <div class="entry-input entry-input_icon entry-input_req entry-input_complete">
-                            <input type="text" name="stock" class="entry-input__field" autocomplete="off" data-stock/>
-                            <ul class="entry-input__complete">
-                            </ul>
-                        </div>
-                        <div class="field-block__undertext">Введите новое значение или выберите существующее.</div>
-                    </div>
-                </fieldset>
-                <fieldset class="form__row">
-                    <div class="form__block field-block">
-                        <div class="field-block__header">
-                            <b class="field-block__title">Редактирование аттрибутов</b>
-                        </div>
-                        <div class="entry-input">
-                            <textarea name="attributes" class="textarea entry-input__field" cols="50" data-attrbutes>{}</textarea>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="form__row">
-                    <div class="form__block field-block field-block_load-image" data-image-input>
-                        <div class="field-block__header">
-                            <b class="field-block__title">Изображение продукта</b>
-                        </div>
-                        <img class="field-block__image" src="img/assets/no_photo.jpg">
-                        <div class="field-block__row">
-                            <label class="button button_accent button_icon button_mini button_file">
-                                <input type="file" accept=".jpg,.jpeg,.png" data-file-input>
-                                <svg stroke="#fff" class="button__transparent">
-                                    <use xlink:href="img/svg/sprite.svg#upload"></use>
-                                </svg>
-                                Изменить
-                            </label>
-                            <button type="button" class="button button_danger button_icon button_mini" data-file-delete>
-                                <svg>
-                                    <use xlink:href="img/svg/sprite.svg#trash"></use>
-                                </svg>
-                                Удалить
-                            </button>
-                        </div>
-                    </div>
-                </fieldset>
+                ${renderAdminProductForm()}
                 <div class="form__row form__bottom">
                     <button type="submit"
-                            class="button button_success button_sq"
+                            class="button button_accent button_icon button_wide"
                             data-submit>
-                        Добавить
+                        Добавить товар
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
                     </button>
-                    <a class="button button_neutral button_icon"
-                       data-state="products"
+                    <a class="button button_neutral button_icon button_wide"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/products">
+                       href="${productsConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>
@@ -374,14 +276,17 @@ export const renderCopyProductsAdmin = (product) => {
                 ${renderAdminProductForm(product)}
                 <div class="form__row form__bottom">
                     <button type="submit"
-                            class="button button_success button_sq"
+                            class="button button_success button_icon"
                             data-submit>
                         Добавить
+                        <svg stroke="#fff" class="button__transparent">
+                            <use xlink:href="img/svg/sprite.svg#upload"></use>
+                        </svg>
                     </button>
                     <a class="button button_neutral button_icon"
-                       data-state="products"
+                       data-state="back"
                        data-type="menu"
-                       href="/admin/catalog/products">
+                       href="${productsConfig.router.general}">
                         <span class="button__text">Назад</span>
                         <svg class="transform">
                             <use xlink:href="img/svg/sprite.svg#arrow"></use>
@@ -393,7 +298,7 @@ export const renderCopyProductsAdmin = (product) => {
     `
 }
 
-export const renderAdminProductForm = (product) => {
+export const renderAdminProductForm = (product = {}) => {
     return `
         <fieldset class="form__row">
             <div class="form__block field-block">
@@ -401,7 +306,7 @@ export const renderAdminProductForm = (product) => {
                     <b class="field-block__title">Имя товара</b>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req">
-                    <input type="text" name="title" class="entry-input__field" value="${product.title}" data-name/>
+                    <input type="text" name="title" class="entry-input__field" value="${product.title || ''}" data-name/>
                 </div>
             </div>
             <div class="form__block field-block">
@@ -409,9 +314,8 @@ export const renderAdminProductForm = (product) => {
                     <b class="field-block__title">Производитель</b>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req entry-input_complete">
-                    <input type="text" name="maker" class="entry-input__field" autocomplete="off" value="${product.maker}" data-maker/>
-                    <ul class="entry-input__complete">
-                    </ul>
+                    <input type="text" name="maker" class="entry-input__field" autocomplete="off" value="${product.maker || ''}" data-maker/>
+                    <ul class="entry-input__complete"></ul>
                 </div>
                 <div class="field-block__undertext">Введите новое значение или выберите существующее.</div>
             </div>
@@ -476,7 +380,7 @@ export const renderAdminProductForm = (product) => {
                     <b class="field-block__title">Количество</b>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req">
-                    <input type="text" name="count" class="entry-input__field" value="${product.count}" data-count/>
+                    <input type="text" name="count" class="entry-input__field" value="${product.count || ''}" data-count/>
                 </div>
             </div>
         </fieldset>
@@ -486,7 +390,7 @@ export const renderAdminProductForm = (product) => {
                     <b class="field-block__title">Цена</b>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req">
-                    <input type="text" name="price" class="entry-input__field" value="${product.price}" data-price/>
+                    <input type="text" name="price" class="entry-input__field" value="${product.price || ''}" data-price/>
                 </div>
             </div>
             <div class="form__block field-block">
@@ -494,7 +398,7 @@ export const renderAdminProductForm = (product) => {
                     <b class="field-block__title">Количество приобретений</b>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req">
-                    <input type="text" name="popularity" class="entry-input__field" value="${product.popularity}" data-popularity/>
+                    <input type="text" name="popularity" class="entry-input__field" value="${product.popularity || 0}" data-popularity/>
                 </div>
             </div>
         </fieldset>
@@ -504,7 +408,7 @@ export const renderAdminProductForm = (product) => {
                     <b class="field-block__title">Поставщик</b>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req entry-input_complete">
-                    <input type="text" name="provider" class="entry-input__field" autocomplete="off" value="${product.provider}" data-provider/>
+                    <input type="text" name="provider" class="entry-input__field" autocomplete="off" value="${product.provider || ''}" data-provider/>
                     <ul class="entry-input__complete">
                     </ul>
                 </div>
@@ -515,7 +419,7 @@ export const renderAdminProductForm = (product) => {
                     <b class="field-block__title">Склад</b>
                 </div>
                 <div class="entry-input entry-input_icon entry-input_req entry-input_complete">
-                    <input type="text" name="stock" class="entry-input__field" autocomplete="off" value="${product.stock}" data-stock/>
+                    <input type="text" name="stock" class="entry-input__field" autocomplete="off" value="${product.stock || ''}" data-stock/>
                     <ul class="entry-input__complete">
                     </ul>
                 </div>
@@ -527,9 +431,7 @@ export const renderAdminProductForm = (product) => {
                 <div class="field-block__header">
                     <b class="field-block__title">Редактирование аттрибутов</b>
                 </div>
-                <div class="entry-input">
-                    <textarea name="attributes" class="textarea entry-input__field" cols="50" data-attrbutes>${JSON.stringify(product.attributes, null, 4)}</textarea>
-                </div>
+                <div class="form__editor" data-editor-attributes></div>
             </div>
         </fieldset>
         <fieldset class="form__row">
@@ -537,9 +439,9 @@ export const renderAdminProductForm = (product) => {
                 <div class="field-block__header">
                     <b class="field-block__title">Изображение продукта</b>
                 </div>
-                <img class="field-block__image" src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title}">
+                <img class="field-block__image" src="/${product.image || 'img/assets/no_photo.jpg'}" alt="${product.title || ''}">
                 <div class="field-block__row">
-                    <label class="button button_accent button_icon button_mini button_file">
+                    <label class="button button_accent button_icon button_mini button_file" tabindex="0">
                         <input type="file" accept=".jpg,.jpeg,.png,.webp" data-file-input>
                         <svg stroke="#fff" class="button__transparent">
                             <use xlink:href="img/svg/sprite.svg#upload"></use>

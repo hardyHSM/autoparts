@@ -15,16 +15,16 @@ class SortProvider {
     initRoutes() {
         const sortName = this.router.getParam('sort_name')
         const sortType = this.router.getParam('sort_type')
+
         if (sortName !== null && sortType !== null) {
             this.sortData = {
                 key: sortName,
                 type: Number(sortType)
-
             }
         } else {
             this.sortData = {
                 key: this.default,
-                type: 1
+                type: -1
             }
         }
         this.renderSortState(this.sortData.key)

@@ -14,8 +14,9 @@ class CartService {
 
         const index = user.cart.list.findIndex(pr => pr.product.equals(product._id))
 
+
         const plainProduct = {
-            product,
+            product: productService.removeSecretFields(null, product),
             count: 1
         }
 
@@ -31,6 +32,11 @@ class CartService {
 
     async getUserCart(userId) {
         const user = await UsersModel.findById(userId).populate('cart.list.product')
+
+        user.cart.list.map(cartItem => {
+            cartItem.product = productService.removeSecretFields(null, cartItem.product)
+            return cartItem
+        })
 
         return user.cart || { message: 'Корзина пустая' }
     }
@@ -54,7 +60,7 @@ class CartService {
             if (!product) {
                 throw ApiError.BadRequest('Продукции с таким id не существует!')
             } else {
-                return product
+                return productService.removeSecretFields(null, product)
             }
         })
         const products = await Promise.all(promises)

@@ -20,7 +20,7 @@ router.get('/products_descriptions',
     authAccessMiddleware,
     adminAccessMiddleware,
     csrfTokenMiddleware,
-    productController.getAllDescriptions)
+    productController.getDescriptions)
 
 
 router.put('/products_descriptions',
@@ -55,5 +55,12 @@ router.get('/products_makers',
     authAccessMiddleware,
     adminAccessMiddleware,
     productController.getAllMakers)
+
+router.get('/attributes',
+    csrfTokenMiddleware,
+    authAccessMiddleware,
+    adminAccessMiddleware,
+    productController.getAttributeValues)
+
 
 export default router

@@ -9,4 +9,15 @@ class UsersModel {
     }
 }
 
+export const usersConfig = {
+    'router': {
+        general: '/admin/users',
+        edit: '/admin/users/users/edit?id=',
+    },
+    'states': {
+        general: 'users',
+        edit: "users/edit",
+    }
+}
+
 export default new UsersModel()

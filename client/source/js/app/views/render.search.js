@@ -1,15 +1,17 @@
 import { sanitalize } from '../utils/utils.js'
 import { html } from 'code-tag'
+import { sortObjectByCount } from '../utils/utils.js'
+
 
 export function renderSearchComplete(data, products = true) {
+    let sortedData = sortObjectByCount(data)
     let view = ''
-
-    view += renderSearchBlock('Тип категории', 'category', data.categories, !products)
-    view += renderSearchBlock('Тип подкатегории', 'subCategory', data.subCategories, !products)
-    view += renderSearchBlock('Производитель', 'maker', data.makers, !products)
-    view += renderSearchAttributes('Поиск по атрибуту', data.attributes, !products)
+    view += renderSearchBlock('Тип категории', 'category', sortedData.categories, !products)
+    view += renderSearchBlock('Тип подкатегории', 'subCategory', sortedData.subCategories, !products)
+    view += renderSearchBlock('Производитель', 'maker', sortedData.makers, !products)
+    view += renderSearchAttributes('Поиск по атрибуту', sortedData.attributes, !products)
     if (products) {
-        view += renderSearchProducts('Товары', data.products.list)
+        view += renderSearchProducts('Товары', sortedData.products.list)
     }
     if (!view) {
         view += '<div class="search-list__notfound">Ничего не найдено</div>'
@@ -59,6 +61,7 @@ const renderSearchBlock = (title, type, data = [], isFull) => {
 }
 
 const renderSearchAttributes = (title, data = [], isFull) => {
+    console.log(data)
     if (!data.length) {
         return ''
     }
@@ -80,10 +83,10 @@ const renderSearchAttributes = (title, data = [], isFull) => {
                     ${attr.key}
                 </div>
                 ${attr.values.reduce((a, value) => {
-                    const url = `/search/attributes?key=${attr.key}&value=${value.name}`
+                    const url = `/search/attributes?key=${attr.key}&value=${value.key}`
                     a += `
                         <a href="${url}" class="search-list__body">
-                            <span class="search-list__name">${value.name}</span>
+                            <span class="search-list__name">${value.key}</span>
                             <span class="search-list__count">(товаров - ${value.count})</span>
                         </a>
                     `

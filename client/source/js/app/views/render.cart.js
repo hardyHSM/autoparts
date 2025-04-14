@@ -30,20 +30,20 @@ export default function renderCartTable(output, data) {
                     </span>
                 </td>
                 <td class="table__col">
-                    <span class="product-table__price" data-price>
-                       ${product.price} ₽
+                    <span class="price" data-price>
+                       ${product.price}&nbsp;₽
                     </span>
                 </td>
                 <td class="table__col">
                     <div class="number-select" data-numberselect>
                         <div class="number-select__body">
-                            <div class="number-select__button number-select__left-button" data-decr>
+                            <button type="button" class="number-select__button number-select__left-button" tabindex="0" data-decr>
                                 -
-                            </div>
+                            </button>
                             <div class="number-select__value" data-value>${count}</div>
-                            <div class="number-select__button number-select__right-button" data-incr>
+                            <button type="button" class="number-select__button number-select__right-button" tabindex="0" data-incr>
                                 +
-                            </div>
+                            </button>
                         </div>
                         <button class="number-select__delete" data-delete>
                             <svg>
@@ -53,7 +53,7 @@ export default function renderCartTable(output, data) {
                     </div>
                 </td>
                 <td class="table__col">
-                    <div class="product-table__summa" data-summa>${product.price * count} ₽</div>
+                    <div class="product-table__summa" data-summa>${product.price * count}&nbsp;₽</div>
                 </td>
                 <td class="table__col">
                     ${getRelevanceClass(product.popularity)}

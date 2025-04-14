@@ -5,6 +5,7 @@
     font-size: 16px;
     line-height: 1;
     border-radius: 4px;
+    border: 2px solid transparent;
     transition-duration: .05s;
     transition-timing-function: linear;
     transition-property: background-color, color;
@@ -17,6 +18,7 @@
     white-space: nowrap;
     cursor: pointer;
     position: relative;
+    max-width: 100%;
     &:hover {
         text-decoration: none;
     }
@@ -25,13 +27,17 @@
     }
     @media screen and (max-width: 640px) {
         transition: all 0s linear;
-        padding: 20px 40px;
+        padding: 15px 20px;
+        font-size: 13px;
     }
 }
 
 .button_success {
     color: #fff;
     background-color: #3CA255;
+    &:hover {
+        background-color: #4dbb68;
+    }
 }
 
 .button_danger {
@@ -95,6 +101,13 @@
         margin: auto;
         left: 25px;
     }
+    @media screen and (max-width: 640px) {
+        padding-left: 35px;
+        svg {
+            max-width: 15px;
+            left: 10px;
+        }
+    }
 }
 
 .button_sq {
@@ -154,6 +167,11 @@
 .button_mini {
     padding: 10px 12px;
     border-width: 1px;
+    font-size: 16px;
+    font-weight: 500;
+    @media screen and (max-width: 640px) {
+        font-size: 13px;
+    }
 }
 
 .button_backwards-negative {
@@ -178,6 +196,20 @@
     &:active:enabled {
         border-color: #444444;
         color: #444444;
+    }
+}
+
+.button_dark {
+    background-color: #222222;
+    color: #FFFFFF;
+    svg {
+        fill: #fff;
+    }
+    &:hover {
+        background-color: #000;
+    }
+    &:active:enabled {
+        background-color: #444444;
     }
 }
 
@@ -226,5 +258,17 @@
 .button_file {
     input[type="file"] {
         display: none;
+    }
+}
+
+.button_wide {
+    width: 360px;
+    max-width: 100%;
+}
+
+.button_big-icon {
+    svg {
+        width: 25px;
+        height: 25px;
     }
 }

@@ -7,53 +7,18 @@
     @media screen and (max-width: 960px) {
         gap: 15px 10px;
     }
+    @media screen and (max-width: 640px) {
+        gap: 15px 0px;
+    }
 }
 
 .state__item {
     width: calc(100% / 4 - 25px);
     flex-shrink: 0;
-    background-color: rgba(55, 162, 255, 0.64);
-    color: #fff;
-    font-weight: 400;
-    @media screen and (max-width: 1280px) {
-        width: calc(100% / 3 - 25px);
-    }
     @media screen and (max-width: 960px) {
-        width: calc(100% / 2 - 25px);
+        width: calc(50% - 10px);
     }
     @media screen and (max-width: 640px) {
         width: 100%;
     }
-}
-
-.state__footer {
-    background-color: rgba(0, 122, 255, 0.43);
-    padding: 15px;
-}
-
-.state__body {
-    padding: 25px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.state__icon {
-    svg {
-        max-width: 45px;
-        max-height: 45px;
-        fill: rgb(224, 226, 227);
-    }
-}
-
-.state__count {
-    font-weight: 400;
-    font-size: 36px;
-}
-
-.state__title {
-    background-color: rgba(89, 133, 195, 0.61);
-    padding: 15px 15px;
-    font-size: 16px;
-    font-weight: 400;
 }

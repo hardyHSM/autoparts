@@ -71,6 +71,12 @@ class RegistrationForm extends FormComponent {
                 this.fieldEmail.setError()
                 break
             }
+            case 408: {
+                this.submitComponent.setTextState()
+                this.fieldTel.showError('На такой номер телефона уже кто-то зарегистрирован!')
+                this.fieldTel.setError()
+                break
+            }
             default: {
                 new ModalComponent({
                     template: 'default',
